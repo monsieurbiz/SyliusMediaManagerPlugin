@@ -1,0 +1,36 @@
+{% extends '@SyliusUi/Form/imagesTheme.html.twig' %}
+
+{% block sylius_product_image_widget %}
+    {{ block('sylius_image_widget') }}
+
+    {% apply spaceless %}
+        {% if product.id is not null and 0 != product.variants|length and not product.simple %}
+            <br/>
+            {{ form_row(form.productVariants, {'remote_url': path('sylius_admin_ajax_product_variants_by_phrase', {'productCode': product.code}), 'remote_criteria_type': 'contains', 'remote_criteria_name': 'phrase', 'load_edit_url': path('sylius_admin_ajax_product_variants_by_codes', {'productCode': product.code})}) }}
+        {% endif %}
+    {% endapply %}
+{% endblock %}
+
+{% block sylius_image_widget %}
+    {% apply spaceless %}
+        {{ form_row(form.type) }}
+        {{ form_row(form.path) }}
+    {% endapply %}
+{% endblock %}
+
+{% block monsieurbiz_sylius_media_manager_image_row %}
+    <div class="monsieurbiz-sylius-file-manager__image-field field">
+        {{- form_row(form, {'attr': {'style': 'display: none;', 'data-file-type': fileType}}) -}}
+        <div class="field">
+            <div class="monsieurbiz-sylius-file-manager__current" {%- if form.vars.value is empty -%}style="display: none;"{%- endif -%}>
+                <p>
+                    <small>{{ 'monsieurbiz_sylius_media_manager.ui.current_image' | trans }}</small><br />
+                    <img src="{{ form.vars.value ? form.vars.value|imagine_filter('monsieurbiz_sylius_media_manager_uploaded_image', {"relative_resize": {"widen": filterWidth }}) : '' }}" alt="" style="max-width: 300px;max-height: 300px;" />
+                </p>
+            </div>
+            <button type="button" class="ui button" onclick="monsieurbizSyliusMediaManagerChooseFile('{{ form.vars.full_name | escape('js') }}', '{{ form.vars.value | escape('js') }}', '{{ folder | escape('js') }}');">
+                {{ 'monsieurbiz_sylius_media_manager.ui.choose_image' | trans }}
+            </button>
+        </div>
+    </div>
+{% endblock %}
