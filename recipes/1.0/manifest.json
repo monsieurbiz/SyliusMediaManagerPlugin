@@ -1,0 +1,10 @@
+{
+  "bundles": {
+        "MonsieurBiz\\SyliusMediaManagerPlugin\\MonsieurBizSyliusMediaManagerPlugin": [
+            "all"
+        ]
+    },
+    "copy-from-recipe": {
+        "config/": "%CONFIG_DIR%/"
+    }
+}

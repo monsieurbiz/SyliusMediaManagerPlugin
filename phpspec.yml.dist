@@ -1,0 +1,6 @@
+suites:
+    main:
+        namespace: MonsieurBiz\SyliusMediaManagerPlugin
+        psr4_prefix: MonsieurBiz\SyliusMediaManagerPlugin
+        src_path: src
+        spec_path: tests
