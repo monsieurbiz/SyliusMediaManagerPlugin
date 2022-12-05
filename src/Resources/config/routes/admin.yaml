@@ -2,26 +2,26 @@ monsieurbiz_sylius_media_manager_admin_browser_list:
     path: browser/list
     methods: [GET]
     defaults:
-        _controller: 'MonsieurBiz\SyliusMediaManagerPlugin\Controller\BrowserController:listAction'
+        _controller: 'MonsieurBiz\SyliusMediaManagerPlugin\Controller\BrowserController::listAction'
     condition: 'request.headers.get("X-Requested-With") == "XMLHttpRequest"'
 
 monsieurbiz_sylius_media_manager_admin_browser_choose:
     path: browser/choose
     methods: [GET]
     defaults:
-        _controller: 'MonsieurBiz\SyliusMediaManagerPlugin\Controller\BrowserController:chooseAction'
+        _controller: 'MonsieurBiz\SyliusMediaManagerPlugin\Controller\BrowserController::chooseAction'
     condition: 'request.headers.get("X-Requested-With") == "XMLHttpRequest"'
 
 monsieurbiz_sylius_media_manager_admin_browser_upload:
     path: browser/upload
     methods: [POST]
     defaults:
-        _controller: 'MonsieurBiz\SyliusMediaManagerPlugin\Controller\BrowserController:uploadAction'
+        _controller: 'MonsieurBiz\SyliusMediaManagerPlugin\Controller\BrowserController::uploadAction'
     condition: 'request.headers.get("X-Requested-With") == "XMLHttpRequest"'
 
 monsieurbiz_sylius_media_manager_admin_browser_create_folder:
     path: browser/folder
     methods: [POST]
     defaults:
-        _controller: 'MonsieurBiz\SyliusMediaManagerPlugin\Controller\BrowserController:createFolderAction'
+        _controller: 'MonsieurBiz\SyliusMediaManagerPlugin\Controller\BrowserController::createFolderAction'
     condition: 'request.headers.get("X-Requested-With") == "XMLHttpRequest"'
