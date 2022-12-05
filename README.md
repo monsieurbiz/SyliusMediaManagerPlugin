@@ -72,6 +72,9 @@ liip_imagine:
 
 ## Use form types
 
+You can check the [dist](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/tree/master/dist) folder 
+to check how the plugin is setup on the test application.
+
 ### Images
 
 Use `MonsieurBiz\SyliusMediaManagerPlugin\Form\Type\ImageType`
