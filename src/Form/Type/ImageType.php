@@ -21,7 +21,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class ImageType extends TextType
 {
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'monsieurbiz_sylius_media_manager_image';
     }
