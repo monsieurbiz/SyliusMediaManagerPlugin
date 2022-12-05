@@ -11,3 +11,18 @@ services:
             autowire: false
         Sylius\Component\Resource\Model\ResourceInterface:
             autowire: false
+
+    MonsieurBiz\SyliusMediaManagerPlugin\:
+        resource: '../../*'
+        exclude: '../../{Entity,Migrations,Tests,Kernel.php}'
+
+    MonsieurBiz\SyliusMediaManagerPlugin\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+
+    # File uploader
+    MonsieurBiz\SyliusMediaManagerPlugin\Helper\FileHelper:
+        arguments:
+            $publicDirectory: '%env(resolve:MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_PUBLIC_FOLDER)%'
+            $mediaDirectory: '%env(resolve:MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_ROOT_FOLDER_FROM_PUBLIC)%'
+            $maxFileSize: '%env(resolve:MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_MAX_FILE_SIZE)%'

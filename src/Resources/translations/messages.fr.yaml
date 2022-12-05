@@ -1,0 +1,27 @@
+monsieurbiz_sylius_media_manager:
+    ui:
+        cancel: Annuler
+        choose_this_file: Choisir ce fichier
+        current_file: Fichier actuel
+        current_image: Image actuelle
+        current_video: Vidéo actuelle
+        choose_file: Choisir un fichier
+        choose_image: Choisir une image
+        choose_video: Choisir une vidéo
+        create_folder: Nouveau dossier
+        create: Créer
+        upload_file_in_this_folder: Nouveau fichier dans ce dossier
+    error:
+        cannot_create_folder: Impossible de créer le dossier.
+        cannot_find_input: Champ de formulaire introuvable.
+        cannot_find_type: Type de fichier introuvable.
+        cannot_upload_file: Impossible d'ajouter le fichier.
+        invalid_type_input: Type de fichier invalide dans le champ.
+        file_not_found: Fichier introuvable.
+        folder_not_readable: Impossible de lire le dossier '%folder%'.
+        invalid_mime_type:
+            image: Le fichier choisi n'est pas une image.
+            video: Le fichier choisi n'est pas une vidéo.
+            pdf: Le fichier choisi n'est pas un PDF.
+            file: Le fichier choisi n'est pas un fichier valide.
+        max_file_size: Le fichier dépasse la taille autorisée de %maxSize%.

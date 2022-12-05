@@ -1,0 +1,6 @@
+liip_imagine:
+    filter_sets:
+        monsieurbiz_sylius_media_manager_uploaded_image:
+            filters:
+                thumbnail: { size: [400, 400], mode: inset }
+                relative_resize: { widen: 32 }

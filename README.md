@@ -16,7 +16,8 @@
 [![Tests Status](https://img.shields.io/github/workflow/status/monsieurbiz/SyliusMediaManagerPlugin/Tests?logo=github)](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/actions?query=workflow%3ATests)
 [![Security Status](https://img.shields.io/github/workflow/status/monsieurbiz/SyliusMediaManagerPlugin/Security?label=security&logo=github)](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/actions?query=workflow%3ASecurity)
 
-@TODO
+
+![Demo of the media manager](docs/images/demo.gif)
 
 ## Installation
 
@@ -29,10 +30,8 @@ composer require monsieurbiz/sylius-media-manager-plugin
 ```
 
 <details><summary>For the installation without flex, follow these additional steps</summary>
-<p> 
-
 -->
-
+<p> 
 Change your `config/bundles.php` file to add this line for the plugin declaration:
 ```php
 <?php
@@ -48,8 +47,42 @@ Copy the plugin configuration files in your `config` folder:
 cp -Rv vendor/monsieurbiz/sylius-media-manager-plugin/recipes/1.0-dev/config/ config
 ```
 
+Add this config to your `.env` : 
+
+```
+MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_PUBLIC_FOLDER=%kernel.project_dir%/public
+MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_ROOT_FOLDER_FROM_PUBLIC=media
+MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_MAX_FILE_SIZE=5M
+```
+
+Change your `config/packages/liip_imagine.yaml` to manage the wanted folder : 
+
+```
+liip_imagine:
+    # [...]
+    loaders:
+        default:
+            filesystem:
+                data_root: 
+                    - "%sylius_core.public_dir%/media/image"
+                    - "%sylius_core.public_dir%/media"
+```
 </p>
 </details>  
+
+## Use form types
+
+### Images
+
+Use `MonsieurBiz\SyliusMediaManagerPlugin\Form\Type\ImageType`
+
+### PDF
+
+Use `MonsieurBiz\SyliusMediaManagerPlugin\Form\Type\PdfType`
+
+### Video
+
+Use `MonsieurBiz\SyliusMediaManagerPlugin\Form\Type\VideoType`
 
 ## Contributing
 
