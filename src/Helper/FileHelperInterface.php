@@ -33,6 +33,7 @@ interface FileHelperInterface
         self::TYPE_VIDEO,
         self::TYPE_PDF,
         self::TYPE_FILE,
+        self::TYPE_FAVICON,
     ];
 
     public const IMAGE_TYPE_MIMES = [
