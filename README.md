@@ -70,6 +70,8 @@ liip_imagine:
                     - "%sylius_core.public_dir%/media"
 ```
 
+Copy the templates in the folder `dist/templates/` to have the correct macros for form types.
+
 ## Use form types
 
 You can check the [dist](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/tree/master/dist) folder
@@ -86,6 +88,10 @@ Use `MonsieurBiz\SyliusMediaManagerPlugin\Form\Type\PdfType`
 ### Video
 
 Use `MonsieurBiz\SyliusMediaManagerPlugin\Form\Type\VideoType`
+
+### Favicon
+
+Use `MonsieurBiz\SyliusMediaManagerPlugin\Form\Type\FaviconType`
 
 ## Contributing
 
