@@ -160,6 +160,12 @@ final class FileHelper implements FileHelperInterface
                 }
 
                 break;
+            case FileHelperInterface::TYPE_FAVICON:
+                if (!\in_array($mimeType, FileHelperInterface::FAVICON_TYPE_MIMES, true)) {
+                    throw new InvalidMimeTypeException(FileHelperInterface::FAVICON_TYPE_MIMES, $mimeType);
+                }
+
+                break;
         }
 
         return true;

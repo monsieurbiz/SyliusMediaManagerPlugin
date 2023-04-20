@@ -23,5 +23,6 @@ monsieurbiz_sylius_media_manager:
             image: Le fichier choisi n'est pas une image.
             video: Le fichier choisi n'est pas une vidéo.
             pdf: Le fichier choisi n'est pas un PDF.
+            favicon: Le fichier choisi n'est pas une icône.
             file: Le fichier choisi n'est pas un fichier valide.
         max_file_size: Le fichier dépasse la taille autorisée de %maxSize%.
