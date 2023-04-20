@@ -26,6 +26,8 @@ interface FileHelperInterface
 
     public const TYPE_FILE = 'file';
 
+    public const TYPE_FAVICON = 'favicon';
+
     public const FILE_TYPES = [
         self::TYPE_IMAGE,
         self::TYPE_VIDEO,
@@ -49,6 +51,11 @@ interface FileHelperInterface
 
     public const PDF_TYPE_MIMES = [
         'application/pdf',
+    ];
+
+    public const FAVICON_TYPE_MIMES = [
+        'image/vnd.microsoft.icon',
+        'image/x-icon',
     ];
 
     public function getMediaPath(): string;
