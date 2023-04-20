@@ -56,6 +56,10 @@ interface FileHelperInterface
     public const FAVICON_TYPE_MIMES = [
         'image/vnd.microsoft.icon',
         'image/x-icon',
+        'image/ico',
+        'image/gif',
+        'image/jpeg',
+        'image/png',
     ];
 
     public function getMediaPath(): string;
