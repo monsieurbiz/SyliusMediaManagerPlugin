@@ -9,12 +9,14 @@ jobs:
 
   php:
 
+    name: Quality tests (PHP ${{ matrix.php }})
+
     runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
-        php: ['8.0']
+        php: ['8.0', '8.1']
 
     env:
       SYMFONY_ARGS: --no-tls
@@ -22,8 +24,9 @@ jobs:
       DOCKER_INTERACTIVE_ARGS: -t
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
         with:
           node-version: '14'
 
@@ -42,17 +45,20 @@ jobs:
           curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo -E bash
           sudo apt install symfony-cli
 
-      - uses: actions/cache@v1
+      - name: Determine composer cache directory
+        id: composer-cache-directory
+        run: echo "directory=$(composer config cache-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies installed with composer
+        uses: actions/cache@v3
         id: cache-composer
         with:
-          path: /home/runner/.composer/cache
-          key: composer2-php:${{ matrix.php }}-${{ github.sha }}
+          path: ${{ steps.composer-cache-directory.outputs.directory }}
+          key: composer2-php:${{ matrix.php }}-${{ hashFiles('**/composer.json') }}
           restore-keys: composer2-php:${{ matrix.php }}-
 
-      - run: mkdir -p /home/runner/{.composer/cache,.config/composer}
-
-      - name: Update composer
-        run: sudo composer self-update
+      - name: Ensure that composer cache directory exists
+        run: mkdir -p ${{ steps.composer-cache-directory.outputs.directory }}
 
       - name: Composer Github Auth
         run: composer config -g github-oauth.github.com ${{ github.token }}

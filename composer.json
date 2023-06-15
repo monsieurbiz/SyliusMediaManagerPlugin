@@ -8,7 +8,7 @@
         "php": "~7.4|~8.0",
         "ext-mbstring": "*",
         "ext-json": "*",
-        "sylius/sylius": ">=1.8 <1.13"
+        "sylius/sylius": ">=1.9 <1.13"
     },
     "require-dev": {
         "behat/behat": "^3.6.1",
@@ -30,7 +30,7 @@
         "mikey179/vfsstream": "^1.6",
         "mockery/mockery": "^1.4",
         "pamil/prophecy-common": "^0.1",
-        "phpspec/phpspec": "^6.1",
+        "phpspec/phpspec": "^6.1 || ^7.2",
         "phpstan/phpstan": "^0.12.57",
         "phpstan/phpstan-doctrine": "^0.12.19",
         "phpstan/phpstan-webmozart-assert": "^0.12.7",
@@ -56,7 +56,7 @@
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
-        "phpcs": "php-cs-fixer fix --using-cache=false",
+        "phpcs": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --using-cache=no",
         "phpstan": "phpstan analyse -c phpstan.neon src/",
         "phpmd": "phpmd --exclude Migrations/* src/ ansi phpmd.xml",
         "phpunit": "phpunit",
@@ -64,7 +64,11 @@
     },
     "extra": {
         "symfony": {
-            "require": "^4.4"
+            "docker": false,
+            "endpoint": [
+                "https://api.github.com/repos/monsieurbiz/symfony-recipes/contents/index.json?ref=flex/master",
+                "flex://defaults"
+            ]
         },
         "branch-alias": {
             "dev-master": "1.0-dev"
