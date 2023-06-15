@@ -56,14 +56,21 @@ jobs:
           docker run --rm --name flex -d -v $PWD/plugin/recipes:/var/www/flex/var/repo/private/monsieurbiz/sylius-media-manager-plugin -p 80:80 docker.pkg.github.com/monsieurbiz/docker/symfony-flex-server:latest contrib official
           docker ps
 
-      - run: mkdir -p /home/runner/{.composer/cache,.config/composer}
+      - name: Determine composer cache directory
+        id: composer-cache-directory
+        working-directory: plugin
+        run: echo "directory=$(composer config cache-dir)" >> $GITHUB_OUTPUT
 
-      - uses: actions/cache@v3
+      - name: Cache dependencies installed with composer
+        uses: actions/cache@v3
         id: cache-composer
         with:
-          path: /home/runner/.composer/cache
+          path: ${{ steps.composer-cache-directory.outputs.directory }}
           key: composer2-php:${{ matrix.php }}-sylius:${{ matrix.sylius }}-${{ github.sha }}
           restore-keys: composer2-php:${{ matrix.php }}-sylius:${{ matrix.sylius }}-
+
+      - name: Ensure that composer cache directory exists
+        run: mkdir -p ${{ steps.composer-cache-directory.outputs.directory }}
 
       - name: Update composer
         run: sudo composer self-update

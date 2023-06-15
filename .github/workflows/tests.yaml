@@ -42,14 +42,20 @@ jobs:
           curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo -E bash
           sudo apt install symfony-cli
 
-      - uses: actions/cache@v1
+      - name: Determine composer cache directory
+        id: composer-cache-directory
+        run: echo "directory=$(composer config cache-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies installed with composer
+        uses: actions/cache@v3
         id: cache-composer
         with:
-          path: /home/runner/.composer/cache
+          path: ${{ steps.composer-cache-directory.outputs.directory }}
           key: composer2-php:${{ matrix.php }}-${{ github.sha }}
           restore-keys: composer2-php:${{ matrix.php }}-
 
-      - run: mkdir -p /home/runner/{.composer/cache,.config/composer}
+      - name: Ensure that composer cache directory exists
+        run: mkdir -p ${{ steps.composer-cache-directory.outputs.directory }}
 
       - name: Update composer
         run: sudo composer self-update
