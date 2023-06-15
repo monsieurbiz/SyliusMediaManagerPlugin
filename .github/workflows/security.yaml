@@ -48,8 +48,6 @@ jobs:
       - name: Composer Github Auth
         run: composer config -g github-oauth.github.com ${{ github.token }}
 
-      - uses: actions/checkout@v3
-
       - name: Install PHP dependencies
         run: composer update --prefer-dist
 
