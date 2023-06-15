@@ -54,7 +54,7 @@ jobs:
         id: cache-composer
         with:
           path: ${{ steps.composer-cache-directory.outputs.directory }}
-          key: composer2-php:${{ matrix.php }}-sylius:${{ matrix.sylius }}-${{ github.sha }}
+          key: composer2-php:${{ matrix.php }}-sylius:${{ matrix.sylius }}-${{ hashFiles('**/composer.json') }}
           restore-keys: composer2-php:${{ matrix.php }}-sylius:${{ matrix.sylius }}-
 
       - name: Ensure that composer cache directory exists
