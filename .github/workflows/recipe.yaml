@@ -13,9 +13,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    env:
-      SYMFONY_ENDPOINT: http://127.0.0.1/
-
     strategy:
       fail-fast: false
       matrix:
@@ -51,13 +48,6 @@ jobs:
         with:
           path: plugin
 
-      # Run the server at the start so it can download the recipes!
-      - name: Run standalone symfony flex server
-        run: |
-          echo ${{ github.token }} | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
-          docker run --rm --name flex -d -v $PWD/plugin/recipes:/var/www/flex/var/repo/private/monsieurbiz/sylius-media-manager-plugin -p 80:80 docker.pkg.github.com/monsieurbiz/docker/symfony-flex-server:latest contrib official
-          docker ps
-
       - name: Determine composer cache directory
         id: composer-cache-directory
         working-directory: plugin
@@ -90,21 +80,15 @@ jobs:
       - name: Setup some requirements
         working-directory: ./sylius
         run: |
-            composer config --no-plugins allow-plugins true
-            composer config repositories.plugin '{"type": "path", "url": "../plugin/"}'
-            composer config extra.symfony.allow-contrib true
-            composer config secure-http false
-            composer config --unset platform.php
+          composer config --no-plugins allow-plugins true
+          composer config --no-plugins extra.symfony.allow-contrib true
+          composer config --no-plugins secure-http false
+          composer config --no-plugins --unset platform.php
+          composer config --no-plugins extra.symfony.docker false
+          composer config --no-plugins --json extra.symfony.endpoint '["https://api.github.com/repos/monsieurbiz/symfony-recipes/contents/index.json?ref=flex/master","flex://defaults"]'
+          composer config repositories.plugin '{"type": "path", "url": "../plugin/"}'
 
-      - name: Require plugin without install
+      - name: Require plugin & install all dependencies
         working-directory: ./sylius
         run: |
-          composer require --no-install --no-scripts monsieurbiz/sylius-media-manager-plugin="*@dev"
-
-      - name: Composer install
-        working-directory: ./sylius
-        run: |
-          composer install
-
-      - name: Show flex server logs
-        run: docker logs --tail 100 flex
+          composer require monsieurbiz/sylius-media-manager-plugin="*@dev"
