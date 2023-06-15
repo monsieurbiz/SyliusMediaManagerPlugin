@@ -21,7 +21,6 @@
 
 ## Installation
 
-<!-- Add this part when recipe will be released
 
 Install the plugin via composer:
 
@@ -29,6 +28,7 @@ Install the plugin via composer:
 composer require monsieurbiz/sylius-media-manager-plugin
 ```
 
+<!-- The section on the flex recipe will be displayed when the flex recipe will be available on contrib repo
 <details><summary>For the installation without flex, follow these additional steps</summary>
 -->
 
@@ -70,7 +70,13 @@ liip_imagine:
                     - "%sylius_core.public_dir%/media"
 ```
 
-Copy the templates in the folder `dist/templates/` to have the correct macros for form types.
+<!-- </details> -->
+
+Copy the templates in the folder `dist/templates/` to ensure that form fields are rendered correctly:
+
+```
+cp -R vendor/monsieurbiz/sylius-media-manager-plugin/dist/templates/bundles/* templates/bundles/
+```
 
 ## Use form types
 

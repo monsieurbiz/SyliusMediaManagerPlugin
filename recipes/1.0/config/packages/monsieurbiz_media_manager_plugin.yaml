@@ -1,2 +1,10 @@
 imports:
     - { resource: "@MonsieurBizSyliusMediaManagerPlugin/Resources/config/config.yaml" }
+
+liip_imagine:
+    loaders:
+        default:
+            filesystem:
+                data_root:
+                    - "%sylius_core.public_dir%/media/image"
+                    - "%sylius_core.public_dir%/media" # Add media folder
