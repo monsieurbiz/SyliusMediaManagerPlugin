@@ -13,9 +13,9 @@
 <h1 align="center">Media Manager for Sylius</h1>
 
 [![Media Manager Plugin license](https://img.shields.io/github/license/monsieurbiz/SyliusMediaManagerPlugin?public)](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/blob/master/LICENSE.txt)
-[![Tests Status](https://img.shields.io/github/workflow/status/monsieurbiz/SyliusMediaManagerPlugin/Tests?logo=github)](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/actions?query=workflow%3ATests)
-[![Security Status](https://img.shields.io/github/workflow/status/monsieurbiz/SyliusMediaManagerPlugin/Security?label=security&logo=github)](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/actions?query=workflow%3ASecurity)
-
+[![Recipe](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/actions/workflows/recipe.yaml/badge.svg?branch=master&event=push)](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/actions/workflows/recipe.yaml)
+[![Tests](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/actions/workflows/tests.yaml/badge.svg?branch=master&event=push)](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/actions/workflows/tests.yaml)
+[![Security](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/actions/workflows/security.yaml/badge.svg?branch=master&event=push)](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/actions/workflows/security.yaml)
 
 ![Demo of the media manager](docs/images/demo.gif)
 
@@ -76,6 +76,22 @@ Copy the templates in the folder `dist/templates/` to ensure that form fields ar
 
 ```
 cp -R vendor/monsieurbiz/sylius-media-manager-plugin/dist/templates/bundles/* templates/bundles/
+```
+
+Copy the form extension if you want to use it on your product images.
+```
+cp -R vendor/monsieurbiz/sylius-media-manager-plugin/dist/src/Form/Extension/ProductImageTypeExtension.php src/Form/Extension/ProductImageTypeExtension.php
+```
+
+Else open the file `templates/bundles/SyliusAdminBundle/Form/imagesTheme.html.twig` and remove the part about `sylius_image_widget`
+
+```diff
+-{% block sylius_image_widget %}
+-    {% apply spaceless %}
+-        {{ form_row(form.type) }}
+-        {{ form_row(form.path) }}
+-    {% endapply %}
+-{% endblock %}
 ```
 
 ## Use form types
