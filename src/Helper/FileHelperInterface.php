@@ -28,12 +28,15 @@ interface FileHelperInterface
 
     public const TYPE_FAVICON = 'favicon';
 
+    public const TYPE_AUDIO = 'audio';
+
     public const FILE_TYPES = [
         self::TYPE_IMAGE,
         self::TYPE_VIDEO,
         self::TYPE_PDF,
         self::TYPE_FILE,
         self::TYPE_FAVICON,
+        self::TYPE_AUDIO,
     ];
 
     public const IMAGE_TYPE_MIMES = [
@@ -61,6 +64,13 @@ interface FileHelperInterface
         'image/gif',
         'image/jpeg',
         'image/png',
+    ];
+
+    public const AUDIO_TYPE_MIMES = [
+        'audio/mpeg',
+        'audio/mpeg3',
+        'audio/x-mpeg',
+        'audio/x-mpeg-3',
     ];
 
     public function getMediaPath(): string;

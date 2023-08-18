@@ -171,6 +171,12 @@ final class FileHelper implements FileHelperInterface
                 }
 
                 break;
+            case FileHelperInterface::TYPE_AUDIO:
+                if (!\in_array($mimeType, FileHelperInterface::AUDIO_TYPE_MIMES, true)) {
+                    throw new InvalidMimeTypeException(FileHelperInterface::AUDIO_TYPE_MIMES, $mimeType);
+                }
+
+                break;
         }
 
         return true;
