@@ -92,6 +92,10 @@ Use `MonsieurBiz\SyliusMediaManagerPlugin\Form\Type\VideoType`
 
 Use `MonsieurBiz\SyliusMediaManagerPlugin\Form\Type\FaviconType`
 
+### Audio
+
+Use `MonsieurBiz\SyliusMediaManagerPlugin\Form\Type\AudioType`
+
 ## Contributing
 
 You can find a way to run the plugin without effort in the file [DEVELOPMENT.md](./DEVELOPMENT.md).
