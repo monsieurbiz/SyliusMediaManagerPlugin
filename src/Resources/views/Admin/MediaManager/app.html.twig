@@ -26,7 +26,7 @@
             if (this.status === 200) {
                 $('.monsieurbiz-sylius-file-manager__modal').remove();
                 monsieurbizSyliusMediaManagerRemoveLoaderModal();
-                $(this.responseText).modal('show');
+                $(this.responseText).modal({duration: 0}).modal('show');
             } else {
                 alert(this.responseText);
                 monsieurbizSyliusMediaManagerRemoveLoaderModal();
