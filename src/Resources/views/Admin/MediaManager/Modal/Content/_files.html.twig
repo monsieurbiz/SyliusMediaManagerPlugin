@@ -1,0 +1,13 @@
+<div class="ui list">
+    {% for file in files %}
+        <div class="item monsieurbiz-sylius-file-manager__item"
+            {%- if file.isDir -%}onclick="monsieurbizSyliusMediaManagerDisplayPath('{{ inputName | escape('js') }}', '{{ folder | escape('js')}}', '{{ file.path | escape('js')}}');"{%- endif -%}
+            {%- if file.isFile -%}onclick="monsieurbizSyliusMediaManagerConfirmFile('{{ inputName | escape('js') }}', '{{ folder | escape('js')}}', '{{ file.path | escape('js')}}');"{%- endif -%}
+        >
+            <i class="{{ file.isDir ? 'folder' : file.isFile ? 'file' : 'question' }} icon"></i>
+            <div class="content">
+                <div class="{{ file.isDir ? 'header' : file.isFile ? 'description' : 'description' }}">{{ file.name }}</div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
