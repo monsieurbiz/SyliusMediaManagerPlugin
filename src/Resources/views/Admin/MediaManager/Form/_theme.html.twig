@@ -71,7 +71,7 @@
 {% endblock %}
 
 {% block monsieurbiz_sylius_media_manager_audio_row %}
-    <div class="monsieurbiz-sylius-file-manager__file-field field">
+    <div class="monsieurbiz-sylius-file-manager__audio-field field">
         {{- form_row(form, {'attr': {'style': 'display: none;', 'data-file-type': fileType}}) -}}
         <div class="field">
             <div class="monsieurbiz-sylius-file-manager__current" {%- if form.vars.value is empty -%}style="display: none;"{%- endif -%}>

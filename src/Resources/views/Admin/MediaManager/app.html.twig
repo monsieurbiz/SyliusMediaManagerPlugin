@@ -90,6 +90,14 @@
                         fileElement.closest('.monsieurbiz-sylius-file-manager__current').style.display = 'block';
                     }
 
+                    let audioField = input.closest('.monsieurbiz-sylius-file-manager__audio-field');
+                    if (audioField) {
+                        let audioElement = audioField.querySelector('audio');
+                        let audioLinkElement = audioElement.querySelector('a');
+                        audioElement.src = '/media/' + (folder ? (folder + '/') : '') + path; // @TODO do better
+                        audioLinkElement.href = '/media/' + (folder ? (folder + '/') : '') + path; // @TODO do better
+                        audioElement.closest('.monsieurbiz-sylius-file-manager__current').style.display = 'block';
+                    }
                 }
             } else {
                 alert(response['error']);
