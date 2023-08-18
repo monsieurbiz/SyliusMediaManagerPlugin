@@ -16,6 +16,7 @@ namespace MonsieurBiz\SyliusMediaManagerPlugin\Controller;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\CannotReadCurrentFolderException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\CannotReadFolderException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileNotCreatedException;
+use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileNotDeletedException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileNotFoundException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileTooBigException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FolderNotCreatedException;
@@ -156,5 +157,25 @@ final class BrowserController extends AbstractController
         }
 
         return new JsonResponse(['parentFolder' => '.' === $parentPath ? '' : $parentPath]);
+    }
+
+    public function deleteFileAction(
+        FileHelperInterface $fileHelper,
+        Request $request,
+        TranslatorInterface $translator
+    ): ?Response {
+        $path = (string) $request->request->get('path', '');
+        $folder = (string) $request->request->get('folder', '');
+        $fileFolder = \dirname($path);
+
+        try {
+            $fileHelper->deleteFile($path, $folder);
+        } catch (FileNotDeletedException $e) {
+            return new JsonResponse([
+                'error' => $translator->trans('monsieurbiz_sylius_media_manager.error.cannot_delete_file'),
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        return new JsonResponse(['folder' => '.' === $fileFolder ? '' : $fileFolder]);
     }
 }

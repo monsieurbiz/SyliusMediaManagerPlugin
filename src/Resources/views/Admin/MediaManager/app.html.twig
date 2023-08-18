@@ -180,6 +180,35 @@
         monsieurbizSyliusMediaManagerAddLoaderModal();
     }
 
+
+    function monsieurbizSyliusMediaManagerDeleteFile(inputName, folder, path, confirmationMessage, confirmationMessageBis)
+    {
+        if (!confirm(confirmationMessage) || !confirm(confirmationMessageBis)) {
+            return;
+        }
+
+        let req = new XMLHttpRequest();
+
+        let data = new FormData();
+        data.append('folder', folder);
+        data.append('path', path);
+
+        req.onload = function(progress) {
+            let response = JSON.parse(this.responseText);
+            if (this.status === 200) {
+                monsieurbizSyliusMediaManagerRemoveLoaderModal();
+                monsieurbizSyliusMediaManagerDisplayPath(inputName, folder, response['folder']);
+            } else {
+                alert(response['error']);
+                monsieurbizSyliusMediaManagerRemoveLoaderModal();
+            }
+        };
+        req.open("post", "{{ path('monsieurbiz_sylius_media_manager_admin_browser_delete_file') }}", true);
+        req.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+        req.send(data);
+        monsieurbizSyliusMediaManagerAddLoaderModal();
+    }
+
     function monsieurbizSyliusMediaManagerCloseModal()
     {
         $('.monsieurbiz-sylius-file-manager__modal').modal('hide');
@@ -211,6 +240,10 @@
     }
 
     .monsieurbiz-sylius-file-manager__item:not(.monsieurbiz-sylius-file-manager__item-new-folder) {
+        height: 30px;
+    }
+
+    .monsieurbiz-sylius-file-manager__item:not(.monsieurbiz-sylius-file-manager__item-new-folder) {
         cursor: pointer;
     }
 
@@ -218,7 +251,9 @@
         background-color: #cce2ff;
     }
 
-    .ui.list > .monsieurbiz-sylius-file-manager__item-new-folder.item > i.icon {
+    .monsieurbiz-sylius-file-manager__modal .ui.list > .item > i.icon, 
+    .monsieurbiz-sylius-file-manager__modal .ui.list > .item > .icon + .content 
+    {
         vertical-align: middle;
     }
 </style>

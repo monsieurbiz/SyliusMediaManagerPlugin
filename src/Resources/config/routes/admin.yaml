@@ -32,3 +32,11 @@ monsieurbiz_sylius_media_manager_admin_browser_delete_folder:
     defaults:
         _controller: 'MonsieurBiz\SyliusMediaManagerPlugin\Controller\BrowserController::deleteFolderAction'
     condition: 'request.headers.get("X-Requested-With") == "XMLHttpRequest"'
+
+
+monsieurbiz_sylius_media_manager_admin_browser_delete_file:
+    path: browser/deleteFile
+    methods: [POST]
+    defaults:
+        _controller: 'MonsieurBiz\SyliusMediaManagerPlugin\Controller\BrowserController::deleteFileAction'
+    condition: 'request.headers.get("X-Requested-With") == "XMLHttpRequest"'

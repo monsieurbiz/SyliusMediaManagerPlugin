@@ -10,12 +10,16 @@ monsieurbiz_sylius_media_manager:
         choose_video: Choose a video
         create_folder: New folder
         delete_folder: Delete this folder
+        delete_file: Delete this file
         create: Create
         upload_file_in_this_folder: New file in this folder
         delete_folder_confirm: Are you sure you want to delete the folder `%path%` ?
+        delete_file_confirm: Are you sure you want to delete the file `%path%` ?
+        delete_file_confirm_bis: If it is used it will no longer be accessible, do you confirm this?
     error:
         cannot_create_folder: Cannot create the folder.
         cannot_delete_folder: Cannot delete the folder.
+        cannot_delete_file: Cannot delete the file.
         cannot_find_input: Form input cannot be found.
         cannot_find_type: Cannot find type of file.
         cannot_upload_file: Cannot upload the file.

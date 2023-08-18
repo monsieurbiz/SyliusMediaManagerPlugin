@@ -78,6 +78,8 @@ interface FileHelperInterface
 
     public function deleteFolder(string $path, ?string $folder = null): string;
 
+    public function deleteFile(string $path, ?string $folder = null): string;
+
     /**
      * Clean path to avoid server intrusions.
      */

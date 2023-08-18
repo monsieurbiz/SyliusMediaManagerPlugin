@@ -16,6 +16,7 @@ namespace MonsieurBiz\SyliusMediaManagerPlugin\Helper;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\CannotReadCurrentFolderException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\CannotReadFolderException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileNotCreatedException;
+use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileNotDeletedException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileNotFoundException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileTooBigException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FolderNotCreatedException;
@@ -252,6 +253,27 @@ final class FileHelper implements FileHelperInterface
 
         if (empty($path) || !file_exists($folderPath) || !@rmdir($folderPath)) {
             throw new FolderNotDeletedException($folderPath);
+        }
+
+        return $parentPath;
+    }
+
+    /**
+     * @SuppressWarnings(PHPMD.ErrorControlOperator)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
+    public function deleteFile(string $path, ?string $folder = null): string
+    {
+        // Append the wanted folder from the root public media if necessary
+        if (!empty($folder)) {
+            $this->currentDirectory = $this->mediaDirectory . '/' . $this->cleanPath($folder);
+        }
+
+        $filePath = $this->getFullPath($path);
+        $parentPath = \dirname($filePath);
+
+        if (empty($path) || !file_exists($filePath) || !@unlink($filePath)) {
+            throw new FileNotDeletedException($filePath);
         }
 
         return $parentPath;
