@@ -177,11 +177,15 @@
 
 
 <style>
-    .monsieurbiz-sylius-file-manager__item {
+    .monsieurbiz-sylius-file-manager__item:not(.monsieurbiz-sylius-file-manager__item-new-folder) {
         cursor: pointer;
     }
 
-    .monsieurbiz-sylius-file-manager__item:hover {
+    .monsieurbiz-sylius-file-manager__item:hover:not(.monsieurbiz-sylius-file-manager__item-new-folder) {
         background-color: #cce2ff;
+    }
+
+    .ui.list > .monsieurbiz-sylius-file-manager__item-new-folder.item > i.icon {
+        vertical-align: middle;
     }
 </style>
