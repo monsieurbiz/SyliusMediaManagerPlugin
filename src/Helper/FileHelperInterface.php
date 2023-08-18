@@ -76,6 +76,8 @@ interface FileHelperInterface
 
     public function createFolder(string $newFolder, string $path, ?string $folder = null): string;
 
+    public function deleteFolder(string $path, ?string $folder = null): string;
+
     /**
      * Clean path to avoid server intrusions.
      */

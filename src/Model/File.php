@@ -38,6 +38,16 @@ final class File implements FileInterface
         return $this->path;
     }
 
+    public function isCurrentDir(): bool
+    {
+        return '.' === $this->name;
+    }
+
+    public function isParentDir(): bool
+    {
+        return '..' === $this->name;
+    }
+
     public function isDir(): bool
     {
         return is_dir($this->fullPath);

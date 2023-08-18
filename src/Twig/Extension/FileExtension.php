@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace MonsieurBiz\SyliusMediaManagerPlugin\Twig\Extension;
 
 use MonsieurBiz\SyliusMediaManagerPlugin\Helper\FileHelperInterface;
+use MonsieurBiz\SyliusMediaManagerPlugin\Model\FileInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -30,11 +31,19 @@ final class FileExtension extends AbstractExtension
     {
         return [
             new TwigFunction('get_media_manager_file_path', [$this, 'getMediaManagerFilePath']),
+            new TwigFunction('is_empty_files_list', [$this, 'isEmptyFilesList']),
         ];
     }
 
     public function getMediaManagerFilePath(string $path): string
     {
         return $this->fileHelper->getMediaPath() . '/' . $this->fileHelper->cleanPath($path);
+    }
+
+    public function isEmptyFilesList(array $files): bool
+    {
+        return !(bool) \count(array_filter($files, function (FileInterface $file) {
+            return !$file->isCurrentDir() && !$file->isParentDir();
+        }));
     }
 }

@@ -19,6 +19,7 @@ use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileNotCreatedException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileNotFoundException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileTooBigException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FolderNotCreatedException;
+use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FolderNotDeletedException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\InvalidMimeTypeException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\InvalidTypeException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Model\File;
@@ -27,6 +28,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Mime\MimeTypes;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ */
 final class FileHelper implements FileHelperInterface
 {
     private string $mediaDirectory;
@@ -230,6 +234,27 @@ final class FileHelper implements FileHelperInterface
         }
 
         return $newFolder;
+    }
+
+    /**
+     * @SuppressWarnings(PHPMD.ErrorControlOperator)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
+    public function deleteFolder(string $path, ?string $folder = null): string
+    {
+        // Append the wanted folder from the root public media if necessary
+        if (!empty($folder)) {
+            $this->currentDirectory = $this->mediaDirectory . '/' . $this->cleanPath($folder);
+        }
+
+        $folderPath = $this->getFullPath($path);
+        $parentPath = \dirname($folderPath);
+
+        if (empty($path) || !file_exists($folderPath) || !@rmdir($folderPath)) {
+            throw new FolderNotDeletedException($folderPath);
+        }
+
+        return $parentPath;
     }
 
     /**

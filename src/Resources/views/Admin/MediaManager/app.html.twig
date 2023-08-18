@@ -152,6 +152,34 @@
         monsieurbizSyliusMediaManagerAddLoaderModal();
     }
 
+    function monsieurbizSyliusMediaManagerDeleteFolder(inputName, folder, path, confirmationMessage)
+    {
+        if (!confirm(confirmationMessage)) {
+            return;
+        }
+
+        let req = new XMLHttpRequest();
+
+        let data = new FormData();
+        data.append('folder', folder);
+        data.append('path', path);
+
+        req.onload = function(progress) {
+            let response = JSON.parse(this.responseText);
+            if (this.status === 200) {
+                monsieurbizSyliusMediaManagerRemoveLoaderModal();
+                monsieurbizSyliusMediaManagerDisplayPath(inputName, folder, response['parentFolder']);
+            } else {
+                alert(response['error']);
+                monsieurbizSyliusMediaManagerRemoveLoaderModal();
+            }
+        };
+        req.open("post", "{{ path('monsieurbiz_sylius_media_manager_admin_browser_delete_folder') }}", true);
+        req.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+        req.send(data);
+        monsieurbizSyliusMediaManagerAddLoaderModal();
+    }
+
     function monsieurbizSyliusMediaManagerCloseModal()
     {
         $('.monsieurbiz-sylius-file-manager__modal').modal('hide');
