@@ -1,32 +1,3 @@
-{% extends '@SyliusUi/Form/theme.html.twig' %}
-
-{% block _sylius_product_attribute_configuration_choices_entry_widget %}
-    {% import '@SyliusUi/Macro/flags.html.twig' as flags %}
-
-    <div class="ui styled fluid accordion">
-        {% for translation in form %}
-            <div data-locale="{{ translation.vars.name }}">
-                <div class="title{% if loop.first %} active{% endif %}">
-                    <i class="dropdown icon"></i>
-                    {{ flags.fromLocaleCode(translation.vars.name) }} {{ translation.vars.name|sylius_locale_name }}
-                </div>
-                <div class="ui content{% if loop.first %} active{% endif %}">
-                    {{ form_widget(translation) }}
-                    {{- form_errors(form) -}}
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-{% endblock %}
-
-{% block sylius_taxon_autocomplete_choice_row %}
-    {{ form_row(form, {'remote_url': path('sylius_admin_ajax_taxon_by_name_phrase'), 'load_edit_url': path('sylius_admin_ajax_taxon_by_code')}) }}
-{% endblock %}
-
-{% block sylius_product_autocomplete_choice_row %}
-    {{ form_row(form, {'remote_url': path('sylius_admin_ajax_product_by_name_phrase'), 'load_edit_url': path('sylius_admin_ajax_product_by_code')}) }}
-{% endblock %}
-
 {% block monsieurbiz_sylius_media_manager_image_row %}
     <div class="monsieurbiz-sylius-file-manager__image-field field">
         {{- form_row(form, {'attr': {'style': 'display: none;', 'data-file-type': fileType}}) -}}
@@ -94,6 +65,25 @@
             </div>
             <button type="button" class="ui button" onclick="monsieurbizSyliusMediaManagerChooseFile('{{ form.vars.full_name | escape('js') }}', '{{ form.vars.value | escape('js') }}', '{{ folder | escape('js') }}');">
                 {{ 'monsieurbiz_sylius_media_manager.ui.choose_image' | trans }}
+            </button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block monsieurbiz_sylius_media_manager_audio_row %}
+    <div class="monsieurbiz-sylius-file-manager__audio-field field">
+        {{- form_row(form, {'attr': {'style': 'display: none;', 'data-file-type': fileType}}) -}}
+        <div class="field">
+            <div class="monsieurbiz-sylius-file-manager__current" {%- if form.vars.value is empty -%}style="display: none;"{%- endif -%}>
+                <p>
+                    <small>{{ 'monsieurbiz_sylius_media_manager.ui.current_file' | trans }}</small><br />
+                    <audio controls src="{{ form.vars.value ? get_media_manager_file_path(form.vars.value) : '' }}">
+                        <a href="{{ form.vars.value ? get_media_manager_file_path(form.vars.value) : '' }}">{{ 'monsieurbiz_sylius_media_manager.ui.current_file' | trans }}</a>
+                    </audio>
+                </p>
+            </div>
+            <button type="button" class="ui button" onclick="monsieurbizSyliusMediaManagerChooseFile('{{ form.vars.full_name | escape('js') }}', '{{ form.vars.value | escape('js') }}', '{{ folder | escape('js') }}');">
+                {{ 'monsieurbiz_sylius_media_manager.ui.choose_file' | trans }}
             </button>
         </div>
     </div>

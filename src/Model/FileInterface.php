@@ -19,7 +19,13 @@ interface FileInterface
 
     public function getPath(): string;
 
+    public function isCurrentDir(): bool;
+
+    public function isParentDir(): bool;
+
     public function isDir(): bool;
 
     public function isFile(): bool;
+
+    public function getMimeType(): string;
 }

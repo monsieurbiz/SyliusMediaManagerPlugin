@@ -8,3 +8,5 @@ liip_imagine:
                 data_root:
                     - "%sylius_core.public_dir%/media/image"
                     - "%sylius_core.public_dir%/media" # Add media folder
+twig:
+    form_themes: ['@MonsieurBizSyliusMediaManagerPlugin/Admin/MediaManager/Form/_theme.html.twig']

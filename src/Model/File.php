@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace MonsieurBiz\SyliusMediaManagerPlugin\Model;
 
+use MonsieurBiz\SyliusMediaManagerPlugin\Helper\FileHelperInterface;
+
 final class File implements FileInterface
 {
     private string $name;
@@ -21,11 +23,14 @@ final class File implements FileInterface
 
     private string $fullPath;
 
+    private string $mimeType;
+
     public function __construct(string $name, string $path, string $fullPath)
     {
         $this->name = $name;
         $this->path = $path;
         $this->fullPath = $fullPath;
+        $this->mimeType = (string) mime_content_type($fullPath);
     }
 
     public function getName(): string
@@ -38,6 +43,16 @@ final class File implements FileInterface
         return $this->path;
     }
 
+    public function isCurrentDir(): bool
+    {
+        return '.' === $this->name;
+    }
+
+    public function isParentDir(): bool
+    {
+        return '..' === $this->name;
+    }
+
     public function isDir(): bool
     {
         return is_dir($this->fullPath);
@@ -46,5 +61,35 @@ final class File implements FileInterface
     public function isFile(): bool
     {
         return is_file($this->fullPath);
+    }
+
+    public function getMimeType(): string
+    {
+        return $this->mimeType;
+    }
+
+    public function isImage(): bool
+    {
+        return \in_array($this->mimeType, FileHelperInterface::IMAGE_TYPE_MIMES, true);
+    }
+
+    public function isVideo(): bool
+    {
+        return \in_array($this->mimeType, FileHelperInterface::VIDEO_TYPE_MIMES, true);
+    }
+
+    public function isPdf(): bool
+    {
+        return \in_array($this->mimeType, FileHelperInterface::PDF_TYPE_MIMES, true);
+    }
+
+    public function isFavicon(): bool
+    {
+        return \in_array($this->mimeType, FileHelperInterface::FAVICON_TYPE_MIMES, true);
+    }
+
+    public function isAudio(): bool
+    {
+        return \in_array($this->mimeType, FileHelperInterface::AUDIO_TYPE_MIMES, true);
     }
 }
