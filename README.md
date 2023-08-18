@@ -46,30 +46,16 @@ return [
 Copy the plugin configuration files in your `config` folder:
 
 ```bash
-cp -Rv vendor/monsieurbiz/sylius-media-manager-plugin/recipes/1.0-dev/config/ config
+cp -Rv vendor/monsieurbiz/sylius-media-manager-plugin/recipes/1.0/config/ config
 ```
 
-Add this config to your `.env` :
+Add these variables to your `.env` :
 
 ```
 MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_PUBLIC_FOLDER=%kernel.project_dir%/public
 MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_ROOT_FOLDER_FROM_PUBLIC=media
 MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_MAX_FILE_SIZE=5M
 ```
-
-Change your `config/packages/liip_imagine.yaml` to manage the wanted folder :
-
-```
-liip_imagine:
-    # [...]
-    loaders:
-        default:
-            filesystem:
-                data_root:
-                    - "%sylius_core.public_dir%/media/image"
-                    - "%sylius_core.public_dir%/media"
-```
-
 <!-- </details> -->
 
 Copy the templates in the folder `dist/templates/` to ensure that form fields are rendered correctly:
@@ -83,16 +69,7 @@ Copy the form extension if you want to use it on your product images.
 cp -R vendor/monsieurbiz/sylius-media-manager-plugin/dist/src/Form/Extension/ProductImageTypeExtension.php src/Form/Extension/ProductImageTypeExtension.php
 ```
 
-Else open the file `templates/bundles/SyliusAdminBundle/Form/imagesTheme.html.twig` and remove the part about `sylius_image_widget`
-
-```diff
--{% block sylius_image_widget %}
--    {% apply spaceless %}
--        {{ form_row(form.type) }}
--        {{ form_row(form.path) }}
--    {% endapply %}
--{% endblock %}
-```
+Else remove the file `templates/bundles/SyliusAdminBundle/Form/imagesTheme.html.twig`
 
 ## Use form types
 
