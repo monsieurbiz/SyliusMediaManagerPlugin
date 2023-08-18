@@ -26,4 +26,6 @@ interface FileInterface
     public function isDir(): bool;
 
     public function isFile(): bool;
+
+    public function getMimeType(): string;
 }

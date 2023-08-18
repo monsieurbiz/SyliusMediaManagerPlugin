@@ -1,10 +1,11 @@
 <div class="ui list">
     {% for file in files %}
+        {% set fileIcon = file.isDir ? 'folder' : file.isImage ? 'file image' : file.isVideo ? 'file video' : file.isPdf ? 'file pdf' : file.isFavicon ? 'favicon' : file.isAudio ? 'file audio' : file.isFile ? 'file' : 'question' %}
         <div class="item">
             <div class="right floated content">
                 {% include '@MonsieurBizSyliusMediaManagerPlugin/Admin/MediaManager/Modal/Content/Files/_deleteFile.html.twig' %}
             </div>
-            <i class="{{ file.isDir ? 'folder' : file.isFile ? 'file' : 'question' }} icon"></i>
+            <i class="{{ fileIcon }} icon"></i>
             <div class="content monsieurbiz-sylius-file-manager__item"
             {%- if file.isDir -%}onclick="monsieurbizSyliusMediaManagerDisplayPath('{{ inputName | escape('js') }}', '{{ folder | escape('js')}}', '{{ file.path | escape('js')}}');"{%- endif -%}
             {%- if file.isFile -%}onclick="monsieurbizSyliusMediaManagerConfirmFile('{{ inputName | escape('js') }}', '{{ folder | escape('js')}}', '{{ file.path | escape('js')}}');"{%- endif -%}
