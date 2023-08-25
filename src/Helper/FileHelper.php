@@ -290,6 +290,10 @@ final class FileHelper implements FileHelperInterface
      */
     public function cleanPath(string $path): string
     {
+        if (false === strpos($path, '/')) {
+            return $path;
+        }
+
         $path = trim($path, '.');
         $path = str_replace('/..', '', (string) $path);
         $path = str_replace('/.', '', (string) $path);
