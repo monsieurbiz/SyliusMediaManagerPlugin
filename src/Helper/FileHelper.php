@@ -116,7 +116,14 @@ final class FileHelper implements FileHelperInterface
 
             $cleanPath = $this->cleanPath($path);
             $filePath = (!empty($cleanPath) ? $cleanPath . '/' : '') . $fileName;
-            $files[] = new File($fileName, $filePath, $this->getFullPath($filePath));
+
+            // If the cleaned path generate a weird path, check the file still exists
+            $fullFilePath = $this->getFullPath($filePath);
+            if (!file_exists($fullFilePath)) {
+                continue;
+            }
+
+            $files[] = new File($fileName, $filePath, $fullFilePath);
         }
 
         return $files;
