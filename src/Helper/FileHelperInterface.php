@@ -43,6 +43,9 @@ interface FileHelperInterface
         'image/gif',
         'image/jpeg',
         'image/png',
+        'image/svg+xml',
+        'image/webp',
+        'image/avif',
     ];
 
     public const VIDEO_TYPE_MIMES = [
@@ -61,6 +64,7 @@ interface FileHelperInterface
         'image/vnd.microsoft.icon',
         'image/x-icon',
         'image/ico',
+        'image/svg+xml',
         'image/gif',
         'image/jpeg',
         'image/png',
