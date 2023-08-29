@@ -1,7 +1,11 @@
 {% set filePath = folder is not empty ? folder ~ '/' ~ file.path : file.path %}
-{% if file.isImage %}
+{% if file.isImage and file.mimeType != 'image/svg+xml' %}
     <a href="/media/{{ filePath }}" target="_blank" rel="noopener noreferrer">
         <img src="{{ filePath|imagine_filter('monsieurbiz_sylius_media_manager_uploaded_image') }}" alt="{{ filePath|escape('html_attr') }}" style="max-width: 300px;max-height: 30px;" />
+    </a>
+{% elseif file.isImage and file.mimeType == 'image/svg+xml' %}
+    <a href="/media/{{ filePath }}" target="_blank" rel="noopener noreferrer">
+        <img src="/media/{{ filePath }}" alt="{{ filePath|escape('html_attr') }}" style="max-width: 300px;max-height: 30px;" />
     </a>
 {% elseif file.isFile %}
     <a href="/media/{{ filePath }}" target="_blank" rel="noopener noreferrer" class="ui button mini icon">
