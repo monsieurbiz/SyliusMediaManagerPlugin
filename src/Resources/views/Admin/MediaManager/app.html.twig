@@ -14,6 +14,31 @@
         monsieurbizSyliusMediaManagerDisplayPath(inputName, folder, currentFolder);
     }
 
+    function monsieurbizSyliusMediaManagerRemoveFile(inputName, confirmationMessage)
+    {
+        if (!confirm(confirmationMessage)) {
+            return;
+        }
+    
+        // Check input
+        let input = document.querySelector("input[name='" + inputName + "']");
+        if (!input) {
+            alert('{{ 'monsieurbiz_sylius_media_manager.error.cannot_find_input' | trans | escape('js') }}')
+            return;
+        }
+
+        // Remove input value
+        input.value = '';
+
+        let field = input.closest('.monsieurbiz-sylius-file-manager__field');
+        if (field) {
+            // Hide current file
+            field.querySelector('.monsieurbiz-sylius-file-manager__current').style.display = 'none';
+            // Hide remove button
+            field.querySelector('.monsieurbiz-sylius-file-manager__button-remove').style.display = 'none';
+        }
+    }
+
     function monsieurbizSyliusMediaManagerDisplayPath(inputName, folder, path)
     {
         let req = new XMLHttpRequest();
@@ -97,6 +122,15 @@
                         audioElement.src = '/media/' + (folder ? (folder + '/') : '') + path; // @TODO do better
                         audioLinkElement.href = '/media/' + (folder ? (folder + '/') : '') + path; // @TODO do better
                         audioElement.closest('.monsieurbiz-sylius-file-manager__current').style.display = 'block';
+                    }
+
+                    let field = input.closest('.monsieurbiz-sylius-file-manager__field');
+                    if (field) {
+                        // Show remove button
+                        let removeButton = field.querySelector('.monsieurbiz-sylius-file-manager__button-remove');
+                        if (removeButton) {
+                            removeButton.style.display = 'initial';
+                        }
                     }
                 }
             } else {
