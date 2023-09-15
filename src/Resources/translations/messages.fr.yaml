@@ -16,6 +16,10 @@ monsieurbiz_sylius_media_manager:
         delete_folder_confirm: Êtes-vous sûr de vouloir supprimer le dossier `%path%` ?
         delete_file_confirm: Êtes-vous sûr de vouloir supprimer le fichier `%path%` ?
         delete_file_confirm_bis: S'il est utilisé il ne sera plus accessible, confirmez-vous cela ?
+        remove_file: Retirer le fichier
+        remove_image: Retirer l'image
+        remove_video: Retirer la video
+        remove_confirmation: Êtes-vous sûr de vouloir retirer cette valeur ? Le fichier ne sera pas supprimé du serveur.
     error:
         cannot_create_folder: Impossible de créer le dossier.
         cannot_delete_folder: Impossible de supprimer le dossier.

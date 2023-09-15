@@ -1,5 +1,5 @@
 {% block monsieurbiz_sylius_media_manager_image_row %}
-    <div class="monsieurbiz-sylius-file-manager__image-field field">
+    <div class="monsieurbiz-sylius-file-manager__image-field monsieurbiz-sylius-file-manager__field field">
         {{- form_row(form, {'attr': {'style': 'display: none;', 'data-file-type': fileType}}) -}}
         <div class="field">
             <div class="monsieurbiz-sylius-file-manager__current" {%- if form.vars.value is empty -%}style="display: none;"{%- endif -%}>
@@ -11,12 +11,15 @@
             <button type="button" class="ui button" onclick="monsieurbizSyliusMediaManagerChooseFile('{{ form.vars.full_name | escape('js') }}', '{{ form.vars.value | escape('js') }}', '{{ folder | escape('js') }}');">
                 {{ 'monsieurbiz_sylius_media_manager.ui.choose_image' | trans }}
             </button>
+            <button type="button" class="monsieurbiz-sylius-file-manager__button-remove ui red button" onclick="monsieurbizSyliusMediaManagerRemoveFile('{{ form.vars.full_name | escape('js') }}', '{{ 'monsieurbiz_sylius_media_manager.ui.remove_confirmation' | trans | escape('js')}}');" {%- if form.vars.value is empty -%} style="display: none;"{%- endif -%}>
+                {{ 'monsieurbiz_sylius_media_manager.ui.remove_image' | trans }}
+            </button>
         </div>
     </div>
 {% endblock %}
 
 {% block monsieurbiz_sylius_media_manager_video_row %}
-    <div class="monsieurbiz-sylius-file-manager__video-field field">
+    <div class="monsieurbiz-sylius-file-manager__video-field monsieurbiz-sylius-file-manager__field field">
         {{- form_row(form, {'attr': {'style': 'display: none;', 'data-file-type': fileType}}) -}}
         <div class="field">
             <div class="monsieurbiz-sylius-file-manager__current" {%- if form.vars.value is empty -%}style="display: none;"{%- endif -%}>
@@ -30,12 +33,15 @@
             <button type="button" class="ui button" onclick="monsieurbizSyliusMediaManagerChooseFile('{{ form.vars.full_name | escape('js') }}', '{{ form.vars.value | escape('js') }}', '{{ folder | escape('js') }}');">
                 {{ 'monsieurbiz_sylius_media_manager.ui.choose_video' | trans }}
             </button>
+            <button type="button" class="monsieurbiz-sylius-file-manager__button-remove ui red button" onclick="monsieurbizSyliusMediaManagerRemoveFile('{{ form.vars.full_name | escape('js') }}', '{{ 'monsieurbiz_sylius_media_manager.ui.remove_confirmation' | trans | escape('js')}}');" {%- if form.vars.value is empty -%} style="display: none;"{%- endif -%}>
+                {{ 'monsieurbiz_sylius_media_manager.ui.remove_video' | trans }}
+            </button>
         </div>
     </div>
 {% endblock %}
 
 {% block monsieurbiz_sylius_media_manager_pdf_row %}
-    <div class="monsieurbiz-sylius-file-manager__file-field field">
+    <div class="monsieurbiz-sylius-file-manager__file-field monsieurbiz-sylius-file-manager__field field">
         {{- form_row(form, {'attr': {'style': 'display: none;', 'data-file-type': fileType}}) -}}
         <div class="field">
             <div class="monsieurbiz-sylius-file-manager__current" {%- if form.vars.value is empty -%}style="display: none;"{%- endif -%}>
@@ -49,12 +55,15 @@
             <button type="button" class="ui button" onclick="monsieurbizSyliusMediaManagerChooseFile('{{ form.vars.full_name | escape('js') }}', '{{ form.vars.value | escape('js') }}', '{{ folder | escape('js') }}');">
                 {{ 'monsieurbiz_sylius_media_manager.ui.choose_file' | trans }}
             </button>
+            <button type="button" class="monsieurbiz-sylius-file-manager__button-remove ui red button" onclick="monsieurbizSyliusMediaManagerRemoveFile('{{ form.vars.full_name | escape('js') }}', '{{ 'monsieurbiz_sylius_media_manager.ui.remove_confirmation' | trans | escape('js')}}');" {%- if form.vars.value is empty -%} style="display: none;"{%- endif -%}>
+                {{ 'monsieurbiz_sylius_media_manager.ui.remove_file' | trans }}
+            </button>
         </div>
     </div>
 {% endblock %}
 
 {% block monsieurbiz_sylius_media_manager_favicon_row %}
-    <div class="monsieurbiz-sylius-file-manager__image-field field">
+    <div class="monsieurbiz-sylius-file-manager__image-field monsieurbiz-sylius-file-manager__field field">
         {{- form_row(form, {'attr': {'style': 'display: none;', 'data-file-type': fileType}}) -}}
         <div class="field">
             <div class="monsieurbiz-sylius-file-manager__current" {%- if form.vars.value is empty -%}style="display: none;"{%- endif -%}>
@@ -66,12 +75,15 @@
             <button type="button" class="ui button" onclick="monsieurbizSyliusMediaManagerChooseFile('{{ form.vars.full_name | escape('js') }}', '{{ form.vars.value | escape('js') }}', '{{ folder | escape('js') }}');">
                 {{ 'monsieurbiz_sylius_media_manager.ui.choose_image' | trans }}
             </button>
+            <button type="button" class="monsieurbiz-sylius-file-manager__button-remove ui red button" onclick="monsieurbizSyliusMediaManagerRemoveFile('{{ form.vars.full_name | escape('js') }}', '{{ 'monsieurbiz_sylius_media_manager.ui.remove_confirmation' | trans | escape('js')}}');" {%- if form.vars.value is empty -%} style="display: none;"{%- endif -%}>
+                {{ 'monsieurbiz_sylius_media_manager.ui.remove_image' | trans }}
+            </button>
         </div>
     </div>
 {% endblock %}
 
 {% block monsieurbiz_sylius_media_manager_audio_row %}
-    <div class="monsieurbiz-sylius-file-manager__audio-field field">
+    <div class="monsieurbiz-sylius-file-manager__audio-field monsieurbiz-sylius-file-manager__field field">
         {{- form_row(form, {'attr': {'style': 'display: none;', 'data-file-type': fileType}}) -}}
         <div class="field">
             <div class="monsieurbiz-sylius-file-manager__current" {%- if form.vars.value is empty -%}style="display: none;"{%- endif -%}>
@@ -84,6 +96,9 @@
             </div>
             <button type="button" class="ui button" onclick="monsieurbizSyliusMediaManagerChooseFile('{{ form.vars.full_name | escape('js') }}', '{{ form.vars.value | escape('js') }}', '{{ folder | escape('js') }}');">
                 {{ 'monsieurbiz_sylius_media_manager.ui.choose_file' | trans }}
+            </button>
+            <button type="button" class="monsieurbiz-sylius-file-manager__button-remove ui red button" onclick="monsieurbizSyliusMediaManagerRemoveFile('{{ form.vars.full_name | escape('js') }}', '{{ 'monsieurbiz_sylius_media_manager.ui.remove_confirmation' | trans | escape('js')}}');" {%- if form.vars.value is empty -%} style="display: none;"{%- endif -%}>
+                {{ 'monsieurbiz_sylius_media_manager.ui.remove_file' | trans }}
             </button>
         </div>
     </div>
