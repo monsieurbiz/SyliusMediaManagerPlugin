@@ -5,7 +5,7 @@
     </a>
 {% elseif file.isImage and file.mimeType == 'image/svg+xml' %}
     <a href="/media/{{ filePath }}" target="_blank" rel="noopener noreferrer">
-        <img src="/media/{{ filePath }}" alt="{{ filePath|escape('html_attr') }}" style="max-width: 300px;max-height: 30px;" />
+        <img src="/media/{{ filePath }}" alt="{{ filePath|escape('html_attr') }}" style="max-width: 300px;max-height: 30px; width: 100%; height: 100%" />
     </a>
 {% elseif file.isFile %}
     <a href="/media/{{ filePath }}" target="_blank" rel="noopener noreferrer" class="ui button mini icon">
