@@ -26,3 +26,10 @@ services:
             $publicDirectory: '%env(resolve:MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_PUBLIC_FOLDER)%'
             $mediaDirectory: '%env(resolve:MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_ROOT_FOLDER_FROM_PUBLIC)%'
             $maxFileSize: '%env(resolve:MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_MAX_FILE_SIZE)%'
+
+    # Decorator to allow us to have multiple data roots for svg images.
+    MonsieurBiz\SyliusMediaManagerPlugin\Twig\Extension\FilterExtensionDecorator:
+        decorates: 'liip_imagine.templating.filter_extension'
+        arguments:
+            $loaders: '%liip_imagine.loaders%'
+            $publicDir: '%sylius_core.public_dir%'
