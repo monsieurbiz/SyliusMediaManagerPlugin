@@ -11,5 +11,13 @@
         "MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_PUBLIC_FOLDER": "%kernel.project_dir%/public",
         "MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_ROOT_FOLDER_FROM_PUBLIC": "media",
         "MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_MAX_FILE_SIZE": "5M"
+    },
+    "copy-from-package": {
+        "src/Resources/views/MonsieurBizSyliusRichEditorPlugin/Admin/UiElement/image.html.twig": "templates/MonsieurBizSyliusRichEditorPlugin/Admin/UiElement/image.html.twig",
+        "src/Resources/views/MonsieurBizSyliusRichEditorPlugin/Admin/UiElement/image_collection.html.twig": "templates/MonsieurBizSyliusRichEditorPlugin/Admin/UiElement/image_collection.html.twig",
+        "src/Resources/views/MonsieurBizSyliusRichEditorPlugin/Admin/UiElement/video.html.twig": "templates/MonsieurBizSyliusRichEditorPlugin/Admin/UiElement/video.html.twig",
+        "src/Resources/views/MonsieurBizSyliusRichEditorPlugin/Shop/UiElement/image.html.twig": "templates/MonsieurBizSyliusRichEditorPlugin/Shop/UiElement/image.html.twig",
+        "src/Resources/views/MonsieurBizSyliusRichEditorPlugin/Shop/UiElement/image_collection.html.twig": "templates/MonsieurBizSyliusRichEditorPlugin/Shop/UiElement/image_collection.html.twig",
+        "src/Resources/views/MonsieurBizSyliusRichEditorPlugin/Shop/UiElement/video.html.twig": "templates/MonsieurBizSyliusRichEditorPlugin/Shop/UiElement/video.html.twig"
     }
 }

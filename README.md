@@ -86,6 +86,12 @@ Use `MonsieurBiz\SyliusMediaManagerPlugin\Form\Type\FaviconType`
 
 Use `MonsieurBiz\SyliusMediaManagerPlugin\Form\Type\AudioType`
 
+### RichEditorPlugin
+
+If you use our RichEditorPlugin the ImageType and VideoType are using the MediaManager.
+In case you had the RichEditorPlugin before the MediaManagerPlugin you need to copy the folder `%kernel.project_dir%/public%/media/rich-editor` to `%kernel.project_dir%/public%/media/media/rich-editor` 
+to keep the image from being displayed when they were uploaded through the richEditor and not the mediaManager.
+
 ## Contributing
 
 You can find a way to run the plugin without effort in the file [DEVELOPMENT.md](./DEVELOPMENT.md).

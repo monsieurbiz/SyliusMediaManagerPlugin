@@ -1,0 +1,22 @@
+{#
+    UI Element template
+    type: image
+    element fields :
+        image
+        alt
+        title
+        link
+        align
+#}
+{% if element.image is defined %}
+{% set align = element.align is defined and element.align is not empty ? element.align : 'inherit' %}
+<p style="text-align: {{align}};">
+    {% if element.link is not empty %}
+        <a href="{{ element.link }}">
+            <img class="ui fluid image" src="{{ get_media_manager_file_path(element.image) }}" alt="{{ element.alt|default('') }}" title="{{ element.title|default('') }}" />
+        </a>
+    {% else %}
+        <img class="ui fluid image" src="{{ get_media_manager_file_path(element.image) }}" alt="{{ element.alt|default('') }}" title="{{ element.title|default('') }}" />
+    {% endif %}
+</p>
+{% endif %}

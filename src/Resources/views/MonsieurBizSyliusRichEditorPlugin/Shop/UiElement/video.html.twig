@@ -1,0 +1,14 @@
+{#
+    UI Element template
+    type: video
+    element fields :
+        video
+        image
+        align
+#}
+{% set align = element.align is defined and element.align is not empty ? element.align : 'inherit' %}
+<div style="text-align: {{align}};">
+    <video width="100%" poster="{{ get_media_manager_file_path(element.image) }}" controls>
+        <source src="{{ get_media_manager_file_path(element.video) }}" type="video/{{ element.video|split('.')|last }}">
+    </video>
+</div>
