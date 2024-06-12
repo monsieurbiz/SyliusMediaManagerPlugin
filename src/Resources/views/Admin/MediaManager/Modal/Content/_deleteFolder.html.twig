@@ -1,13 +1,13 @@
 {% if path is not empty and is_empty_files_list(files) %}
-<div class="ui list">
+<div class="ui relaxed horizontal list">
     <div class="item monsieurbiz-sylius-file-manager__item monsieurbiz-sylius-file-manager__item-new-folder">
-        <i class="trash icon"></i>
         <div class="content">
             <div 
                 class="description monsieurbiz-sylius-file-manager__new-folder-label ui button mini negative" 
                 style="max-width: 200px;color: white;" 
                 onclick="monsieurbizSyliusMediaManagerDeleteFolder('{{ inputName | escape('js') }}', '{{ folder | escape('js')}}', '{{ path | escape('js')}}', '{{ 'monsieurbiz_sylius_media_manager.ui.delete_folder_confirm' | trans({'%path%': path}) | escape('js')}}')"
             >
+                <i class="trash icon"></i>
                     {{ 'monsieurbiz_sylius_media_manager.ui.delete_folder' | trans }}
             </div>
         </div>
