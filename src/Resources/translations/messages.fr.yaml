@@ -10,12 +10,16 @@ monsieurbiz_sylius_media_manager:
         choose_video: Choisir une vidéo
         create_folder: Nouveau dossier
         delete_folder: Supprimer ce dossier
+        rename_folder: Renommer le dossier
         delete_file: Supprimer ce fichier
         create: Créer
+        rename: Renommer
         upload_file_in_this_folder: Nouveau fichier dans ce dossier
         delete_folder_confirm: Êtes-vous sûr de vouloir supprimer le dossier `%path%` ?
         delete_file_confirm: Êtes-vous sûr de vouloir supprimer le fichier `%path%` ?
         delete_file_confirm_bis: S'il est utilisé il ne sera plus accessible, confirmez-vous cela ?
+        rename_folder_confirm: Êtes-vous sûr de vouloir renommer le dossier `%path%` ?
+        rename_folder_confirm_bis: Si des fichiers sont contenus dans ce dossier ou ses enfants, ils ne seront plus accessibles, confirmez-vous cela ?
         remove_file: Retirer le fichier
         remove_image: Retirer l'image
         remove_video: Retirer la video
@@ -27,6 +31,7 @@ monsieurbiz_sylius_media_manager:
         cannot_find_input: Champ de formulaire introuvable.
         cannot_find_type: Type de fichier introuvable.
         cannot_upload_file: Impossible d'ajouter le fichier.
+        cannot_rename_folder: Impossible de renommer le dossier.
         invalid_type_input: Type de fichier invalide dans le champ.
         file_not_found: Fichier introuvable.
         folder_not_readable: Impossible de lire le dossier '%folder%'.

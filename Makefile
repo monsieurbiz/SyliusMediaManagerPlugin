@@ -2,6 +2,7 @@
 SHELL=/bin/bash
 APP_DIR=tests/Application
 SYLIUS_VERSION=1.12.0
+SYLIUS_PAYPAL_VERSION=1.5.0
 SYMFONY=cd ${APP_DIR} && symfony
 COMPOSER=symfony composer
 CONSOLE=${SYMFONY} console
@@ -72,6 +73,7 @@ setup_application:
 	(cd ${APP_DIR} && ${COMPOSER} config --no-plugins allow-plugins true)
 	(cd ${APP_DIR} && ${COMPOSER} config --no-plugins --json extra.symfony.endpoint '["https://api.github.com/repos/monsieurbiz/symfony-recipes/contents/index.json?ref=flex/master","flex://defaults"]')
 	(cd ${APP_DIR} && ${COMPOSER} require --no-install --no-scripts --no-progress sylius/sylius="~${SYLIUS_VERSION}") # Make sure to install the required version of sylius because the sylius-standard has a soft constraint
+	(cd ${APP_DIR} && ${COMPOSER} require --no-install --no-scripts --no-progress sylius/paypal-plugin="~${SYLIUS_PAYPAL_VERSION}") # @see https://github.com/Sylius/PayPalPlugin/issues/295
 	$(MAKE) ${APP_DIR}/.php-version
 	$(MAKE) ${APP_DIR}/php.ini
 	(cd ${APP_DIR} && ${COMPOSER} install --no-interaction)

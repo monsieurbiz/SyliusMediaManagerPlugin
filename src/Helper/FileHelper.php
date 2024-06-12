@@ -21,6 +21,7 @@ use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileNotFoundException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileTooBigException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FolderNotCreatedException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FolderNotDeletedException;
+use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FolderNotRenamedException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\InvalidMimeTypeException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\InvalidTypeException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Model\File;
@@ -290,6 +291,33 @@ final class FileHelper implements FileHelperInterface
         }
 
         return $parentPath;
+    }
+
+    /**
+     * @SuppressWarnings(PHPMD.ErrorControlOperator)
+     */
+    public function renameFolder(string $newFolderName, string $path, ?string $folder = null): string
+    {
+        // Append the wanted folder from the root public media if necessary
+        if (!empty($folder)) {
+            $this->currentDirectory = $this->mediaDirectory . '/' . $this->cleanPath($folder);
+        }
+
+        // We remove the last part of the path to get the parent path
+        $arrayPath = explode('/', $path, -1);
+        $arrayPath[] = $newFolderName;
+        $newPath = implode('/', $arrayPath);
+
+        $oldPath = $this->getFullPath($path);
+        $newFolderName = (string) $this->slugger->slug($newFolderName);
+        $newFolderName = mb_strtolower($newFolderName, 'UTF-8');
+        $newFolderPath = $this->getFullPath($newPath);
+
+        if (!@rename($oldPath, $newFolderPath)) {
+            throw new FolderNotRenamedException($newFolderName);
+        }
+
+        return $newPath;
     }
 
     /**

@@ -10,12 +10,16 @@ monsieurbiz_sylius_media_manager:
         choose_video: Choose a video
         create_folder: New folder
         delete_folder: Delete this folder
+        rename_folder: Rename this folder
         delete_file: Delete this file
         create: Create
+        rename: Rename
         upload_file_in_this_folder: New file in this folder
         delete_folder_confirm: Are you sure you want to delete the folder `%path%` ?
         delete_file_confirm: Are you sure you want to delete the file `%path%` ?
         delete_file_confirm_bis: If it is used it will no longer be accessible, do you confirm this?
+        rename_folder_confirm: Are you sure you want to rename the folder `%path%` ?
+        rename_folder_confirm_bis: If files are in this folder or subfolders they will not be accessible anymore, do you confirm this ?
         remove_file: Remove file
         remove_image: Remove image
         remove_video: Remove video
@@ -27,6 +31,7 @@ monsieurbiz_sylius_media_manager:
         cannot_find_input: Form input cannot be found.
         cannot_find_type: Cannot find type of file.
         cannot_upload_file: Cannot upload the file.
+        cannot_rename_folder: Cannot rename the folder.
         invalid_type_input: Invalid file type in input.
         file_not_found: File not found.
         folder_not_readable: Cannot read the folder '%folder%'.
@@ -37,4 +42,4 @@ monsieurbiz_sylius_media_manager:
             pdf: The chosen file is not a PDF.
             favicon: The chosen file is not a favicon.
             file: The chosen file is not a valid file.
-        max_file_size: The file is bigger than the maxc allowed size of %maxSize%.
+        max_file_size: The file is bigger than the max allowed size of %maxSize%.
