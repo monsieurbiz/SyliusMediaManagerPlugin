@@ -21,6 +21,7 @@ use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileNotFoundException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileTooBigException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FolderNotCreatedException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FolderNotDeletedException;
+use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FolderNotRenamedException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\InvalidMimeTypeException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\InvalidTypeException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Helper\FileHelperInterface;
@@ -177,5 +178,26 @@ final class BrowserController extends AbstractController
         }
 
         return new JsonResponse(['folder' => '.' === $fileFolder ? '' : $fileFolder]);
+    }
+
+    public function renameFolderAction(
+        FileHelperInterface $fileHelper,
+        Request $request,
+        TranslatorInterface $translator
+    ): ?Response {
+        $newName = (string) $request->request->get('newName', '');
+        $path = (string) $request->request->get('path', '');
+        $folder = (string) $request->request->get('folder', '');
+        $newPath = $path;
+
+        try {
+            $newPath = $fileHelper->renameFolder($newName, $path, $folder);
+        } catch (FolderNotRenamedException $e) {
+            return new JsonResponse([
+                'error' => $translator->trans('monsieurbiz_sylius_media_manager.error.cannot_rename_folder'),
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        return new JsonResponse(['path' => $newPath]);
     }
 }

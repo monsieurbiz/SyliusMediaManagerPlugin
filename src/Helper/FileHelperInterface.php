@@ -94,6 +94,8 @@ interface FileHelperInterface
 
     public function deleteFile(string $path, ?string $folder = null): string;
 
+    public function renameFolder(string $newFolderName, string $path, ?string $folder = null): string;
+
     /**
      * Clean path to avoid server intrusions.
      */
