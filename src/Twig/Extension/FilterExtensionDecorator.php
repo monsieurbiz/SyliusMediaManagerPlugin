@@ -36,10 +36,10 @@ class FilterExtensionDecorator extends BaseFilterExtension
     /**
      * Allow us to have multiple data roots for svg images.
      *
-     * @param mixed $path
-     * @param mixed $filter
-     * @param mixed|null $resolver
-     * @param mixed $referenceType
+     * @param string $path
+     * @param string $filter
+     * @param string|null $resolver
+     * @param int $referenceType
      */
     public function filter(
         $path,
