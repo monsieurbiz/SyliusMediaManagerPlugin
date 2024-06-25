@@ -1,16 +1,30 @@
 [![Banner of Sylius Media Manager plugin](docs/images/banner.jpg)](https://monsieurbiz.com/agence-web-experte-sylius)
 
-<h1 align="center">Media Manager for Sylius</h1>
+<h1 align="center">Sylius Media Manager</h1>
 
 [![Media Manager Plugin license](https://img.shields.io/github/license/monsieurbiz/SyliusMediaManagerPlugin?public)](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/blob/master/LICENSE.txt)
-[![Recipe](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/actions/workflows/recipe.yaml/badge.svg?branch=master&event=push)](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/actions/workflows/recipe.yaml)
-[![Tests](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/actions/workflows/tests.yaml/badge.svg?branch=master&event=push)](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/actions/workflows/tests.yaml)
-[![Security](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/actions/workflows/security.yaml/badge.svg?branch=master&event=push)](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/actions/workflows/security.yaml)
+[![Tests Status](https://img.shields.io/github/actions/workflow/status/monsieurbiz/SyliusMediaManagerPlugin/tests.yaml?branch=master&logo=github)](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/actions?query=workflow%3ATests)
+[![Recipe Status](https://img.shields.io/github/actions/workflow/status/monsieurbiz/SyliusMediaManagerPlugin/recipe.yaml?branch=master&label=recipes&logo=github)](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/actions?query=workflow%3ASecurity)
+[![Security Status](https://img.shields.io/github/actions/workflow/status/monsieurbiz/SyliusMediaManagerPlugin/security.yaml?branch=master&label=security&logo=github)](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/actions?query=workflow%3ASecurity)
+This plugin adds a rich editor on the fields you want. Now you can manage your content very easily!
 
 ![Demo of the media manager](docs/images/demo.gif)
 
+## Compatibility
+
+| Sylius Version | PHP Version |
+|---|---|
+| 1.11 | 8.0 - 8.1 |
+| 1.12 | 8.1 - 8.2 |
+| 1.13 | 8.1 - 8.2 |
+
 ## Installation
 
+If you want to use our recipes, you can configure your composer.json by running:
+
+```json
+composer config --no-plugins --json extra.symfony.endpoint '["https://api.github.com/repos/monsieurbiz/symfony-recipes/contents/index.json?ref=flex/master","flex://defaults"]'
+```
 
 Install the plugin via composer:
 
@@ -33,11 +47,7 @@ return [
 ];
 ```
 
-Copy the plugin configuration files in your `config` folder:
-
-```bash
-cp -Rv vendor/monsieurbiz/sylius-media-manager-plugin/recipes/1.0/config/ config
-```
+Copy the plugin configuration files in your `config` folder: https://github.com/monsieurbiz/symfony-recipes/tree/master/monsieurbiz/sylius-media-manager-plugin/1.0/config
 
 Add these variables to your `.env` :
 

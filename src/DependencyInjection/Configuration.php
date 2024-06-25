@@ -24,14 +24,7 @@ final class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('monsieurbiz_sylius_media_manager');
-        if (method_exists($treeBuilder, 'getRootNode')) {
-            $treeBuilder->getRootNode();
-
-            return $treeBuilder;
-        }
-
-        // BC layer for symfony/config 4.1 and older
-        $treeBuilder->root('monsieurbiz_sylius_media_manager');
+        $treeBuilder->getRootNode();
 
         return $treeBuilder;
     }

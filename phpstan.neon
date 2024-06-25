@@ -1,18 +1,14 @@
-includes:
-    - vendor/phpstan/phpstan-doctrine/extension.neon
-    - vendor/phpstan/phpstan-webmozart-assert/extension.neon
-
 parameters:
     level: max
     paths:
         - %rootDir%/src/
 
-    checkMissingIterableValueType: false
-
-    excludes_analyse:
+    excludePaths:
         # Makes PHPStan crash
-        - 'src/DependencyInjection/Configuration.php'
         - 'src/DependencyInjection/MonsieurBizSyliusMediaManagerExtension.php'
 
         # Test dependencies
         - 'tests/Application/**/*'
+
+    ignoreErrors:
+        - identifier: missingType.iterableValue
