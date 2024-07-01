@@ -32,12 +32,14 @@ final class FileTooBigException extends Exception
         $this->maxAllowedSizeBytes = $maxAllowedSizeBytes;
         $this->maxAllowedSize = $maxAllowedSize;
         parent::__construct(
-            sprintf('File `%s` couldn\'t be created. File size %s is bigger than %s bytes. (%s)',
-            $filename,
-            $size,
-            $maxAllowedSizeBytes,
-            $maxAllowedSize
-        ));
+            sprintf(
+                'File `%s` couldn\'t be created. File size %s is bigger than %s bytes. (%s)',
+                $filename,
+                $size,
+                $maxAllowedSizeBytes,
+                $maxAllowedSize
+            )
+        );
     }
 
     public function getFilename(): string

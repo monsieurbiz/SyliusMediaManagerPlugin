@@ -26,6 +26,7 @@ use MonsieurBiz\SyliusMediaManagerPlugin\Exception\InvalidMimeTypeException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\InvalidTypeException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Helper\FileHelperInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -90,6 +91,9 @@ final class BrowserController extends AbstractController
         return new JsonResponse(['path' => $fileHelper->cleanPath($path)]);
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
     public function uploadAction(
         FileHelperInterface $fileHelper,
         Request $request,
@@ -99,7 +103,7 @@ final class BrowserController extends AbstractController
         $folder = (string) $request->request->get('folder', '');
         $file = $request->files->get('file');
 
-        if (null === $file) {
+        if (null === $file || !($file instanceof UploadedFile)) {
             return new JsonResponse([
                 'error' => $translator->trans('monsieurbiz_sylius_media_manager.error.cannot_upload_file'),
             ], Response::HTTP_BAD_REQUEST);
