@@ -6,7 +6,8 @@
 [![Tests Status](https://img.shields.io/github/actions/workflow/status/monsieurbiz/SyliusMediaManagerPlugin/tests.yaml?branch=master&logo=github)](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/actions?query=workflow%3ATests)
 [![Recipe Status](https://img.shields.io/github/actions/workflow/status/monsieurbiz/SyliusMediaManagerPlugin/recipe.yaml?branch=master&label=recipes&logo=github)](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/actions?query=workflow%3ASecurity)
 [![Security Status](https://img.shields.io/github/actions/workflow/status/monsieurbiz/SyliusMediaManagerPlugin/security.yaml?branch=master&label=security&logo=github)](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/actions?query=workflow%3ASecurity)
-This plugin adds a rich editor on the fields you want. Now you can manage your content very easily!
+
+This plugin adds a media manager to your images, videos and other files type fields in Sylius.
 
 ![Demo of the media manager](docs/images/demo.gif)
 
