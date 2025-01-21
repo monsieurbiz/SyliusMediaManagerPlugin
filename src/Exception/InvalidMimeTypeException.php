@@ -26,7 +26,7 @@ final class InvalidMimeTypeException extends Exception
         $this->allowedMimeTypes = $allowedMimeTypes;
         $this->mimeType = $mimeType;
 
-        parent::__construct(sprintf(
+        parent::__construct(\sprintf(
             'Invalid mime type. Excepted one of %s, `%s` given',
             implode(', ', $allowedMimeTypes),
             $mimeType

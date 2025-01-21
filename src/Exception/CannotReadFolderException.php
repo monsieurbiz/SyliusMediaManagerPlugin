@@ -22,7 +22,7 @@ final class CannotReadFolderException extends Exception
     public function __construct(string $path)
     {
         $this->path = $path;
-        parent::__construct(sprintf('Folder cannot be opened `%s`', $path));
+        parent::__construct(\sprintf('Folder cannot be opened `%s`', $path));
     }
 
     public function getPath(): string

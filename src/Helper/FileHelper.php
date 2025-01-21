@@ -208,11 +208,11 @@ final class FileHelper implements FileHelperInterface
         $fileName = mb_strtolower($fileName, 'UTF-8');
 
         // Build final path and loop if the file already exists
-        $finalName = sprintf('%s.%s', $fileName, $extension);
+        $finalName = \sprintf('%s.%s', $fileName, $extension);
         $filePath = $this->getFullPath($path) . '/' . $finalName;
         $count = 1;
         while (file_exists($filePath)) {
-            $finalName = sprintf('%s_%d.%s', $fileName, $count++, $extension);
+            $finalName = \sprintf('%s_%d.%s', $fileName, $count++, $extension);
             $filePath = $this->getFullPath($path) . '/' . $finalName;
         }
 

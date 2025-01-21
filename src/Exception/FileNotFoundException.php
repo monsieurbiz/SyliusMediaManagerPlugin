@@ -22,7 +22,7 @@ final class FileNotFoundException extends Exception
     public function __construct(string $path)
     {
         $this->path = $path;
-        parent::__construct(sprintf('File not found `%s`', $path));
+        parent::__construct(\sprintf('File not found `%s`', $path));
     }
 
     public function getPath(): string

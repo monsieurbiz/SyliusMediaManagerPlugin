@@ -22,7 +22,7 @@ final class FolderNotDeletedException extends Exception
     public function __construct(string $folder)
     {
         $this->folder = $folder;
-        parent::__construct(sprintf('Folder `%s` couldn\'t be deleted', $folder));
+        parent::__construct(\sprintf('Folder `%s` couldn\'t be deleted', $folder));
     }
 
     public function getFolder(): string

@@ -22,7 +22,7 @@ final class FolderNotRenamedException extends Exception
     public function __construct(string $folder)
     {
         $this->folder = $folder;
-        parent::__construct(sprintf('Folder `%s` couldn\'t be renamed', $folder));
+        parent::__construct(\sprintf('Folder `%s` couldn\'t be renamed', $folder));
     }
 
     public function getFolder(): string

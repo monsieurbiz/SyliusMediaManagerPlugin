@@ -25,7 +25,7 @@ final class FileNotCreatedException extends Exception
     {
         $this->filename = $filename;
         $this->errorMessage = $errorMessage;
-        parent::__construct(sprintf('File `%s` couldn\'t be created. Error : %s', $filename, $errorMessage));
+        parent::__construct(\sprintf('File `%s` couldn\'t be created. Error : %s', $filename, $errorMessage));
     }
 
     public function getFilename(): string

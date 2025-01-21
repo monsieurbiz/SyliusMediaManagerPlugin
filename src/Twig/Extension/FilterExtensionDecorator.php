@@ -51,8 +51,8 @@ class FilterExtensionDecorator extends BaseFilterExtension
         $dataRoots = $this->loaders['default']['filesystem']['data_root'] ?? ['/media/image/'];
 
         foreach (array_unique($dataRoots) as $imagePath) {
-            if (!$this->canImageBeFiltered($path) && file_exists(sprintf('%s/%s', $imagePath, $path))) {
-                return str_replace($this->publicDir, '', sprintf('%s/%s', $imagePath, $path));
+            if (!$this->canImageBeFiltered($path) && file_exists(\sprintf('%s/%s', $imagePath, $path))) {
+                return str_replace($this->publicDir, '', \sprintf('%s/%s', $imagePath, $path));
             }
         }
 
