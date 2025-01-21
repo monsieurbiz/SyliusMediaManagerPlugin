@@ -26,7 +26,7 @@ final class InvalidTypeException extends Exception
         $this->type = $type;
         $this->allowedTypes = $allowedTypes;
 
-        parent::__construct(sprintf('Invalid type `%s`, allowed types : %s', $type, implode(', ', $allowedTypes)));
+        parent::__construct(\sprintf('Invalid type `%s`, allowed types : %s', $type, implode(', ', $allowedTypes)));
     }
 
     public function getType(): string

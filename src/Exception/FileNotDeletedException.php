@@ -22,7 +22,7 @@ final class FileNotDeletedException extends Exception
     public function __construct(string $filename)
     {
         $this->filename = $filename;
-        parent::__construct(sprintf('File `%s` couldn\'t be deleted', $filename));
+        parent::__construct(\sprintf('File `%s` couldn\'t be deleted', $filename));
     }
 
     public function getFilename(): string
