@@ -1,0 +1,10 @@
+monsieurbiz_sylius_media_manager:
+    error:
+        cannot_upload_file: Impossible d'ajouter le fichier.
+        max_file_size: Le fichier dépasse la taille autorisée de {{ limit }} {{ suffix }}.
+        invalid_mime_type:
+            audios: 'Le fichier choisi n''est pas un fichier audio (Types autorisés : {{ types }}).'
+            images: 'Le fichier choisi n''est pas une image. (Types autorisés : {{ types }}).'
+            videos: 'Le fichier choisi n''est pas une vidéo. (Types autorisés : {{ types }}).'
+            pdfs: 'Le fichier choisi n''est pas un PDF. (Types autorisés : {{ types }}).'
+            file: 'Le fichier choisi n''est pas un fichier valide (Types autorisés : {{ types }}).'

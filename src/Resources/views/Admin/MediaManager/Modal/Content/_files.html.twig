@@ -10,7 +10,7 @@
             </div>
             <i class="{{ fileIcon }} icon" style="width: 10px;"></i>
             <div class="content monsieurbiz-sylius-file-manager__item"
-            {%- if file.isDir -%}onclick="monsieurbizSyliusMediaManagerDisplayPath('{{ inputName | escape('js') }}', '{{ folder | escape('js')}}', '{{ file.path | escape('js')}}');"{%- endif -%}
+            {%- if file.isDir -%}onclick="monsieurbizSyliusMediaManagerDisplayPath('{{ inputName | escape('js') }}', '{{ folder | escape('js')}}', '{{ file.path | escape('js')}}', '{{ mimeTypes|escape('js') }}');"{%- endif -%}
             {%- if file.isFile -%}onclick="monsieurbizSyliusMediaManagerConfirmFile('{{ inputName | escape('js') }}', '{{ folder | escape('js')}}', '{{ file.path | escape('js')}}');"{%- endif -%}
         >
                 <div class="{{ file.isDir ? 'header' : file.isFile ? 'description' : 'description' }}">

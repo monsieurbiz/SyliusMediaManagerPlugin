@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace MonsieurBiz\SyliusMediaManagerPlugin\Form\Type;
 
 use MonsieurBiz\SyliusMediaManagerPlugin\Helper\FileHelperInterface;
+use MonsieurBiz\SyliusMediaManagerPlugin\Provider\MimeTypesProviderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -21,6 +22,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class VideoType extends TextType
 {
+    public function __construct(
+        private MimeTypesProviderInterface $mimeTypesProvider,
+    ) {
+    }
+
     public function getBlockPrefix(): string
     {
         return 'monsieurbiz_sylius_media_manager_video';
@@ -31,6 +37,7 @@ final class VideoType extends TextType
         parent::buildView($view, $form, $options);
         $view->vars['folder'] = $options['folder'];
         $view->vars['fileType'] = $options['file-type'];
+        $view->vars['mimeTypes'] = implode(',', $this->mimeTypesProvider->getMimeTypesByType('videos'));
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    function monsieurbizSyliusMediaManagerChooseFile(inputName, inputValue, folder)
+    function monsieurbizSyliusMediaManagerChooseFile(inputName, inputValue, folder, mimeTypes)
     {
         let currentFolder = '';
         if (inputValue) {
@@ -11,7 +11,7 @@
             currentFolder.pop();
             currentFolder = currentFolder.join('/');
         }
-        monsieurbizSyliusMediaManagerDisplayPath(inputName, folder, currentFolder);
+        monsieurbizSyliusMediaManagerDisplayPath(inputName, folder, currentFolder, mimeTypes);
     }
 
     function monsieurbizSyliusMediaManagerRemoveFile(inputName, confirmationMessage)
@@ -19,7 +19,7 @@
         if (!confirm(confirmationMessage)) {
             return;
         }
-    
+
         // Check input
         let input = document.querySelector("input[name='" + inputName + "']");
         if (!input) {
@@ -39,13 +39,14 @@
         }
     }
 
-    function monsieurbizSyliusMediaManagerDisplayPath(inputName, folder, path)
+    function monsieurbizSyliusMediaManagerDisplayPath(inputName, folder, path, mimeTypes)
     {
         let req = new XMLHttpRequest();
         const params = new URLSearchParams({
             path: path,
             inputName: inputName,
             folder: folder,
+            mimeTypes: mimeTypes,
         });
         req.onload = function(progress) {
             if (this.status === 200) {
@@ -144,22 +145,25 @@
         monsieurbizSyliusMediaManagerAddLoaderModal();
     }
 
-    function mediaUploadFile(fileInput, inputName, folder, path)
+    function mediaUploadFile(fileInput, inputName, folder, path, mimeTypes)
     {
         let req = new XMLHttpRequest();
 
         let data = new FormData();
+        let defaultError = "{{ 'monsieurbiz_sylius_media_manager.error.cannot_upload_file'|trans }}";
         data.append('folder', folder);
         data.append('path', path);
         data.append('file', fileInput.files[0]);
 
         req.onload = function(progress) {
-            let response = JSON.parse(this.responseText);
+            try {
+              let response = JSON.parse(this.responseText);
+            } catch (e) {}
             if (this.status === 200) {
                 monsieurbizSyliusMediaManagerRemoveLoaderModal();
-                monsieurbizSyliusMediaManagerDisplayPath(inputName, folder, path);
+                monsieurbizSyliusMediaManagerDisplayPath(inputName, folder, path, mimeTypes);
             } else {
-                alert(response['error']);
+                alert(response['error'] || defaultError);
                 monsieurbizSyliusMediaManagerRemoveLoaderModal();
             }
         };
@@ -169,7 +173,7 @@
         monsieurbizSyliusMediaManagerAddLoaderModal();
     }
 
-    function monsieurbizSyliusMediaManagerCreateFolder(folderInput, inputName, folder, path)
+    function monsieurbizSyliusMediaManagerCreateFolder(folderInput, inputName, folder, path, mimeTypes)
     {
         let req = new XMLHttpRequest();
 
@@ -182,7 +186,7 @@
             let response = JSON.parse(this.responseText);
             if (this.status === 200) {
                 monsieurbizSyliusMediaManagerRemoveLoaderModal();
-                monsieurbizSyliusMediaManagerDisplayPath(inputName, folder, path);
+                monsieurbizSyliusMediaManagerDisplayPath(inputName, folder, path, mimeTypes);
             } else {
                 alert(response['error']);
                 monsieurbizSyliusMediaManagerRemoveLoaderModal();
@@ -194,7 +198,7 @@
         monsieurbizSyliusMediaManagerAddLoaderModal();
     }
 
-    function monsieurbizSyliusMediaManagerDeleteFolder(inputName, folder, path, confirmationMessage)
+    function monsieurbizSyliusMediaManagerDeleteFolder(inputName, folder, path, confirmationMessage, mimeTypes)
     {
         if (!confirm(confirmationMessage)) {
             return;
@@ -210,7 +214,7 @@
             let response = JSON.parse(this.responseText);
             if (this.status === 200) {
                 monsieurbizSyliusMediaManagerRemoveLoaderModal();
-                monsieurbizSyliusMediaManagerDisplayPath(inputName, folder, response['parentFolder']);
+                monsieurbizSyliusMediaManagerDisplayPath(inputName, folder, response['parentFolder'], mimeTypes);
             } else {
                 alert(response['error']);
                 monsieurbizSyliusMediaManagerRemoveLoaderModal();
@@ -223,7 +227,7 @@
     }
 
 
-    function monsieurbizSyliusMediaManagerDeleteFile(inputName, folder, path, confirmationMessage, confirmationMessageBis)
+    function monsieurbizSyliusMediaManagerDeleteFile(inputName, folder, path, confirmationMessage, confirmationMessageBis, mimeTypes)
     {
         if (!confirm(confirmationMessage) || !confirm(confirmationMessageBis)) {
             return;
@@ -239,7 +243,7 @@
             let response = JSON.parse(this.responseText);
             if (this.status === 200) {
                 monsieurbizSyliusMediaManagerRemoveLoaderModal();
-                monsieurbizSyliusMediaManagerDisplayPath(inputName, folder, response['folder']);
+                monsieurbizSyliusMediaManagerDisplayPath(inputName, folder, response['folder'], mimeTypes);
             } else {
                 alert(response['error']);
                 monsieurbizSyliusMediaManagerRemoveLoaderModal();
@@ -251,7 +255,7 @@
         monsieurbizSyliusMediaManagerAddLoaderModal();
     }
 
-    function monsieurbizSyliusMediaManagerRenameFolder(folderInput, inputName, folder, path, confirmationMessage, confirmationMessageBis)
+    function monsieurbizSyliusMediaManagerRenameFolder(folderInput, inputName, folder, path, confirmationMessage, confirmationMessageBis, mimeTypes)
     {
       if (!confirm(confirmationMessage) || !confirm(confirmationMessageBis)) {
         return;
@@ -268,7 +272,7 @@
         let response = JSON.parse(this.responseText);
         if (this.status === 200) {
           monsieurbizSyliusMediaManagerRemoveLoaderModal();
-          monsieurbizSyliusMediaManagerDisplayPath(inputName, folder, response['path']);
+          monsieurbizSyliusMediaManagerDisplayPath(inputName, folder, response['path'], mimeTypes);
         } else {
           alert(response['error']);
           monsieurbizSyliusMediaManagerRemoveLoaderModal();
@@ -322,8 +326,8 @@
         background-color: #cce2ff;
     }
 
-    .monsieurbiz-sylius-file-manager__modal .ui.list > .item > i.icon, 
-    .monsieurbiz-sylius-file-manager__modal .ui.list > .item > .icon + .content 
+    .monsieurbiz-sylius-file-manager__modal .ui.list > .item > i.icon,
+    .monsieurbiz-sylius-file-manager__modal .ui.list > .item > .icon + .content
     {
         vertical-align: middle;
     }

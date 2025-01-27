@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace MonsieurBiz\SyliusMediaManagerPlugin\Form\Type;
 
 use MonsieurBiz\SyliusMediaManagerPlugin\Helper\FileHelperInterface;
+use MonsieurBiz\SyliusMediaManagerPlugin\Provider\MimeTypesProviderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -21,6 +22,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class PdfType extends TextType
 {
+    public function __construct(
+        private MimeTypesProviderInterface $mimeTypesProvider,
+    ) {
+    }
+
     public function getBlockPrefix(): string
     {
         return 'monsieurbiz_sylius_media_manager_pdf';
@@ -31,6 +37,7 @@ final class PdfType extends TextType
         parent::buildView($view, $form, $options);
         $view->vars['folder'] = $options['folder'];
         $view->vars['fileType'] = $options['file-type'];
+        $view->vars['mimeTypes'] = implode(',', $this->mimeTypesProvider->getMimeTypesByType('pdfs'));
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -38,7 +45,7 @@ final class PdfType extends TextType
         parent::configureOptions($resolver);
         $resolver->setDefaults([
             'folder' => 'gallery/pdfs', // Keep empty the use `/public/media` as root.
-            'file-type' => FileHelperInterface::TYPE_PDF, // The wanted file type managed by FileHelper
+            'file-type' => FileHelperInterface::TYPE_PDF, // The wanted file type managed by FileHelper,
         ]);
     }
 }
