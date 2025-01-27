@@ -3,8 +3,9 @@ monsieurbiz_sylius_media_manager:
         cannot_upload_file: Cannot upload the file.
         max_file_size: The file is bigger than the max allowed size of {{ limit }} {{ suffix }}.
         invalid_mime_type:
-            audios: 'The chosen file is not an audio file (Allowed types: {{ types }}).'
-            images: 'The chosen file is not an image. (Allowed types: {{ types }}).'
-            videos: 'The chosen file is not a video. (Allowed types: {{ types }}).'
-            pdfs: 'The chosen file is not a PDF. (Allowed types: {{ types }}).'
+            audio: 'The chosen file is not an audio file (Allowed types: {{ types }}).'
+            image: 'The chosen file is not an image. (Allowed types: {{ types }}).'
+            video: 'The chosen file is not a video. (Allowed types: {{ types }}).'
+            pdf: 'The chosen file is not a PDF. (Allowed types: {{ types }}).'
             file: 'The chosen file is not a valid file (Allowed types: {{ types }}).'
+            favicon: 'The chosen file is not a favicon. (Allowed types: {{ types }}).'

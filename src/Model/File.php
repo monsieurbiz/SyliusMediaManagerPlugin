@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace MonsieurBiz\SyliusMediaManagerPlugin\Model;
 
-use MonsieurBiz\SyliusMediaManagerPlugin\Helper\FileHelperInterface;
+use MonsieurBiz\SyliusMediaManagerPlugin\Provider\MimeTypesProviderInterface;
 
 final class File implements FileInterface
 {
@@ -70,26 +70,26 @@ final class File implements FileInterface
 
     public function isImage(): bool
     {
-        return \in_array($this->mimeType, FileHelperInterface::IMAGE_TYPE_MIMES, true);
+        return \in_array($this->mimeType, MimeTypesProviderInterface::IMAGE_TYPE_MIMES, true);
     }
 
     public function isVideo(): bool
     {
-        return \in_array($this->mimeType, FileHelperInterface::VIDEO_TYPE_MIMES, true);
+        return \in_array($this->mimeType, MimeTypesProviderInterface::VIDEO_TYPE_MIMES, true);
     }
 
     public function isPdf(): bool
     {
-        return \in_array($this->mimeType, FileHelperInterface::PDF_TYPE_MIMES, true);
+        return \in_array($this->mimeType, MimeTypesProviderInterface::PDF_TYPE_MIMES, true);
     }
 
     public function isFavicon(): bool
     {
-        return \in_array($this->mimeType, FileHelperInterface::FAVICON_TYPE_MIMES, true);
+        return \in_array($this->mimeType, MimeTypesProviderInterface::FAVICON_TYPE_MIMES, true);
     }
 
     public function isAudio(): bool
     {
-        return \in_array($this->mimeType, FileHelperInterface::AUDIO_TYPE_MIMES, true);
+        return \in_array($this->mimeType, MimeTypesProviderInterface::AUDIO_TYPE_MIMES, true);
     }
 }

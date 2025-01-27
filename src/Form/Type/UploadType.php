@@ -53,6 +53,7 @@ final class UploadType extends AbstractType
             ])
             ->add('folder', TextType::class)
             ->add('path', TextType::class)
+            ->add('type', TextType::class)
         ;
     }
 

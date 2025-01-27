@@ -13,16 +13,19 @@ declare(strict_types=1);
 
 namespace MonsieurBiz\SyliusMediaManagerPlugin\Provider;
 
+use MonsieurBiz\SyliusMediaManagerPlugin\Helper\FileHelperInterface;
+
 final class MimeTypesProvider implements MimeTypesProviderInterface
 {
     public function getMimeTypesByType(?string $type): array
     {
         return match ($type) {
-            'images' => ['image/*'],
-            'audios' => ['audio/*'],
-            'videos' => ['video/*'],
-            'pdfs' => ['application/pdf'],
-            default => ['image/*', 'audio/*', 'video/*', 'application/pdf'],
+            FileHelperInterface::TYPE_IMAGE => self::IMAGE_TYPE_MIMES,
+            FileHelperInterface::TYPE_VIDEO => self::VIDEO_TYPE_MIMES,
+            FileHelperInterface::TYPE_PDF => self::PDF_TYPE_MIMES,
+            FileHelperInterface::TYPE_FAVICON => self::FAVICON_TYPE_MIMES,
+            FileHelperInterface::TYPE_AUDIO => self::AUDIO_TYPE_MIMES,
+            default => array_unique(array_merge(self::IMAGE_TYPE_MIMES, self::VIDEO_TYPE_MIMES, self::PDF_TYPE_MIMES, self::FAVICON_TYPE_MIMES, self::AUDIO_TYPE_MIMES)),
         };
     }
 }

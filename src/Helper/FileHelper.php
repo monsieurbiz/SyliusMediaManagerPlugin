@@ -25,6 +25,7 @@ use MonsieurBiz\SyliusMediaManagerPlugin\Exception\InvalidMimeTypeException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\InvalidTypeException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Model\File;
 use MonsieurBiz\SyliusMediaManagerPlugin\Model\FileInterface;
+use MonsieurBiz\SyliusMediaManagerPlugin\Provider\MimeTypesProviderInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Mime\MimeTypes;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -44,6 +45,7 @@ final class FileHelper implements FileHelperInterface
         private SluggerInterface $slugger,
         string $publicDirectory,
         string $mediaDirectory,
+        private MimeTypesProviderInterface $mimeTypesProvider,
     ) {
         $this->slugger = $slugger;
         $this->publicDirectory = rtrim($publicDirectory, '/');
@@ -147,37 +149,9 @@ final class FileHelper implements FileHelperInterface
         // Check mime types of the file depending on the wanted type
         $mimeTypes = new MimeTypes();
         $mimeType = (string) $mimeTypes->guessMimeType($file);
-        switch ($type) {
-            case FileHelperInterface::TYPE_IMAGE:
-                if (!\in_array($mimeType, FileHelperInterface::IMAGE_TYPE_MIMES, true)) {
-                    throw new InvalidMimeTypeException(FileHelperInterface::IMAGE_TYPE_MIMES, $mimeType);
-                }
-
-                break;
-            case FileHelperInterface::TYPE_VIDEO:
-                if (!\in_array($mimeType, FileHelperInterface::VIDEO_TYPE_MIMES, true)) {
-                    throw new InvalidMimeTypeException(FileHelperInterface::VIDEO_TYPE_MIMES, $mimeType);
-                }
-
-                break;
-            case FileHelperInterface::TYPE_PDF:
-                if (!\in_array($mimeType, FileHelperInterface::PDF_TYPE_MIMES, true)) {
-                    throw new InvalidMimeTypeException(FileHelperInterface::PDF_TYPE_MIMES, $mimeType);
-                }
-
-                break;
-            case FileHelperInterface::TYPE_FAVICON:
-                if (!\in_array($mimeType, FileHelperInterface::FAVICON_TYPE_MIMES, true)) {
-                    throw new InvalidMimeTypeException(FileHelperInterface::FAVICON_TYPE_MIMES, $mimeType);
-                }
-
-                break;
-            case FileHelperInterface::TYPE_AUDIO:
-                if (!\in_array($mimeType, FileHelperInterface::AUDIO_TYPE_MIMES, true)) {
-                    throw new InvalidMimeTypeException(FileHelperInterface::AUDIO_TYPE_MIMES, $mimeType);
-                }
-
-                break;
+        $allowedMimeTypes = $this->mimeTypesProvider->getMimeTypesByType($type);
+        if (!\in_array($mimeType, $allowedMimeTypes, true)) {
+            throw new InvalidMimeTypeException(MimeTypesProviderInterface::IMAGE_TYPE_MIMES, $mimeType);
         }
 
         return true;

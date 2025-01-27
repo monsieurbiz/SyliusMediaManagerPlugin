@@ -105,8 +105,8 @@ final class BrowserController extends AbstractController
         $path = (string) $request->request->get('path', '');
         $folder = (string) $request->request->get('folder', '');
 
-        // Type is last part of the folder to determine the allowed mime types and max size
-        $type = basename($folder);
+        // Type to determine the allowed mime types and max size
+        $type = (string) $request->request->get('type', '');
         $form = $this->createForm(UploadType::class, null, [
             'csrf_protection' => false,
             'type' => $type,

@@ -147,6 +147,19 @@
 
     function mediaUploadFile(fileInput, inputName, folder, path, mimeTypes)
     {
+        // Check input
+        let input = document.querySelector("input[name='" + inputName + "']");
+        if (!input) {
+            alert('{{ 'monsieurbiz_sylius_media_manager.error.cannot_find_input' | trans | escape('js') }}')
+            return;
+        }
+
+        // Check type of file given by the data attribute in form input
+        let type = input.getAttribute('data-file-type');
+        if (!type) {
+            alert('{{ 'monsieurbiz_sylius_media_manager.error.cannot_find_type' | trans | escape('js') }}')
+            return;
+        }
         let req = new XMLHttpRequest();
 
         let data = new FormData();
@@ -154,10 +167,12 @@
         data.append('folder', folder);
         data.append('path', path);
         data.append('file', fileInput.files[0]);
+        data.append('type', type);
 
         req.onload = function(progress) {
+            let response = this.responseText;
             try {
-              let response = JSON.parse(this.responseText);
+                response = JSON.parse(response);
             } catch (e) {}
             if (this.status === 200) {
                 monsieurbizSyliusMediaManagerRemoveLoaderModal();

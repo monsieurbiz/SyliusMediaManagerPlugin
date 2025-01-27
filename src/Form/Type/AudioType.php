@@ -19,6 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Webmozart\Assert\Assert;
 
 final class AudioType extends TextType
 {
@@ -35,9 +36,11 @@ final class AudioType extends TextType
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         parent::buildView($view, $form, $options);
+        $fileType = $options['file-type'];
+        Assert::string($fileType);
         $view->vars['folder'] = $options['folder'];
-        $view->vars['fileType'] = $options['file-type'];
-        $view->vars['mimeTypes'] = implode(',', $this->mimeTypesProvider->getMimeTypesByType('audios'));
+        $view->vars['fileType'] = $fileType;
+        $view->vars['mimeTypes'] = implode(',', $this->mimeTypesProvider->getMimeTypesByType($fileType));
     }
 
     public function configureOptions(OptionsResolver $resolver): void

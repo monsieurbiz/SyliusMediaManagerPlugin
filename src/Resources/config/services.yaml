@@ -1,10 +1,12 @@
 parameters:
     monsieurbiz_sylius_media_manager.default_max_file: '%env(resolve:MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_MAX_FILE_SIZE)%'
     monsieurbiz_sylius_media_manager.max_file_sizes:
-        images: '%env(default:monsieurbiz_sylius_media_manager.default_max_file:resolve:MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_MAX_FILE_SIZE_IMAGE)%'
-        audios: '%env(default:monsieurbiz_sylius_media_manager.default_max_file:resolve:MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_MAX_FILE_SIZE_AUDIO)%'
-        videos: '%env(default:monsieurbiz_sylius_media_manager.default_max_file:resolve:MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_MAX_FILE_SIZE_VIDEO)%'
-        pdfs: '%env(default:monsieurbiz_sylius_media_manager.default_max_file:resolve:MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_MAX_FILE_SIZE_PDF)%'
+        image: '%env(default:monsieurbiz_sylius_media_manager.default_max_file:resolve:MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_MAX_FILE_SIZE_IMAGE)%'
+        audio: '%env(default:monsieurbiz_sylius_media_manager.default_max_file:resolve:MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_MAX_FILE_SIZE_AUDIO)%'
+        video: '%env(default:monsieurbiz_sylius_media_manager.default_max_file:resolve:MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_MAX_FILE_SIZE_VIDEO)%'
+        pdf: '%env(default:monsieurbiz_sylius_media_manager.default_max_file:resolve:MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_MAX_FILE_SIZE_PDF)%'
+        favicon: '%env(default:monsieurbiz_sylius_media_manager.default_max_file:resolve:MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_MAX_FILE_SIZE_FAVICON)%'
+        file: '%env(default:monsieurbiz_sylius_media_manager.default_max_file:resolve:MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_MAX_FILE_SIZE_FILE)%'
 
 services:
     _defaults:
