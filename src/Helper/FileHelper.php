@@ -18,7 +18,6 @@ use MonsieurBiz\SyliusMediaManagerPlugin\Exception\CannotReadFolderException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileNotCreatedException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileNotDeletedException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileNotFoundException;
-use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileTooBigException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FolderNotCreatedException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FolderNotDeletedException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FolderNotRenamedException;
@@ -41,21 +40,15 @@ final class FileHelper implements FileHelperInterface
 
     private string $currentDirectory;
 
-    private string $maxFileSize;
-
-    private SluggerInterface $slugger;
-
     public function __construct(
-        SluggerInterface $slugger,
+        private SluggerInterface $slugger,
         string $publicDirectory,
         string $mediaDirectory,
-        string $maxFileSize
     ) {
         $this->slugger = $slugger;
         $this->publicDirectory = rtrim($publicDirectory, '/');
         $this->mediaDirectory = rtrim($publicDirectory, '/') . '/' . rtrim($mediaDirectory, '/');
         $this->currentDirectory = $this->mediaDirectory;
-        $this->maxFileSize = $maxFileSize;
     }
 
     public function getMediaPath(): string
@@ -216,12 +209,6 @@ final class FileHelper implements FileHelperInterface
             $filePath = $this->getFullPath($path) . '/' . $finalName;
         }
 
-        // Check file size
-        $maxAllowedSize = self::parseFilesize($this->maxFileSize);
-        if ($file->getSize() > $maxAllowedSize) {
-            throw new FileTooBigException($finalName, $file->getSize(), $maxAllowedSize, $this->maxFileSize);
-        }
-
         // File not uploaded or cannot be saved
         if (empty($file->getPathname()) || !@file_put_contents($filePath, $file->getContent())) {
             throw new FileNotCreatedException($finalName, $file->getErrorMessage());
@@ -335,42 +322,6 @@ final class FileHelper implements FileHelperInterface
         $path = trim($path, '.');
 
         return trim($path, '/');
-    }
-
-    /**
-     * Returns the given size from an ini value in bytes.
-     *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @SuppressWarnings(PHPMD.ElseExpression)
-     */
-    private static function parseFilesize(string $size): int
-    {
-        if ('' === $size) {
-            return 0;
-        }
-
-        $size = strtolower($size);
-
-        $max = ltrim($size, '+');
-        if (str_starts_with($max, '0x')) {
-            $max = \intval($max, 16);
-        } elseif (str_starts_with($max, '0')) {
-            $max = \intval($max, 8);
-        } else {
-            $max = (int) $max;
-        }
-
-        switch (substr($size, -1)) {
-            case 't': $max *= 1024;
-                // no break
-            case 'g': $max *= 1024;
-                // no break
-            case 'm': $max *= 1024;
-                // no break
-            case 'k': $max *= 1024;
-        }
-
-        return $max;
     }
 
     /**

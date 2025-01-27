@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace MonsieurBiz\SyliusMediaManagerPlugin\Helper;
 
+use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileNotCreatedException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Model\FileInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -86,6 +87,9 @@ interface FileHelperInterface
 
     public function isValid(string $type, string $path, ?string $folder = null): bool;
 
+    /**
+     * @throws FileNotCreatedException
+     */
     public function upload(UploadedFile $file, string $path, ?string $folder = null): string;
 
     public function createFolder(string $newFolder, string $path, ?string $folder = null): string;

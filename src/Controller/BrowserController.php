@@ -18,7 +18,6 @@ use MonsieurBiz\SyliusMediaManagerPlugin\Exception\CannotReadFolderException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileNotCreatedException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileNotDeletedException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileNotFoundException;
-use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileTooBigException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FolderNotCreatedException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FolderNotDeletedException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FolderNotRenamedException;
@@ -136,10 +135,6 @@ final class BrowserController extends AbstractController
 
         try {
             $fileName = $fileHelper->upload($file, $path, $folder);
-        } catch (FileTooBigException $e) {
-            return new JsonResponse([
-                'error' => $translator->trans('monsieurbiz_sylius_media_manager.error.max_file_size', ['%limit%' => $e->getMaxAllowedSize()]),
-            ], Response::HTTP_BAD_REQUEST);
         } catch (FileNotCreatedException $e) {
             return new JsonResponse([
                 'error' => $translator->trans('monsieurbiz_sylius_media_manager.error.cannot_upload_file') . ' ' . $e->getErrorMessage(),
