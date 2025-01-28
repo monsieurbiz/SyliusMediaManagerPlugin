@@ -1,8 +1,8 @@
 {% if file.isFile %}
-    <div 
-        class="description monsieurbiz-sylius-file-manager__new-folder-label ui button mini icon" 
-        style="max-width: 200px;" 
-        onclick="monsieurbizSyliusMediaManagerDeleteFile('{{ inputName | escape('js') }}', '{{ folder | escape('js')}}', '{{ file.path | escape('js')}}', '{{ 'monsieurbiz_sylius_media_manager.ui.delete_file_confirm' | trans({'%path%': file.name}) | escape('js')}}', '{{ 'monsieurbiz_sylius_media_manager.ui.delete_file_confirm_bis' | trans({'%path%': file.name}) | escape('js')}}')"
+    <div
+        class="description monsieurbiz-sylius-file-manager__new-folder-label ui button mini icon"
+        style="max-width: 200px;"
+        onclick="monsieurbizSyliusMediaManagerDeleteFile('{{ inputName | escape('js') }}', '{{ folder | escape('js')}}', '{{ file.path | escape('js')}}', '{{ 'monsieurbiz_sylius_media_manager.ui.delete_file_confirm' | trans({'%path%': file.name}) | escape('js')}}', '{{ 'monsieurbiz_sylius_media_manager.ui.delete_file_confirm_bis' | trans({'%path%': file.name}) | escape('js')}}', '{{ mimeTypes|escape('js') }}')"
     >
             <i class="trash icon"></i>
     </div>

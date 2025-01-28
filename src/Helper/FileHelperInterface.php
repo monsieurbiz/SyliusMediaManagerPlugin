@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace MonsieurBiz\SyliusMediaManagerPlugin\Helper;
 
+use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileNotCreatedException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Model\FileInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -39,44 +40,6 @@ interface FileHelperInterface
         self::TYPE_AUDIO,
     ];
 
-    public const IMAGE_TYPE_MIMES = [
-        'image/gif',
-        'image/jpeg',
-        'image/png',
-        'image/svg+xml',
-        'image/webp',
-        'image/avif',
-    ];
-
-    public const VIDEO_TYPE_MIMES = [
-        'video/mp4',
-        'video/mov',
-        'video/3gp',
-        'video/ogg',
-        'video/webm',
-    ];
-
-    public const PDF_TYPE_MIMES = [
-        'application/pdf',
-    ];
-
-    public const FAVICON_TYPE_MIMES = [
-        'image/vnd.microsoft.icon',
-        'image/x-icon',
-        'image/ico',
-        'image/svg+xml',
-        'image/gif',
-        'image/jpeg',
-        'image/png',
-    ];
-
-    public const AUDIO_TYPE_MIMES = [
-        'audio/mpeg',
-        'audio/mpeg3',
-        'audio/x-mpeg',
-        'audio/x-mpeg-3',
-    ];
-
     public function getMediaPath(): string;
 
     /**
@@ -86,6 +49,9 @@ interface FileHelperInterface
 
     public function isValid(string $type, string $path, ?string $folder = null): bool;
 
+    /**
+     * @throws FileNotCreatedException
+     */
     public function upload(UploadedFile $file, string $path, ?string $folder = null): string;
 
     public function createFolder(string $newFolder, string $path, ?string $folder = null): string;

@@ -18,7 +18,6 @@ use MonsieurBiz\SyliusMediaManagerPlugin\Exception\CannotReadFolderException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileNotCreatedException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileNotDeletedException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileNotFoundException;
-use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileTooBigException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FolderNotCreatedException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FolderNotDeletedException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FolderNotRenamedException;
@@ -26,6 +25,7 @@ use MonsieurBiz\SyliusMediaManagerPlugin\Exception\InvalidMimeTypeException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\InvalidTypeException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Model\File;
 use MonsieurBiz\SyliusMediaManagerPlugin\Model\FileInterface;
+use MonsieurBiz\SyliusMediaManagerPlugin\Provider\MimeTypesProviderInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Mime\MimeTypes;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -41,21 +41,16 @@ final class FileHelper implements FileHelperInterface
 
     private string $currentDirectory;
 
-    private string $maxFileSize;
-
-    private SluggerInterface $slugger;
-
     public function __construct(
-        SluggerInterface $slugger,
+        private SluggerInterface $slugger,
         string $publicDirectory,
         string $mediaDirectory,
-        string $maxFileSize
+        private MimeTypesProviderInterface $mimeTypesProvider,
     ) {
         $this->slugger = $slugger;
         $this->publicDirectory = rtrim($publicDirectory, '/');
         $this->mediaDirectory = rtrim($publicDirectory, '/') . '/' . rtrim($mediaDirectory, '/');
         $this->currentDirectory = $this->mediaDirectory;
-        $this->maxFileSize = $maxFileSize;
     }
 
     public function getMediaPath(): string
@@ -154,37 +149,9 @@ final class FileHelper implements FileHelperInterface
         // Check mime types of the file depending on the wanted type
         $mimeTypes = new MimeTypes();
         $mimeType = (string) $mimeTypes->guessMimeType($file);
-        switch ($type) {
-            case FileHelperInterface::TYPE_IMAGE:
-                if (!\in_array($mimeType, FileHelperInterface::IMAGE_TYPE_MIMES, true)) {
-                    throw new InvalidMimeTypeException(FileHelperInterface::IMAGE_TYPE_MIMES, $mimeType);
-                }
-
-                break;
-            case FileHelperInterface::TYPE_VIDEO:
-                if (!\in_array($mimeType, FileHelperInterface::VIDEO_TYPE_MIMES, true)) {
-                    throw new InvalidMimeTypeException(FileHelperInterface::VIDEO_TYPE_MIMES, $mimeType);
-                }
-
-                break;
-            case FileHelperInterface::TYPE_PDF:
-                if (!\in_array($mimeType, FileHelperInterface::PDF_TYPE_MIMES, true)) {
-                    throw new InvalidMimeTypeException(FileHelperInterface::PDF_TYPE_MIMES, $mimeType);
-                }
-
-                break;
-            case FileHelperInterface::TYPE_FAVICON:
-                if (!\in_array($mimeType, FileHelperInterface::FAVICON_TYPE_MIMES, true)) {
-                    throw new InvalidMimeTypeException(FileHelperInterface::FAVICON_TYPE_MIMES, $mimeType);
-                }
-
-                break;
-            case FileHelperInterface::TYPE_AUDIO:
-                if (!\in_array($mimeType, FileHelperInterface::AUDIO_TYPE_MIMES, true)) {
-                    throw new InvalidMimeTypeException(FileHelperInterface::AUDIO_TYPE_MIMES, $mimeType);
-                }
-
-                break;
+        $allowedMimeTypes = $this->mimeTypesProvider->getMimeTypesByType($type);
+        if (!\in_array($mimeType, $allowedMimeTypes, true)) {
+            throw new InvalidMimeTypeException(MimeTypesProviderInterface::IMAGE_TYPE_MIMES, $mimeType);
         }
 
         return true;
@@ -214,12 +181,6 @@ final class FileHelper implements FileHelperInterface
         while (file_exists($filePath)) {
             $finalName = \sprintf('%s_%d.%s', $fileName, $count++, $extension);
             $filePath = $this->getFullPath($path) . '/' . $finalName;
-        }
-
-        // Check file size
-        $maxAllowedSize = self::parseFilesize($this->maxFileSize);
-        if ($file->getSize() > $maxAllowedSize) {
-            throw new FileTooBigException($finalName, $file->getSize(), $maxAllowedSize, $this->maxFileSize);
         }
 
         // File not uploaded or cannot be saved
@@ -335,42 +296,6 @@ final class FileHelper implements FileHelperInterface
         $path = trim($path, '.');
 
         return trim($path, '/');
-    }
-
-    /**
-     * Returns the given size from an ini value in bytes.
-     *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @SuppressWarnings(PHPMD.ElseExpression)
-     */
-    private static function parseFilesize(string $size): int
-    {
-        if ('' === $size) {
-            return 0;
-        }
-
-        $size = strtolower($size);
-
-        $max = ltrim($size, '+');
-        if (str_starts_with($max, '0x')) {
-            $max = \intval($max, 16);
-        } elseif (str_starts_with($max, '0')) {
-            $max = \intval($max, 8);
-        } else {
-            $max = (int) $max;
-        }
-
-        switch (substr($size, -1)) {
-            case 't': $max *= 1024;
-                // no break
-            case 'g': $max *= 1024;
-                // no break
-            case 'm': $max *= 1024;
-                // no break
-            case 'k': $max *= 1024;
-        }
-
-        return $max;
     }
 
     /**

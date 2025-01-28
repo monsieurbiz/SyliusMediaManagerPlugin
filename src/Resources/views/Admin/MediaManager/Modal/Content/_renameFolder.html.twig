@@ -16,7 +16,7 @@
                     <input type="text" name="folder" class="ui field" style="max-width: 200px;height:28px;width: auto;"/>
                     <div
                             class="ui button mini"
-                            onclick="monsieurbizSyliusMediaManagerRenameFolder(this.parentNode.querySelector('input'), '{{ inputName | escape('js') }}', '{{ folder | escape('js')}}', '{{ path | escape('js')}}', '{{ 'monsieurbiz_sylius_media_manager.ui.rename_folder_confirm'| trans({'%path%': path}) | escape('js') }}', '{{ 'monsieurbiz_sylius_media_manager.ui.rename_folder_confirm_bis'| trans() }}')"
+                            onclick="monsieurbizSyliusMediaManagerRenameFolder(this.parentNode.querySelector('input'), '{{ inputName | escape('js') }}', '{{ folder | escape('js')}}', '{{ path | escape('js')}}', '{{ 'monsieurbiz_sylius_media_manager.ui.rename_folder_confirm'| trans({'%path%': path}) | escape('js') }}', '{{ 'monsieurbiz_sylius_media_manager.ui.rename_folder_confirm_bis'| trans() }}', '{{ mimeTypes|escape('js') }}')"
                     >
                         {{ 'monsieurbiz_sylius_media_manager.ui.rename' | trans }}
                     </div>

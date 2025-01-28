@@ -97,6 +97,13 @@ Use `MonsieurBiz\SyliusMediaManagerPlugin\Form\Type\FaviconType`
 
 Use `MonsieurBiz\SyliusMediaManagerPlugin\Form\Type\AudioType`
 
+## Configuration
+
+You can specify the default maximum file size allowed for the media manager by setting the `MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_MAX_FILE_SIZE` environment variable.
+
+Is it possible to define a maximum file size for each form type by define the `MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_MAX_FILE_SIZE_{TYPE}` environment variable.
+Example: `MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_MAX_FILE_SIZE_IMAGE=1M` will set the maximum file size for the image type to 1M.
+
 ## Contributing
 
 You can find a way to run the plugin without effort in the file [DEVELOPMENT.md](./DEVELOPMENT.md).
