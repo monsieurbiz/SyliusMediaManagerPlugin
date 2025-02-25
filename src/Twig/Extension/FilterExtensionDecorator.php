@@ -26,7 +26,8 @@ class FilterExtensionDecorator extends BaseFilterExtension
     public function __construct(
         CacheManager $cache,
         array $loaders,
-        string $publicDir
+        string $publicDir,
+        private array $excludeExtensions = ['svg', 'ico'],
     ) {
         parent::__construct($cache);
         $this->loaders = $loaders;
@@ -62,6 +63,9 @@ class FilterExtensionDecorator extends BaseFilterExtension
 
     private function canImageBeFiltered(string $path): bool
     {
-        return !str_ends_with($path, '.svg') && !str_ends_with($path, '.ico');
+        /** @var string $pathExtension */
+        $pathExtension = pathinfo($path, \PATHINFO_EXTENSION);
+
+        return !\in_array($pathExtension, $this->excludeExtensions, true);
     }
 }
