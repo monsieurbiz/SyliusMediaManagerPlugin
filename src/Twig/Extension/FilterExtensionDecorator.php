@@ -62,6 +62,6 @@ class FilterExtensionDecorator extends BaseFilterExtension
 
     private function canImageBeFiltered(string $path): bool
     {
-        return !str_ends_with($path, '.svg');
+        return !str_ends_with($path, '.svg') && !str_ends_with($path, '.ico');
     }
 }
