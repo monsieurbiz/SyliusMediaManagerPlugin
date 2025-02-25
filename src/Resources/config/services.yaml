@@ -7,6 +7,9 @@ parameters:
         pdf: '%env(default:monsieurbiz_sylius_media_manager.default_max_file:resolve:MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_MAX_FILE_SIZE_PDF)%'
         favicon: '%env(default:monsieurbiz_sylius_media_manager.default_max_file:resolve:MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_MAX_FILE_SIZE_FAVICON)%'
         file: '%env(default:monsieurbiz_sylius_media_manager.default_max_file:resolve:MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_MAX_FILE_SIZE_FILE)%'
+    monsieurbiz_sylius_media_manager.liip_imagine.exclude_extensions:
+        - 'svg'
+        - 'ico'
 
 services:
     _defaults:
@@ -48,3 +51,4 @@ services:
         arguments:
             $loaders: '%liip_imagine.loaders%'
             $publicDir: '%sylius_core.public_dir%'
+            $excludeExtensions: '%monsieurbiz_sylius_media_manager.liip_imagine.exclude_extensions%'
