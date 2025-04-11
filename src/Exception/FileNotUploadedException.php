@@ -15,18 +15,6 @@ namespace MonsieurBiz\SyliusMediaManagerPlugin\Exception;
 
 use Exception;
 
-final class FolderNotDeletedException extends Exception
+class FileNotUploadedException extends Exception
 {
-    private string $folder;
-
-    public function __construct(string $folder)
-    {
-        $this->folder = $folder;
-        parent::__construct(\sprintf('Folder `%s` couldn\'t be deleted', $folder));
-    }
-
-    public function getFolder(): string
-    {
-        return $this->folder;
-    }
 }
