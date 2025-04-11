@@ -1,0 +1,7 @@
+<a href="{{ get_media_manager_file_path(element.path) }}" target="_blank" rel="noopener noreferrer" >
+    {% if is_svg_image(element.path) %}
+        <img class="img-thumbnail" src="{{  get_media_manager_file_path(element.path) }}" alt="{{ element.path|escape('html_attr') }}" style="max-width: 300px; max-height: 30px; width: 100%" />
+    {% else %}
+        <img class="img-thumbnail" src="{{ element.path|imagine_filter('monsieurbiz_sylius_media_manager_uploaded_image') }}" alt="{{ element.path|escape('html_attr') }}" style="max-width: 300px;max-height: 30px;" />
+    {% endif %}
+</a>
