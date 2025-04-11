@@ -1,0 +1,29 @@
+<div {{ attributes }}>
+    {% if not loaded %}
+        <div class="spinner-border spinner-border-sm" role="status"></div>
+    {% else %}
+        {% if this.fileUploadError is not null %}
+            <div class="alert alert-danger w-100" role="alert">
+                {{ this.fileUploadError|trans(this.fileUploadErrorParameters) }}
+            </div>
+        {% endif %}
+        <div class="d-flex gap-1 align-items-center">
+            <div class="text-end">
+                <label for="uploadFile" >
+                    {{ 'monsieurbiz_sylius_media_manager.ui.upload_file_in_this_folder' | trans }} :
+                </label>
+            </div>
+            <div>
+                <div class="input-group">
+                    <input
+                        class="form-control{% if this.fileUploadError is not null %} is-invalid{% endif %}"
+                        type="file" id="uploadFile"
+                        name="file"
+                        data-action="change->live#action"
+                        data-live-action-param="files|upload"
+                    >
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
