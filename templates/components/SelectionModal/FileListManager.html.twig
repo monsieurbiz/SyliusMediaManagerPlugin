@@ -6,7 +6,7 @@
     {% else %}
         {% if this.fileList|length == 0 %}
             <div class="alert alert-info" role="alert">
-                This folder is empty. Upload file or create a new folder.
+                {{ 'monsieurbiz_sylius_media_manager.ui.empty_folder'|trans }}
             </div>
         {% else %}
             <div class="d-flex flex-column gap-2">
@@ -54,7 +54,6 @@
                                 {{ ux_icon('tabler:trash-x', {'class': 'icon text-danger'}) }}
                             </button>
                         {% endif %}
-
                     </div>
                 {% endfor %}
             </div>

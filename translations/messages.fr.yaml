@@ -8,6 +8,7 @@ monsieurbiz_sylius_media_manager:
         current_pdf: PDF actuel
         current_favicon: Icône actuelle
         current_audio: Fichier audio actuel
+        current_folder: Dossier courant
         choose_file: Choisir un fichier
         choose_image: Choisir une image
         choose_video: Choisir une vidéo
@@ -35,6 +36,7 @@ monsieurbiz_sylius_media_manager:
         remove_pdf: Retirer le PDF
         remove_favicon: Retirer l'icône
         remove_confirmation: Êtes-vous sûr de vouloir retirer cette valeur ? Le fichier ne sera pas supprimé du serveur.
+        empty_folder: Ce dossier est vide. Téléchargez un fichier ou créez un nouveau dossier.
     error:
         cannot_create_folder: Impossible de créer le dossier.
         cannot_delete_folder: Impossible de supprimer le dossier.

@@ -1,6 +1,6 @@
 <div {{ attributes.defaults({class: 'flex-fill'}) }} >
     <div class="d-flex">
-        <strong class="me-2">Current folder: </strong>
+        <strong class="me-2">{{ 'monsieurbiz_sylius_media_manager.ui.current_folder'|trans }} </strong>
         {%- if not loaded -%}
             <div class="spinner-border spinner-border-sm" role="status"></div>
         {%- else -%}
@@ -38,7 +38,7 @@
                             data-action="live#action"
                             data-live-action-param="renameDirectory"
                     >
-                        Rename
+                        {{ 'monsieurbiz_sylius_media_manager.ui.rename'|trans }}
                     </button>
                     <button
                             class="btn btn-outline-danger btn-sm"
@@ -46,7 +46,7 @@
                             data-action="live#action"
                             data-live-action-param="disabledDirectoryRenameMode"
                     >
-                        Cancel
+                        {{ 'monsieurbiz_sylius_media_manager.ui.cancel'|trans }}
                     </button>
                 </div>
             {%- endif -%}
@@ -61,7 +61,7 @@
                             data-action="live#action"
                             data-live-action-param="addSubDirectory"
                     >
-                        Add
+                        {{ 'monsieurbiz_sylius_media_manager.ui.create'|trans }}
                     </button>
                     <button
                             class="btn btn-outline-danger btn-sm"
@@ -69,7 +69,7 @@
                             data-action="live#action"
                             data-live-action-param="disabledDirectoryAddMode"
                     >
-                        Cancel
+                        {{ 'monsieurbiz_sylius_media_manager.ui.cancel'|trans }}
                     </button>
                 </div>
             {%- endif -%}
