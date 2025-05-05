@@ -17,7 +17,8 @@
                 <div class="input-group">
                     <input
                         class="form-control{% if this.fileUploadError is not null %} is-invalid{% endif %}"
-                        type="file" id="uploadFile"
+                        type="file"
+                        id="uploadFile"
                         name="file"
                         data-action="change->live#action"
                         data-live-action-param="files|upload"
