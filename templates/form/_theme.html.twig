@@ -1,4 +1,5 @@
 {% block monsieurbiz_sylius_media_manager_file_row %}
+    {{ form_label(form) }}
     <twig:MediaManager:FormField
         :inputName="form.vars.full_name"
         :fileType="fileType"
