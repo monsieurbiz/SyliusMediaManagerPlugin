@@ -53,7 +53,7 @@ readonly class FileFactory implements FileFactoryInterface
     public function createParentLinkFile(string $absoluteDirectoryPath): FileInterface
     {
         $file = new File();
-        $file->setName('...');
+        $file->setName('..');
         $file->setType(FileInterface::TYPE_FOLDER);
         $file->setLink(\dirname($absoluteDirectoryPath));
 
