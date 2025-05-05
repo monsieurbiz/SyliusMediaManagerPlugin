@@ -17,6 +17,8 @@ This plugin adds a media manager to your images, videos and other files type fie
 |----------------|-------------|
 | 2.0            | 8.2 - 8.3   |
 
+ℹ️ For Sylius 1.x, see our [1.x branch](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/tree/1.x) and all 1.x releases.
+
 ## Installation
 
 If you want to use our recipes, you can configure your composer.json by running:
