@@ -22,6 +22,7 @@
                         name="file"
                         data-action="change->live#action"
                         data-live-action-param="files|upload"
+                        accept="{{ this.mimeTypes|join(', ') }}"
                     >
                 </div>
             </div>
