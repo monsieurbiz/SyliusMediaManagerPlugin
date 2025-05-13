@@ -1,6 +1,0 @@
-sylius_ui:
-    events:
-        sylius.admin.layout.javascripts:
-            blocks:
-                monsieurbiz_sylius_media_manager_init_app:
-                    template: '@MonsieurBizSyliusMediaManagerPlugin/Admin/MediaManager/app.html.twig'

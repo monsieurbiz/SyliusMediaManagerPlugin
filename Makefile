@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := help
 SHELL=/bin/bash
 APP_DIR=tests/Application
-SYLIUS_VERSION=1.14.0
+SYLIUS_VERSION=2.0.0
 SYMFONY=cd ${APP_DIR} && symfony
 COMPOSER=symfony composer
 CONSOLE=${SYMFONY} console
@@ -78,6 +78,8 @@ setup_application:
 	$(MAKE) apply_dist
 	(cd ${APP_DIR} && ${COMPOSER} require --no-progress monsieurbiz/${PLUGIN_NAME}="*@dev")
 	rm -rf ${APP_DIR}/var/cache
+	mkdir -p ${APP_DIR}/public/media/gallery
+	cp -r fixtures/gallery/* ${APP_DIR}/public/media/gallery
 
 
 ${APP_DIR}/docker-compose.yaml:
@@ -136,13 +138,13 @@ test.container: ## Lint the symfony container
 	${CONSOLE} lint:container
 
 test.yaml: ## Lint the symfony Yaml files
-	${CONSOLE} lint:yaml ../../src/Resources/config --parse-tags
+	${CONSOLE} lint:yaml ../../config --parse-tags
 
 test.schema: ## Validate MySQL Schema
 	${CONSOLE} doctrine:schema:validate
 
 test.twig: ## Validate Twig templates
-	${CONSOLE} lint:twig --no-debug templates/ ../../src/Resources/views/
+	${CONSOLE} lint:twig --no-debug templates/ ../../templates/
 
 ###
 ### SYLIUS

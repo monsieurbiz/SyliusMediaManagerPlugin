@@ -1,0 +1,9 @@
+{% set form = hookable_metadata.context.form %}
+
+{{ form_row(form.code, sylius_test_form_attribute('code')) }}
+{{ form_row(form.imagePath) }}
+{{ form_row(form.videoPath) }}
+{{ form_row(form.pdfPath) }}
+{{ form_row(form.faviconPath) }}
+{{ form_row(form.audioPath) }}
+{{ form_row(form.filePath) }}

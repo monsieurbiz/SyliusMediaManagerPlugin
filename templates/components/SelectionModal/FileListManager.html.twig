@@ -1,0 +1,62 @@
+<div {{ attributes }}>
+    {% if not this.loaded %}
+        <div class="d-flex justify-content-center my-5">
+            <div class="spinner-border" role="status"></div>
+        </div>
+    {% else %}
+        {% if this.fileList|length == 0 %}
+            <div class="alert alert-info" role="alert">
+                {{ 'monsieurbiz_sylius_media_manager.ui.empty_folder'|trans }}
+            </div>
+        {% else %}
+            <div class="d-flex flex-column gap-2">
+                {% for element in this.fileList %}
+                    {% set typeTemplate = element.type ~ '.html.twig' %}
+                    {% set defaultTypeTemplate = constant('\\MonsieurBiz\\SyliusMediaManagerPlugin\\Model\\FileInterface::TYPE_FILE') ~ '.html.twig' %}
+
+                    <div class="d-flex gap-2 align-items-center">
+                        <div>
+                            {{ include([
+                                '@MonsieurBizSyliusMediaManagerPlugin/type/icon/_' ~ typeTemplate,
+                                '@MonsieurBizSyliusMediaManagerPlugin/type/icon/_' ~ defaultTypeTemplate,
+                            ]) }}
+                        </div>
+                        <div class="flex-fill">
+                            <a
+                                    class="text-decoration-none cursor-pointer"
+                                    {% if element.link is not null %}
+                                        data-action="live#action"
+                                        data-live-action-param="setCurrentDirectory"
+                                        data-live-absolute-directory-path-param="{{ element.link }}"
+                                    {% endif %}
+                                    {% if element.isSelectable %}
+                                        data-action="live#action"
+                                        data-live-action-param="selectFile"
+                                        data-live-file-path-param="{{ element.path }}"
+                                    {% endif %}
+                            >
+                                {{ element.name }}
+                            </a>
+                        </div>
+
+                        {{ include([
+                            '@MonsieurBizSyliusMediaManagerPlugin/type/preview/_' ~ typeTemplate,
+                            '@MonsieurBizSyliusMediaManagerPlugin/type/preview/_' ~ defaultTypeTemplate,
+                        ]) }}
+
+                        {% if element.isDeletable %}
+                            <button
+                                    class="btn btn-icon"
+                                    data-action="live#action"
+                                    data-live-action-param="deleteFile"
+                                    data-live-file-name-param="{{ element.name }}"
+                            >
+                                {{ ux_icon('tabler:trash-x', {'class': 'icon text-danger'}) }}
+                            </button>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endif %}
+</div>

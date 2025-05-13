@@ -13,11 +13,11 @@ This plugin adds a media manager to your images, videos and other files type fie
 
 ## Compatibility
 
-| Sylius Version | PHP Version     |
-|----------------|-----------------|
-| 1.12           | 8.1 - 8.2 - 8.3 |
-| 1.13           | 8.1 - 8.2 - 8.3 |
-| 1.14           | 8.1 - 8.2 - 8.3 |
+| Sylius Version | PHP Version |
+|----------------|-------------|
+| 2.0            | 8.2 - 8.3   |
+
+ℹ️ For Sylius 1.x, see our [1.x branch](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/tree/1.x) and all 1.x releases.
 
 ## Installation
 
@@ -96,6 +96,10 @@ Use `MonsieurBiz\SyliusMediaManagerPlugin\Form\Type\FaviconType`
 ### Audio
 
 Use `MonsieurBiz\SyliusMediaManagerPlugin\Form\Type\AudioType`
+
+### All the previous file types
+
+Use `MonsieurBiz\SyliusMediaManagerPlugin\Form\Type\FileType`
 
 ## Configuration
 

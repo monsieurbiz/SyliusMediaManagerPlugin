@@ -1,0 +1,79 @@
+<div {{ attributes.defaults({class: 'flex-fill'}) }} >
+    <div class="d-flex">
+        <strong class="me-2">{{ 'monsieurbiz_sylius_media_manager.ui.current_folder'|trans }} </strong>
+        {%- if not loaded -%}
+            <div class="spinner-border spinner-border-sm" role="status"></div>
+        {%- else -%}
+
+            <div>
+                {{- (this.currentParentDirectoryPath ~ (this.isDirectoryRenameMode ? '' : this.currentDirectoryName)) -}}
+            </div>
+
+            {%- if this.canRename == true and this.isEditionMode == false  -%}
+                <a
+                    class="text-sm cursor-pointer "
+                    data-action="live#action"
+                    data-live-action-param="enabledDirectoryRenameMode"
+                >
+                    {{ ux_icon('tabler:pencil') }}
+                </a>
+            {%- endif -%}
+
+            {%- if this.canAddSubfolder == true and this.isEditionMode == false  -%}
+                <a
+                    class="text-sm cursor-pointer ms-1"
+                    data-action="live#action"
+                    data-live-action-param="enabledDirectoryAddMode"
+                >
+                    {{ ux_icon('tabler:folder-plus') }}
+                </a>
+            {%- endif -%}
+
+            {%- if this.isDirectoryRenameMode == true -%}
+                <div class="input-group w-50">
+                    <input class="form-control form-control-sm" type="text" data-model="norender|directoryNewName"/>
+                    <button
+                            class="btn btn-outline-primary btn-sm"
+                            type="button"
+                            data-action="live#action"
+                            data-live-action-param="renameDirectory"
+                    >
+                        {{ 'monsieurbiz_sylius_media_manager.ui.rename'|trans }}
+                    </button>
+                    <button
+                            class="btn btn-outline-danger btn-sm"
+                            type="button"
+                            data-action="live#action"
+                            data-live-action-param="disabledDirectoryRenameMode"
+                    >
+                        {{ 'monsieurbiz_sylius_media_manager.ui.cancel'|trans }}
+                    </button>
+                </div>
+            {%- endif -%}
+
+            {%- if this.isDirectoryAddMode == true -%}
+                /
+                <div class="input-group w-50">
+                    <input class="form-control form-control-sm" type="text" placeholder="new subfolder name" data-model="norender|newDirectoryName"/>
+                    <button
+                            class="btn btn-outline-info btn-sm"
+                            type="button"
+                            data-action="live#action"
+                            data-live-action-param="addSubDirectory"
+                    >
+                        {{ 'monsieurbiz_sylius_media_manager.ui.create'|trans }}
+                    </button>
+                    <button
+                            class="btn btn-outline-danger btn-sm"
+                            type="button"
+                            data-action="live#action"
+                            data-live-action-param="disabledDirectoryAddMode"
+                    >
+                        {{ 'monsieurbiz_sylius_media_manager.ui.cancel'|trans }}
+                    </button>
+                </div>
+            {%- endif -%}
+        {%- endif -%}
+    </div>
+</div>
+
