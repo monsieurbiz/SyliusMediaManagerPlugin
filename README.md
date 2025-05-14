@@ -9,7 +9,9 @@
 
 This plugin adds a media manager to your images, videos and other files type fields in Sylius.
 
-![Demo of the media manager](docs/images/demo.gif)
+![Example of field display](docs/images/media-manager-product-medias.png)
+![Example of image listing](docs/images/media-manager-images.png)
+![Example of PDF listing](docs/images/media-manager-pdfs.png)
 
 ## Compatibility
 
