@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace MonsieurBiz\SyliusMediaManagerPlugin\Twig\Extension;
 
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileNotFoundException;
+use MonsieurBiz\SyliusMediaManagerPlugin\MonsieurBizSyliusMediaManagerPlugin;
 use MonsieurBiz\SyliusMediaManagerPlugin\Provider\MimeTypesProviderInterface;
 use MonsieurBiz\SyliusMediaManagerPlugin\Repository\FileRepositoryInterface;
 use MonsieurBiz\SyliusMediaManagerPlugin\Resolver\FilePathResolverInterface;
@@ -31,11 +32,20 @@ final class FileExtension extends AbstractExtension
 
     public function getFunctions(): array
     {
-        return [
+        $richEditorTwigExtension = $this->richEditorExtensionExists() ? [] : [
+            new TwigFunction('monsieurbiz_richeditor_get_media_without_upload_dir', [$this, 'getMediaWithoutUploadDir'], ['is_safe' => ['html', 'js']]),
+        ];
+
+        return array_merge([
             new TwigFunction('get_media_manager_file_path', [$this, 'getMediaManagerFilePath']),
             new TwigFunction('get_mime_type', [$this, 'getMimeType']),
             new TwigFunction('is_svg_image', [$this, 'isSvgImage']),
-        ];
+        ], $richEditorTwigExtension);
+    }
+
+    public function richEditorExtensionExists(): bool
+    {
+        return MonsieurBizSyliusMediaManagerPlugin::richEditorExtensionExists();
     }
 
     public function getMediaManagerFilePath(string $path): string
@@ -70,5 +80,11 @@ final class FileExtension extends AbstractExtension
     public function isSvgImage(string $relativeFilePath): bool
     {
         return \in_array($this->getMimeType($relativeFilePath), MimeTypesProviderInterface::SVG_TYPE_MIMES, true);
+    }
+
+    // Fallback for rich editor if not installed in project
+    public function getMediaWithoutUploadDir(string $path): string
+    {
+        return $path;
     }
 }
