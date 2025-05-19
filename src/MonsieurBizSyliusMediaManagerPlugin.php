@@ -24,4 +24,9 @@ final class MonsieurBizSyliusMediaManagerPlugin extends Bundle
     {
         return \dirname(__DIR__);
     }
+
+    public static function richEditorExtensionExists(): bool
+    {
+        return class_exists('MonsieurBiz\SyliusRichEditorPlugin\Twig\RichEditorExtension');
+    }
 }
