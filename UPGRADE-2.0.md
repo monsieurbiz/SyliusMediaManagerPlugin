@@ -18,3 +18,26 @@ you had to rename it as follows:
 * `FileValidatorInterface` for file validation
 
 If you use `FileHelper` service, you need to inject one of the service above instead.
+
+**Config**
+
+Change the file `config/packages/monsieurbiz_media_manager_plugin.yaml` with this content : 
+
+```yaml
+imports:
+    - { resource: "@MonsieurBizSyliusMediaManagerPlugin/config/config.yaml" }
+
+liip_imagine:
+    loaders:
+        sylius_image:
+            filesystem:
+                data_root:
+                    - "%sylius_core.public_dir%/media" # Add media folder
+
+twig:
+    form_themes: ['@MonsieurBizSyliusMediaManagerPlugin/form/_theme.html.twig']
+```
+
+**Remove old route file**
+
+Remove the file `config/routes/monsieurbiz_media_manager_plugin.yaml`
