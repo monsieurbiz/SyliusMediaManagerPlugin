@@ -21,7 +21,7 @@ use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 
-#[AsLiveComponent]
+#[AsLiveComponent(route: 'sylius_admin_live_component')]
 class DirectoryManager
 {
     use ComponentToolsTrait;

@@ -28,7 +28,7 @@ use Symfony\UX\LiveComponent\Attribute\LiveArg;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 
-#[AsLiveComponent]
+#[AsLiveComponent(route: 'sylius_admin_live_component')]
 final class FileListManager
 {
     use ComponentToolsTrait;

@@ -26,7 +26,7 @@ use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 
-#[AsLiveComponent]
+#[AsLiveComponent(route: 'sylius_admin_live_component')]
 class SelectionModal
 {
     use ComponentToolsTrait;
