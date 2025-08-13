@@ -97,5 +97,9 @@ class FormField
             return;
         }
         $this->filePath = $filePath;
+        $this->emit('media-manager:file-selected', [
+            'inputName' => $this->inputName,
+            'filePath' => $this->filePath,
+        ]);
     }
 }
