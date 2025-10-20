@@ -22,6 +22,7 @@ use MonsieurBiz\SyliusMediaManagerPlugin\Model\File;
 use MonsieurBiz\SyliusMediaManagerPlugin\Repository\FileRepositoryInterface;
 use MonsieurBiz\SyliusMediaManagerPlugin\Resolver\FilePathResolverInterface;
 use MonsieurBiz\SyliusMediaManagerPlugin\Validator\FileValidatorInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
@@ -50,6 +51,15 @@ final class FileListManager
     public ?string $relativeRootDirectoryPath = null;
 
     #[LiveProp]
+    public int $currentPage = 1;
+
+    #[LiveProp]
+    public int $itemsPerPage = 20;
+
+    #[LiveProp]
+    public int $totalItems = 0;
+
+    #[LiveProp]
     /**
      * @var File[]
      */
@@ -59,7 +69,10 @@ final class FileListManager
         private readonly FilePathResolverInterface $filePathResolver,
         private readonly FileRepositoryInterface $fileRepository,
         private readonly FileValidatorInterface $fileValidator,
+        #[Autowire(param: 'monsieurbiz_sylius_media_manager.pagination.items_per_page')]
+        int $defaultItemsPerPage = 20,
     ) {
+        $this->itemsPerPage = $defaultItemsPerPage;
     }
 
     public function __invoke(): void
@@ -70,9 +83,12 @@ final class FileListManager
 
         try {
             $relativeDirectoryPath = $this->filePathResolver->getRelativeFilePath($this->absoluteDirectoryPath);
+            $this->totalItems = $this->fileRepository->countFromPath($this->absoluteDirectoryPath);
             $this->fileList = $this->fileRepository->findAllFromPath(
                 $this->absoluteDirectoryPath,
-                $relativeDirectoryPath !== $this->relativeRootDirectoryPath
+                $relativeDirectoryPath !== $this->relativeRootDirectoryPath,
+                $this->currentPage,
+                $this->itemsPerPage,
             );
         } catch (CannotReadFolderException) {
             $this->emit('displayError', [
@@ -95,6 +111,7 @@ final class FileListManager
             'absoluteDirectoryPath' => $absoluteDirectoryPath,
         ], 'MediaManager:SelectionModal');
         $this->loaded = false;
+        $this->currentPage = 1; // Reset to first page when changing directory
     }
 
     /**
@@ -149,5 +166,81 @@ final class FileListManager
             'confirmedEventComposantName' => 'MediaManager:SelectionModal',
             'openModalAfterClose' => self::SELECTION_MODAL_NAME,
         ], 'MediaManager:ConfirmationModal');
+    }
+
+    #[LiveAction]
+    public function onFileDeleted(): void
+    {
+        // Refresh the file list and check if we need to go to previous page
+        $this->loaded = false;
+
+        // If current page becomes empty (except for first page), go to previous page
+        $totalPages = $this->getTotalPages();
+        if ($this->currentPage > 1 && $this->currentPage > $totalPages) {
+            $this->currentPage = max(1, $totalPages);
+        }
+    }
+
+    #[LiveAction]
+    public function changeItemsPerPage(#[LiveArg] int $itemsPerPage): void
+    {
+        $this->itemsPerPage = $itemsPerPage;
+        $this->currentPage = 1;
+        $this->loaded = false;
+        $this->__invoke();
+    }
+
+    #[LiveAction]
+    public function goToPage(#[LiveArg] int $page): void
+    {
+        $totalPages = $this->getTotalPages();
+        if ($page < 1) {
+            $page = 1;
+        } elseif ($page > $totalPages) {
+            $page = $totalPages;
+        }
+
+        $this->currentPage = $page;
+        $this->loaded = false;
+    }
+
+    #[LiveAction]
+    public function previousPage(): void
+    {
+        if ($this->currentPage > 1) {
+            --$this->currentPage;
+            $this->loaded = false;
+            $this->__invoke();
+        }
+    }
+
+    #[LiveAction]
+    public function nextPage(): void
+    {
+        if ($this->currentPage < $this->getTotalPages()) {
+            ++$this->currentPage;
+            $this->loaded = false;
+            $this->__invoke();
+        }
+    }
+
+    public function getTotalPages(): int
+    {
+        return (int) ceil($this->totalItems / $this->itemsPerPage);
+    }
+
+    public function hasMultiplePages(): bool
+    {
+        return $this->getTotalPages() > 1;
+    }
+
+    public function hasPreviousPage(): bool
+    {
+        return $this->currentPage > 1;
+    }
+
+    public function hasNextPage(): bool
+    {
+        return $this->currentPage < $this->getTotalPages();
     }
 }
