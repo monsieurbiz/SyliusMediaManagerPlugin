@@ -57,6 +57,78 @@
                     </div>
                 {% endfor %}
             </div>
+            
+            {% if this.hasMultiplePages or this.totalItems > 10 %}
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    {% if this.totalItems > 10 %}
+                        <div class="d-flex align-items-center gap-2">
+                            <small class="text-muted">{{ 'monsieurbiz_sylius_media_manager.ui.items_per_page'|trans }}:</small>
+                            <div class="btn-group" role="group">
+                                <button 
+                                    type="button" 
+                                    class="btn btn-sm {% if this.itemsPerPage == 10 %}btn-primary{% else %}btn-outline-secondary{% endif %}"
+                                    data-action="live#action"
+                                    data-live-action-param="changeItemsPerPage"
+                                    data-live-items-per-page-param="10"
+                                >10</button>
+                                <button 
+                                    type="button" 
+                                    class="btn btn-sm {% if this.itemsPerPage == 20 %}btn-primary{% else %}btn-outline-secondary{% endif %}"
+                                    data-action="live#action"
+                                    data-live-action-param="changeItemsPerPage"
+                                    data-live-items-per-page-param="20"
+                                >20</button>
+                                <button 
+                                    type="button" 
+                                    class="btn btn-sm {% if this.itemsPerPage == 50 %}btn-primary{% else %}btn-outline-secondary{% endif %}"
+                                    data-action="live#action"
+                                    data-live-action-param="changeItemsPerPage"
+                                    data-live-items-per-page-param="50"
+                                >50</button>
+                                <button 
+                                    type="button" 
+                                    class="btn btn-sm {% if this.itemsPerPage == 100 %}btn-primary{% else %}btn-outline-secondary{% endif %}"
+                                    data-action="live#action"
+                                    data-live-action-param="changeItemsPerPage"
+                                    data-live-items-per-page-param="100"
+                                >100</button>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div></div>
+                    {% endif %}
+                    
+                    {% if this.hasMultiplePages %}
+                        <div class="d-flex justify-content-center align-items-center gap-2">
+                            <button
+                                class="btn btn-sm btn-outline-secondary"
+                                data-action="live#action"
+                                data-live-action-param="previousPage"
+                                {% if not this.hasPreviousPage %}disabled{% endif %}
+                            >
+                                {{ ux_icon('tabler:chevron-left') }}
+                            </button>
+                            
+                            <span class="text-muted small">
+                                {{ 'monsieurbiz_sylius_media_manager.ui.pagination_info'|trans({
+                                    '%current%': this.currentPage,
+                                    '%total%': this.totalPages,
+                                    '%items%': this.totalItems
+                                }) }}
+                            </span>
+                            
+                            <button
+                                class="btn btn-sm btn-outline-secondary"
+                                data-action="live#action"
+                                data-live-action-param="nextPage"
+                                {% if not this.hasNextPage %}disabled{% endif %}
+                            >
+                                {{ ux_icon('tabler:chevron-right') }}
+                            </button>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
         {% endif %}
     {% endif %}
 </div>

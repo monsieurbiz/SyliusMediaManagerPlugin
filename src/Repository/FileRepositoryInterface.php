@@ -26,7 +26,12 @@ interface FileRepositoryInterface
      *
      * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
      */
-    public function findAllFromPath(string $absoluteDirectoryPath, bool $withParentLink = true): array;
+    public function findAllFromPath(string $absoluteDirectoryPath, bool $withParentLink = true, int $page = 1, int $itemsPerPage = 20): array;
+
+    /**
+     * @throws CannotReadFolderException
+     */
+    public function countFromPath(string $absoluteDirectoryPath): int;
 
     /**
      * @throws FileNotFoundException

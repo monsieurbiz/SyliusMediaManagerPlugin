@@ -37,6 +37,8 @@ monsieurbiz_sylius_media_manager:
         remove_favicon: Retirer l'icône
         remove_confirmation: Êtes-vous sûr de vouloir retirer cette valeur ? Le fichier ne sera pas supprimé du serveur.
         empty_folder: Ce dossier est vide. Téléchargez un fichier ou créez un nouveau dossier.
+        pagination_info: 'Page %current% sur %total% (%items% éléments)'
+        items_per_page: 'Éléments par page'
     error:
         cannot_create_folder: Impossible de créer le dossier.
         cannot_delete_folder: Impossible de supprimer le dossier.

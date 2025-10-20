@@ -31,9 +31,14 @@ readonly class FileRepository implements FileRepositoryInterface
      * @inheritDoc
      *
      * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    public function findAllFromPath(string $absoluteDirectoryPath, bool $withParentLink = true): array
-    {
+    public function findAllFromPath(
+        string $absoluteDirectoryPath,
+        bool $withParentLink = true,
+        int $page = 1,
+        int $itemsPerPage = 20,
+    ): array {
         $elements = [];
 
         if (!is_dir($absoluteDirectoryPath)) {
@@ -44,12 +49,40 @@ readonly class FileRepository implements FileRepositoryInterface
             $elements[] = $this->fileFactory->createParentLinkFile($absoluteDirectoryPath);
         }
 
-        $list = (new Finder())->in($absoluteDirectoryPath)->depth(0)->sortByName();
+        $list = (new Finder())->in($absoluteDirectoryPath)->depth(0);
+        $allFiles = [];
         foreach ($list as $file) {
-            $elements[] = $this->fileFactory->createFromSplFileInfo($file);
+            $allFiles[] = $this->fileFactory->createFromSplFileInfo($file);
         }
 
-        return $elements;
+        // Put folders before files then sort by name case insensitive
+        usort(
+            $allFiles,
+            static fn (FileInterface $fileA, FileInterface $fileB): int => (
+                FileInterface::TYPE_FOLDER === $fileA->getType() ? 0 : 1
+            ) <=> (FileInterface::TYPE_FOLDER === $fileB->getType() ? 0 : 1)
+            ?: strcasecmp($fileA->getName(), $fileB->getName())
+        );
+
+        // Apply pagination
+        $offset = ($page - 1) * $itemsPerPage;
+        $paginatedFiles = \array_slice($allFiles, $offset, $itemsPerPage);
+
+        return array_merge($elements, $paginatedFiles);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function countFromPath(string $absoluteDirectoryPath): int
+    {
+        if (!is_dir($absoluteDirectoryPath)) {
+            throw new CannotReadFolderException($absoluteDirectoryPath);
+        }
+
+        $list = (new Finder())->in($absoluteDirectoryPath)->depth(0);
+
+        return $list->count();
     }
 
     /**
