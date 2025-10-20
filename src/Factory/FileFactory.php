@@ -35,14 +35,14 @@ readonly class FileFactory implements FileFactoryInterface
     {
         $deletable = true;
         if (true === $splFileInfo->isDir()) {
-            $deletable = 0 >= (new Finder())->in($splFileInfo->getRealPath())->files()->count();
+            $deletable = 0 >= (new Finder())->in($splFileInfo->getRealPath())->depth(0)->files()->count();
         }
 
         $file = new File();
         $file->setName($splFileInfo->getFilename());
         $file->setType($splFileInfo->isDir() ? FileInterface::TYPE_FOLDER : $this->fileMetadataResolver->getType($splFileInfo->getRealPath()));
         $file->setMimeType($splFileInfo->isDir() ? null : $this->fileMetadataResolver->getMimeType($splFileInfo->getRealPath()));
-        $file->setlink($splFileInfo->isDir() ? ($splFileInfo->getRealPath() ?: null) : null);
+        $file->setLink($splFileInfo->isDir() ? ($splFileInfo->getRealPath() ?: null) : null);
         $file->setPath($this->filePathResolver->getRelativeFilePath($splFileInfo->getRealPath()));
         $file->setDeletable($deletable);
         $file->setSelectable(!$splFileInfo->isDir());
