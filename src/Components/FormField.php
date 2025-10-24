@@ -27,25 +27,25 @@ class FormField
     use ComponentToolsTrait;
     use DefaultActionTrait;
 
-    #[LiveProp]
+    #[LiveProp(updateFromParent: true)]
     public string $inputName;
 
-    #[LiveProp]
+    #[LiveProp(updateFromParent: true)]
     public string $fileType;
 
-    #[LiveProp]
+    #[LiveProp(updateFromParent: true)]
     public string $filePath;
 
-    #[LiveProp]
+    #[LiveProp(updateFromParent: true)]
     public string $baseFolderPath;
 
-    #[LiveProp]
+    #[LiveProp(updateFromParent: true)]
     public array $mimeTypes;
 
-    #[LiveProp]
+    #[LiveProp(updateFromParent: true)]
     public string $maxFileSize;
 
-    #[LiveProp]
+    #[LiveProp(updateFromParent: true)]
     public array $extraParams;
 
     #[LiveAction]
