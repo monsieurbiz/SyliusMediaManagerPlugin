@@ -1,0 +1,11 @@
+monsieurbiz_sylius_media_manager:
+    error:
+        cannot_upload_file: Die Datei kann nicht hochgeladen werden.
+        max_file_size: Die Datei ist größer als die maximal zulässige Größe von {{ limit }} {{ suffix }}.
+        invalid_mime_type:
+            audio: 'Die ausgewählte Datei ist keine Audiodatei (erlaubte Typen: {{ types }}).'
+            image: 'Die ausgewählte Datei ist kein Bild (erlaubte Typen: {{ types }}).'
+            video: 'Die ausgewählte Datei ist kein Video (erlaubte Typen: {{ types }}).'
+            pdf: 'Die ausgewählte Datei ist kein PDF (erlaubte Typen: {{ types }}).'
+            file: 'Die ausgewählte Datei ist keine gültige Datei (erlaubte Typen: {{ types }}).'
+            favicon: 'Die ausgewählte Datei ist kein Favicon (erlaubte Typen: {{ types }}).'
