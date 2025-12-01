@@ -48,7 +48,7 @@ return [
 ];
 ```
 
-Copy the plugin configuration files in your `config` folder: https://github.com/monsieurbiz/symfony-recipes/tree/master/monsieurbiz/sylius-media-manager-plugin/1.0/config
+Copy the plugin configuration files in your `config` folder: https://github.com/monsieurbiz/symfony-recipes/tree/master/monsieurbiz/sylius-media-manager-plugin/3.0/config
 
 Add these variables to your `.env` :
 

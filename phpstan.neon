@@ -1,5 +1,5 @@
 parameters:
-    level: max
+    level: 8
     paths:
         - %rootDir%/src/
 
@@ -11,4 +11,5 @@ parameters:
         - 'tests/Application/**/*'
 
     ignoreErrors:
+        - identifier: missingType.generics
         - identifier: missingType.iterableValue

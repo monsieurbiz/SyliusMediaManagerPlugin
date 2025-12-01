@@ -18,14 +18,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 final class Configuration implements ConfigurationInterface
 {
-    /**
-     * @inheritdoc
-     */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('monsieurbiz_sylius_media_manager');
-        $treeBuilder->getRootNode();
-
-        return $treeBuilder;
+        return new TreeBuilder('monsieurbiz_sylius_media_manager');
     }
 }

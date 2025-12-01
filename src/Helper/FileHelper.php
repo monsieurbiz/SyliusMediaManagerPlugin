@@ -148,15 +148,15 @@ final class FileHelper implements FileHelperInterface
         }
 
         // Sort files: folders first, then by name (case insensitive)
-        usort($files, function (File $a, File $b) {
-            if ($a->isDir() && !$b->isDir()) {
+        usort($files, function (File $first, File $second) {
+            if ($first->isDir() && !$second->isDir()) {
                 return -1;
             }
-            if (!$a->isDir() && $b->isDir()) {
+            if (!$first->isDir() && $second->isDir()) {
                 return 1;
             }
 
-            return strcasecmp($a->getName(), $b->getName());
+            return strcasecmp($first->getName(), $second->getName());
         });
 
         return $files;
