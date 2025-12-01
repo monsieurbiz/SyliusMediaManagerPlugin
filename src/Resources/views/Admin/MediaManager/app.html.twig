@@ -33,9 +33,15 @@
         let field = input.closest('.monsieurbiz-sylius-file-manager__field');
         if (field) {
             // Hide current file
-            field.querySelector('.monsieurbiz-sylius-file-manager__current').style.display = 'none';
+            let currentElement = field.querySelector('.monsieurbiz-sylius-file-manager__current');
+            if (currentElement) {
+                currentElement.classList.add('d-none');
+            }
             // Hide remove button
-            field.querySelector('.monsieurbiz-sylius-file-manager__button-remove').style.display = 'none';
+            let removeButton = field.querySelector('.monsieurbiz-sylius-file-manager__button-remove');
+            if (removeButton) {
+                removeButton.classList.add('d-none');
+            }
         }
     }
 
@@ -50,9 +56,27 @@
         });
         req.onload = function(progress) {
             if (this.status === 200) {
-                $('.monsieurbiz-sylius-file-manager__modal').remove();
+                // Remove existing modals
+                document.querySelectorAll('.monsieurbiz-sylius-file-manager__modal').forEach(el => el.remove());
                 monsieurbizSyliusMediaManagerRemoveLoaderModal();
-                $(this.responseText).modal({duration: 0,inverted: true,blurring: true}).modal('show');
+                
+                // Create modal element and append to body
+                let tempDiv = document.createElement('div');
+                tempDiv.innerHTML = this.responseText;
+                let modalElement = tempDiv.firstElementChild;
+                modalElement.id = 'monsieurbiz-sylius-media-manager-modal-' + Date.now();
+                document.body.appendChild(modalElement);
+                
+                // Create and show Bootstrap modal
+                let bsModal = new window.bootstrap.Modal(modalElement, {
+                    backdrop: true,
+                    keyboard: true,
+                    focus: true
+                });
+                bsModal.show();
+                
+                // Store modal instance for later use
+                modalElement.bsModalInstance = bsModal;
             } else {
                 alert(this.responseText);
                 monsieurbizSyliusMediaManagerRemoveLoaderModal();
@@ -98,14 +122,14 @@
                     if (imageField) {
                         let imageElement = imageField.querySelector('img');
                         imageElement.src = '/media/' + (folder ? (folder + '/') : '') + path; // @TODO do better
-                        imageElement.closest('.monsieurbiz-sylius-file-manager__current').style.display = 'block';
+                        imageElement.closest('.monsieurbiz-sylius-file-manager__current').classList.remove('d-none');
                     }
 
                     let videoField = input.closest('.monsieurbiz-sylius-file-manager__video-field');
                     if (videoField) {
                         let videoElement = videoField.querySelector('video');
                         videoElement.src = '/media/' + (folder ? (folder + '/') : '') + path; // @TODO do better
-                        videoElement.closest('.monsieurbiz-sylius-file-manager__current').style.display = 'block';
+                        videoElement.closest('.monsieurbiz-sylius-file-manager__current').classList.remove('d-none');
                     }
 
                     let fileField = input.closest('.monsieurbiz-sylius-file-manager__file-field');
@@ -113,7 +137,7 @@
                         let fileElement = fileField.querySelector('a');
                         fileElement.href = '/media/' + (folder ? (folder + '/') : '') + path; // @TODO do better
                         fileElement.innerHTML = (folder ? (folder + '/') : '') + path;// @TODO do better
-                        fileElement.closest('.monsieurbiz-sylius-file-manager__current').style.display = 'block';
+                        fileElement.closest('.monsieurbiz-sylius-file-manager__current').classList.remove('d-none');
                     }
 
                     let audioField = input.closest('.monsieurbiz-sylius-file-manager__audio-field');
@@ -122,7 +146,7 @@
                         let audioLinkElement = audioElement.querySelector('a');
                         audioElement.src = '/media/' + (folder ? (folder + '/') : '') + path; // @TODO do better
                         audioLinkElement.href = '/media/' + (folder ? (folder + '/') : '') + path; // @TODO do better
-                        audioElement.closest('.monsieurbiz-sylius-file-manager__current').style.display = 'block';
+                        audioElement.closest('.monsieurbiz-sylius-file-manager__current').classList.remove('d-none');
                     }
 
                     let field = input.closest('.monsieurbiz-sylius-file-manager__field');
@@ -130,7 +154,7 @@
                         // Show remove button
                         let removeButton = field.querySelector('.monsieurbiz-sylius-file-manager__button-remove');
                         if (removeButton) {
-                            removeButton.style.display = 'initial';
+                            removeButton.classList.remove('d-none');
                         }
                     }
                 }
@@ -301,23 +325,50 @@
 
     function monsieurbizSyliusMediaManagerCloseModal()
     {
-        $('.monsieurbiz-sylius-file-manager__modal').modal('hide');
-        setTimeout(() => {
-            $('.monsieurbiz-sylius-file-manager__modal').remove();
-        }, 1000);
+        let modalElement = document.querySelector('.monsieurbiz-sylius-file-manager__modal');
+        if (modalElement) {
+            let bsModal = modalElement.bsModalInstance || window.bootstrap.Modal.getInstance(modalElement);
+            if (bsModal) {
+                bsModal.hide();
+            }
+        }
+        
+        // Force cleanup immediately and with timeout
+        const cleanup = () => {
+            // Remove modal elements
+            document.querySelectorAll('.monsieurbiz-sylius-file-manager__modal').forEach(el => el.remove());
+            // Remove Bootstrap backdrop
+            document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+            // Remove modal-open class from body
+            document.body.classList.remove('modal-open');
+            // Reset body style completely
+            document.body.style.overflow = '';
+            document.body.style.paddingRight = '';
+            document.body.style.removeProperty('overflow');
+            document.body.style.removeProperty('padding-right');
+            // Force scroll restoration
+            document.documentElement.style.overflow = '';
+            document.documentElement.style.removeProperty('overflow');
+        };
+        
+        cleanup();
+        setTimeout(cleanup, 100);
+        setTimeout(cleanup, 300);
     }
 
     function monsieurbizSyliusMediaManagerAddLoaderModal()
     {
         document.querySelectorAll('.monsieurbiz-sylius-file-manager__loader').forEach(function(modal) {
-            modal.classList.add('active');
+            modal.classList.remove('d-none');
+            modal.classList.add('d-flex');
         });
     }
 
     function monsieurbizSyliusMediaManagerRemoveLoaderModal()
     {
         document.querySelectorAll('.monsieurbiz-sylius-file-manager__loader').forEach(function(modal) {
-            modal.classList.remove('active');
+            modal.classList.add('d-none');
+            modal.classList.remove('d-flex');
         });
     }
 </script>
