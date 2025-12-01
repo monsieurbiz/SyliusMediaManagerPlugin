@@ -1,0 +1,6 @@
+sylius_twig_hooks:
+    hooks:
+        sylius_admin.base#javascripts:
+            media_manager_javascripts:
+                template: '@MonsieurBizSyliusMediaManagerPlugin/Admin/MediaManager/app.html.twig'
+                priority: -200
