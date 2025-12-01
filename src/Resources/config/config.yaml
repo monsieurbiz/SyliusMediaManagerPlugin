@@ -1,0 +1,4 @@
+imports:
+    - { resource: 'images.yaml' }
+    - { resource: 'services.yaml' }
+    - { resource: 'ui.yaml' }

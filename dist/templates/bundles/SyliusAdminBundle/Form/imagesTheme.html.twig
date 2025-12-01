@@ -1,0 +1,20 @@
+{% extends '@SyliusUi/Form/imagesTheme.html.twig' %}
+
+{% block sylius_product_image_widget %}
+    {{ block('sylius_image_widget') }}
+
+    {% apply spaceless %}
+        {% if product.id is not null and 0 != product.variants|length and not product.simple %}
+            <br/>
+            {{ form_row(form.productVariants, {'remote_url': path('sylius_admin_ajax_product_variants_by_phrase', {'productCode': product.code}), 'remote_criteria_type': 'contains', 'remote_criteria_name': 'phrase', 'load_edit_url': path('sylius_admin_ajax_product_variants_by_codes', {'productCode': product.code})}) }}
+        {% endif %}
+    {% endapply %}
+{% endblock %}
+
+{# Change sylius_image_widget display to use the `path` used by Media Manager #}
+{% block sylius_image_widget %}
+    {% apply spaceless %}
+        {{ form_row(form.type) }}
+        {{ form_row(form.path) }}
+    {% endapply %}
+{% endblock %}

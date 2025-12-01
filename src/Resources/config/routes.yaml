@@ -1,0 +1,3 @@
+monsieurbiz_sylius_media_manager_admin:
+    resource: 'routes/admin.yaml'
+    prefix: '/%sylius_admin.path_name%'

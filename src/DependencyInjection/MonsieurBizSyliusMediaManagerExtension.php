@@ -16,29 +16,25 @@ namespace MonsieurBiz\SyliusMediaManagerPlugin\DependencyInjection;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
-use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-final class MonsieurBizSyliusMediaManagerExtension extends Extension implements PrependExtensionInterface
+final class MonsieurBizSyliusMediaManagerExtension extends Extension
 {
     /**
      * @inheritdoc
      */
     public function load(array $config, ContainerBuilder $container): void
     {
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
+        $this->processConfiguration($this->getConfiguration([], $container), $config);
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yaml');
     }
 
-    public function prepend(ContainerBuilder $container): void
+    /**
+     * @inheritdoc
+     */
+    public function getAlias(): string
     {
-        $container->prependExtensionConfig('twig_component', [
-            'defaults' => [
-                'MonsieurBiz\SyliusMediaManagerPlugin\Components\\' => [
-                    'template_directory' => '@MonsieurBizSyliusMediaManagerPlugin/components/',
-                    'name_prefix' => 'MediaManager',
-                ],
-            ],
-        ]);
+        return str_replace('monsieur_biz', 'monsieurbiz', parent::getAlias());
     }
 }

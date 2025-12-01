@@ -1,8 +1,0 @@
-{% set soundId = random() %}
-<audio id="{{ soundId }}" src="{{ element.path ? get_media_manager_file_path(element.path) : '' }}" preload="auto"></audio>
-<button
-    class="btn btn-icon"
-    onclick="document.getElementById('{{ soundId }}').play();"
->
-    {{ ux_icon('tabler:play') }}
-</button>
