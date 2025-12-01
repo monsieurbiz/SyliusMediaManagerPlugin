@@ -8,9 +8,116 @@
             </div>
         </div>
     </div>
+    
+    <!-- Pagination contrôles (items per page) -->
+    {% if totalItems > 10 %}
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">
+                    {% set startItem = (currentPage - 1) * itemsPerPage + 1 %}
+                    {% set endItem = min(currentPage * itemsPerPage, totalItems) %}
+                    {{ 'monsieurbiz_sylius_media_manager.ui.showing_items'|trans({'%start%': startItem, '%end%': endItem, '%total%': totalItems})|default('Affichage de ' ~ startItem ~ ' à ' ~ endItem ~ ' sur ' ~ totalItems ~ ' éléments') }}
+                </small>
+                <div class="d-flex align-items-center gap-2">
+                    <span class="small">Éléments par page:</span>
+                    <div class="btn-group btn-group-sm">
+                        <button type="button" class="btn btn-sm {% if itemsPerPage == 10 %}btn-primary{% else %}btn-outline-secondary{% endif %}"
+                                onclick="changeItemsPerPage('{{ inputName|e('js') }}', '{{ folder|e('js') }}', '{{ path|e('js') }}', '{{ mimeTypes|e('js') }}', 10)">10</button>
+                        <button type="button" class="btn btn-sm {% if itemsPerPage == 20 %}btn-primary{% else %}btn-outline-secondary{% endif %}"
+                                onclick="changeItemsPerPage('{{ inputName|e('js') }}', '{{ folder|e('js') }}', '{{ path|e('js') }}', '{{ mimeTypes|e('js') }}', 20)">20</button>
+                        <button type="button" class="btn btn-sm {% if itemsPerPage == 50 %}btn-primary{% else %}btn-outline-secondary{% endif %}"
+                                onclick="changeItemsPerPage('{{ inputName|e('js') }}', '{{ folder|e('js') }}', '{{ path|e('js') }}', '{{ mimeTypes|e('js') }}', 50)">50</button>
+                        <button type="button" class="btn btn-sm {% if itemsPerPage == 100 %}btn-primary{% else %}btn-outline-secondary{% endif %}"
+                                onclick="changeItemsPerPage('{{ inputName|e('js') }}', '{{ folder|e('js') }}', '{{ path|e('js') }}', '{{ mimeTypes|e('js') }}', 100)">100</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
     <div class="row">
         <div class="col-12">
             {% include '@MonsieurBizSyliusMediaManagerPlugin/Admin/MediaManager/Modal/Content/_files.html.twig' %}
         </div>
     </div>
+    
+    <!-- Navigation de pagination -->
+    {% if totalPages > 1 %}
+    <div class="row mt-3">
+        <div class="col-12">
+            <nav aria-label="File pagination">
+                <ul class="pagination pagination-sm justify-content-center mb-0">
+                    <!-- Page précédente -->
+                    <li class="page-item {% if currentPage == 1 %}disabled{% endif %}">
+                        {% if currentPage == 1 %}
+                            <span class="page-link">
+                                {{ ux_icon('tabler:chevron-left') }}
+                            </span>
+                        {% else %}
+                            <button type="button" class="page-link" 
+                                    onclick="changePage('{{ inputName|e('js') }}', '{{ folder|e('js') }}', '{{ path|e('js') }}', '{{ mimeTypes|e('js') }}', {{ currentPage - 1 }}, {{ itemsPerPage }})">
+                                {{ ux_icon('tabler:chevron-left') }}
+                            </button>
+                        {% endif %}
+                    </li>
+
+                    <!-- Numéros de page -->
+                    {% set startPage = max(1, currentPage - 2) %}
+                    {% set endPage = min(totalPages, currentPage + 2) %}
+
+                    {% if startPage > 1 %}
+                        <li class="page-item">
+                            <button type="button" class="page-link" 
+                                    onclick="changePage('{{ inputName|e('js') }}', '{{ folder|e('js') }}', '{{ path|e('js') }}', '{{ mimeTypes|e('js') }}', 1, {{ itemsPerPage }})">1</button>
+                        </li>
+                        {% if startPage > 2 %}
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                        {% endif %}
+                    {% endif %}
+
+                    {% for page in startPage..endPage %}
+                        <li class="page-item {% if page == currentPage %}active{% endif %}">
+                            {% if page == currentPage %}
+                                <span class="page-link">{{ page }}</span>
+                            {% else %}
+                                <button type="button" class="page-link" 
+                                        onclick="changePage('{{ inputName|e('js') }}', '{{ folder|e('js') }}', '{{ path|e('js') }}', '{{ mimeTypes|e('js') }}', {{ page }}, {{ itemsPerPage }})">{{ page }}</button>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+
+                    {% if endPage < totalPages %}
+                        {% if endPage < totalPages - 1 %}
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                        {% endif %}
+                        <li class="page-item">
+                            <button type="button" class="page-link" 
+                                    onclick="changePage('{{ inputName|e('js') }}', '{{ folder|e('js') }}', '{{ path|e('js') }}', '{{ mimeTypes|e('js') }}', {{ totalPages }}, {{ itemsPerPage }})">{{ totalPages }}</button>
+                        </li>
+                    {% endif %}
+
+                    <!-- Page suivante -->
+                    <li class="page-item {% if currentPage == totalPages %}disabled{% endif %}">
+                        {% if currentPage == totalPages %}
+                            <span class="page-link">
+                                {{ ux_icon('tabler:chevron-right') }}
+                            </span>
+                        {% else %}
+                            <button type="button" class="page-link" 
+                                    onclick="changePage('{{ inputName|e('js') }}', '{{ folder|e('js') }}', '{{ path|e('js') }}', '{{ mimeTypes|e('js') }}', {{ currentPage + 1 }}, {{ itemsPerPage }})">
+                                {{ ux_icon('tabler:chevron-right') }}
+                            </button>
+                        {% endif %}
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    {% endif %}
 </div>

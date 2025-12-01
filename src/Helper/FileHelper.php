@@ -59,13 +59,38 @@ final class FileHelper implements FileHelperInterface
     }
 
     /**
+     * @return FileInterface[]
+     */
+    public function list(string $path, ?string $folder = null, int $page = 1, int $itemsPerPage = 20): array
+    {
+        $allFiles = $this->getAllFiles($path, $folder);
+
+        // Apply pagination
+        $offset = ($page - 1) * $itemsPerPage;
+
+        return \array_slice($allFiles, $offset, $itemsPerPage);
+    }
+
+    /**
+     * Count total files in a directory.
+     */
+    public function countFiles(string $path, ?string $folder = null): int
+    {
+        $allFiles = $this->getAllFiles($path, $folder);
+
+        return \count($allFiles);
+    }
+
+    /**
+     * Get all files without pagination (internal method).
+     *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.ErrorControlOperator)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      *
      * @return FileInterface[]
      */
-    public function list(string $path, ?string $folder = null): array
+    private function getAllFiles(string $path, ?string $folder = null): array
     {
         // Append the wanted folder from the root public media if necessary
         if (!empty($folder)) {
@@ -121,6 +146,18 @@ final class FileHelper implements FileHelperInterface
 
             $files[] = new File($fileName, $filePath, $fullFilePath);
         }
+
+        // Sort files: folders first, then by name (case insensitive)
+        usort($files, function (File $a, File $b) {
+            if ($a->isDir() && !$b->isDir()) {
+                return -1;
+            }
+            if (!$a->isDir() && $b->isDir()) {
+                return 1;
+            }
+
+            return strcasecmp($a->getName(), $b->getName());
+        });
 
         return $files;
     }

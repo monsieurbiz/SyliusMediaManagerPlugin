@@ -44,15 +44,21 @@ final class BrowserController extends AbstractController
         $folder = (string) $request->query->get('folder', '');
         $inputName = (string) $request->query->get('inputName', '');
         $mimeTypes = (string) $request->query->get('mimeTypes', '');
+        $page = (int) $request->query->get('page', 1);
+        $itemsPerPage = (int) $request->query->get('itemsPerPage', 20);
 
         try {
-            $files = $fileHelper->list($path, $folder);
+            $files = $fileHelper->list($path, $folder, $page, $itemsPerPage);
+            $totalItems = $fileHelper->countFiles($path, $folder);
         } catch (CannotReadCurrentFolderException $e) {
             $path = '';
-            $files = $fileHelper->list($path, $folder);
+            $files = $fileHelper->list($path, $folder, $page, $itemsPerPage);
+            $totalItems = $fileHelper->countFiles($path, $folder);
         } catch (CannotReadFolderException $e) {
             return new Response($translator->trans('monsieurbiz_sylius_media_manager.error.folder_not_readable', ['%folder%' => $e->getPath()]), Response::HTTP_BAD_REQUEST);
         }
+
+        $totalPages = (int) ceil($totalItems / $itemsPerPage);
 
         return $this->render('@MonsieurBizSyliusMediaManagerPlugin/Admin/MediaManager/_modal.html.twig', [
             'inputName' => $inputName,
@@ -60,6 +66,10 @@ final class BrowserController extends AbstractController
             'path' => $fileHelper->cleanPath($path),
             'files' => $files,
             'mimeTypes' => $mimeTypes,
+            'currentPage' => $page,
+            'itemsPerPage' => $itemsPerPage,
+            'totalItems' => $totalItems,
+            'totalPages' => $totalPages,
         ]);
     }
 

@@ -53,6 +53,8 @@
             inputName: inputName,
             folder: folder,
             mimeTypes: mimeTypes,
+            page: 1,
+            itemsPerPage: 20,
         });
         req.onload = function(progress) {
             if (this.status === 200) {
@@ -370,6 +372,52 @@
             modal.classList.add('d-none');
             modal.classList.remove('d-flex');
         });
+    }
+
+    // Fonctions de pagination
+    function changePage(inputName, folder, path, mimeTypes, page, itemsPerPage)
+    {
+        monsieurbizSyliusMediaManagerDisplayPathWithPagination(inputName, folder, path, mimeTypes, page, itemsPerPage);
+    }
+
+    function changeItemsPerPage(inputName, folder, path, mimeTypes, itemsPerPage)
+    {
+        monsieurbizSyliusMediaManagerDisplayPathWithPagination(inputName, folder, path, mimeTypes, 1, itemsPerPage);
+    }
+
+    function monsieurbizSyliusMediaManagerDisplayPathWithPagination(inputName, folder, path, mimeTypes, page, itemsPerPage)
+    {
+        let req = new XMLHttpRequest();
+        const params = new URLSearchParams({
+            path: path,
+            inputName: inputName,
+            folder: folder,
+            mimeTypes: mimeTypes,
+            page: page || 1,
+            itemsPerPage: itemsPerPage || 20,
+        });
+        req.onload = function(progress) {
+            if (this.status === 200) {
+                // Remplacer le contenu de la modal existante
+                let existingModal = document.querySelector('.monsieurbiz-sylius-file-manager__modal');
+                if (existingModal) {
+                    let tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = this.responseText;
+                    let newModalContent = tempDiv.firstElementChild;
+                    
+                    // Remplacer le contenu de la modal
+                    existingModal.innerHTML = newModalContent.innerHTML;
+                }
+                monsieurbizSyliusMediaManagerRemoveLoaderModal();
+            } else {
+                alert(this.responseText);
+                monsieurbizSyliusMediaManagerRemoveLoaderModal();
+            }
+        };
+        req.open("get", "{{ path('monsieurbiz_sylius_media_manager_admin_browser_list') }}?" + params.toString(), true);
+        req.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+        req.send();
+        monsieurbizSyliusMediaManagerAddLoaderModal();
     }
 </script>
 

@@ -24,6 +24,8 @@ monsieurbiz_sylius_media_manager:
         remove_image: Retirer l'image
         remove_video: Retirer la video
         remove_confirmation: Êtes-vous sûr de vouloir retirer cette valeur ? Le fichier ne sera pas supprimé du serveur.
+        showing_items: 'Affichage de %start% à %end% sur %total% éléments'
+        items_per_page: Éléments par page
     error:
         cannot_create_folder: Impossible de créer le dossier.
         cannot_delete_folder: Impossible de supprimer le dossier.

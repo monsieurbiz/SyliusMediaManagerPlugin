@@ -45,7 +45,12 @@ interface FileHelperInterface
     /**
      * @return FileInterface[]
      */
-    public function list(string $path, ?string $folder = null): array;
+    public function list(string $path, ?string $folder = null, int $page = 1, int $itemsPerPage = 20): array;
+
+    /**
+     * Count total files in a directory.
+     */
+    public function countFiles(string $path, ?string $folder = null): int;
 
     public function isValid(string $type, string $path, ?string $folder = null): bool;
 
