@@ -263,11 +263,80 @@ final class FileHelper implements FileHelperInterface
         $folderPath = $this->getFullPath($path);
         $parentPath = \dirname($folderPath);
 
-        if (empty($path) || !file_exists($folderPath) || !@rmdir($folderPath)) {
+        if (empty($path) || !file_exists($folderPath)) {
+            throw new FolderNotDeletedException($folderPath);
+        }
+
+        // Standard deletion (only empty folders)
+        if (!@rmdir($folderPath)) {
             throw new FolderNotDeletedException($folderPath);
         }
 
         return $parentPath;
+    }
+
+    /**
+     * @SuppressWarnings(PHPMD.ErrorControlOperator)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
+    public function deleteFolderForce(string $path, ?string $folder = null): string
+    {
+        // Append the wanted folder from the root public media if necessary
+        if (!empty($folder)) {
+            $this->currentDirectory = $this->mediaDirectory . '/' . $this->cleanPath($folder);
+        }
+
+        $folderPath = $this->getFullPath($path);
+        $parentPath = \dirname($folderPath);
+
+        if (empty($path) || !file_exists($folderPath)) {
+            throw new FolderNotDeletedException($folderPath);
+        }
+
+        // Recursive deletion of non-empty folder
+        if (!$this->deleteRecursive($folderPath)) {
+            throw new FolderNotDeletedException($folderPath);
+        }
+
+        return $parentPath;
+    }
+
+    /**
+     * Recursively delete a directory and all its contents.
+     *
+     * @SuppressWarnings(PHPMD.ErrorControlOperator)
+     */
+    private function deleteRecursive(string $dir): bool
+    {
+        if (!is_dir($dir)) {
+            return @unlink($dir);
+        }
+
+        return $this->deleteDirectoryContents($dir) && @rmdir($dir);
+    }
+
+    /**
+     * Delete all contents of a directory.
+     *
+     * @SuppressWarnings(PHPMD.ErrorControlOperator)
+     */
+    private function deleteDirectoryContents(string $dir): bool
+    {
+        $scanResult = scandir($dir);
+        if (false === $scanResult) {
+            return false;
+        }
+
+        $files = array_diff($scanResult, ['.', '..']);
+
+        foreach ($files as $file) {
+            $filePath = $dir . '/' . $file;
+            if (!$this->deleteRecursive($filePath)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

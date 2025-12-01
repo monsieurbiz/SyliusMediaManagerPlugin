@@ -181,10 +181,11 @@ final class BrowserController extends AbstractController
     ): ?Response {
         $path = (string) $request->request->get('path', '');
         $folder = (string) $request->request->get('folder', '');
+        $force = (bool) $request->request->get('force', false);
         $parentPath = \dirname($path);
 
         try {
-            $fileHelper->deleteFolder($path, $folder);
+            ($force) ? $fileHelper->deleteFolderForce($path, $folder) : $fileHelper->deleteFolder($path, $folder);
         } catch (FolderNotDeletedException $e) {
             return new JsonResponse([
                 'error' => $translator->trans('monsieurbiz_sylius_media_manager.error.cannot_delete_folder'),

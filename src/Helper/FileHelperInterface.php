@@ -63,6 +63,8 @@ interface FileHelperInterface
 
     public function deleteFolder(string $path, ?string $folder = null): string;
 
+    public function deleteFolderForce(string $path, ?string $folder = null): string;
+
     public function deleteFile(string $path, ?string $folder = null): string;
 
     public function renameFolder(string $newFolderName, string $path, ?string $folder = null): string;

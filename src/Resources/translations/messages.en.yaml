@@ -10,6 +10,9 @@ monsieurbiz_sylius_media_manager:
         choose_video: Choose a video
         create_folder: New folder
         delete_folder: Delete this folder
+        delete_folder_force: ⚠️ Delete this folder
+        delete_folder_force_confirm_1: '⚠️ WARNING: The folder `%path%` contains files. Are you sure you want to delete it permanently?'
+        delete_folder_force_confirm_2: '⚠️⚠️ FINAL CONFIRMATION: All files in folder `%path%` will be permanently deleted. This action is IRREVERSIBLE. Do you confirm?'
         rename_folder: Rename this folder
         delete_file: Delete this file
         create: Create

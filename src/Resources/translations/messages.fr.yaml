@@ -10,6 +10,9 @@ monsieurbiz_sylius_media_manager:
         choose_video: Choisir une vidéo
         create_folder: Nouveau dossier
         delete_folder: Supprimer ce dossier
+        delete_folder_force: ⚠️ Supprimer ce dossier
+        delete_folder_force_confirm_1: '⚠️ ATTENTION: Le dossier `%path%` contient des fichiers. Êtes-vous sûr de vouloir le supprimer définitivement ?'
+        delete_folder_force_confirm_2: '⚠️⚠️ DERNIÈRE CONFIRMATION: Tous les fichiers du dossier `%path%` seront supprimés définitivement. Cette action est IRRÉVERSIBLE. Confirmez-vous ?'
         rename_folder: Renommer le dossier
         delete_file: Supprimer ce fichier
         create: Créer
