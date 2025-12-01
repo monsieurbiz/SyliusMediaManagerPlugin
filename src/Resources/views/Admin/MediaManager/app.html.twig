@@ -29,6 +29,8 @@
 
         // Remove input value
         input.value = '';
+        // Dispatch change event
+        monsieurbizSyliusMediaManagerDispatchInputChange(input);
 
         let field = input.closest('.monsieurbiz-sylius-file-manager__field');
         if (field) {
@@ -61,14 +63,14 @@
                 // Remove existing modals
                 document.querySelectorAll('.monsieurbiz-sylius-file-manager__modal').forEach(el => el.remove());
                 monsieurbizSyliusMediaManagerRemoveLoaderModal();
-                
+
                 // Create modal element and append to body
                 let tempDiv = document.createElement('div');
                 tempDiv.innerHTML = this.responseText;
                 let modalElement = tempDiv.firstElementChild;
                 modalElement.id = 'monsieurbiz-sylius-media-manager-modal-' + Date.now();
                 document.body.appendChild(modalElement);
-                
+
                 // Create and show Bootstrap modal
                 let bsModal = new window.bootstrap.Modal(modalElement, {
                     backdrop: true,
@@ -76,7 +78,7 @@
                     focus: true
                 });
                 bsModal.show();
-                
+
                 // Store modal instance for later use
                 modalElement.bsModalInstance = bsModal;
             } else {
@@ -159,6 +161,8 @@
                             removeButton.classList.remove('d-none');
                         }
                     }
+                    // Dispatch change event
+                    monsieurbizSyliusMediaManagerDispatchInputChange(input);
                 }
             } else {
                 alert(response['error']);
@@ -169,6 +173,10 @@
         req.setRequestHeader("X-Requested-With", "XMLHttpRequest");
         req.send();
         monsieurbizSyliusMediaManagerAddLoaderModal();
+    }
+
+    function monsieurbizSyliusMediaManagerDispatchInputChange(input) {
+        input.dispatchEvent(new Event('change', { bubbles: true }));
     }
 
     function mediaUploadFile(fileInput, inputName, folder, path, mimeTypes)
@@ -244,7 +252,7 @@
         currentUploads = 0;
         totalFilesToUpload = fileInput.files.length;
         completedUploads = 0;
-        
+
         let progressContainer = document.getElementById('upload-progress-container');
         let progressList = document.getElementById('upload-progress-list');
         let overallProgress = document.getElementById('overall-progress');
@@ -331,7 +339,7 @@
         req.onload = function() {
             currentUploads--;
             completedUploads++; // Increment completed counter
-            
+
             let response = this.responseText;
             try {
                 response = JSON.parse(response);
@@ -349,7 +357,7 @@
                 badge.className = 'badge bg-danger';
                 progressBar.className = 'progress-bar bg-danger';
                 progressBar.style.width = '100%'; // Show full bar for errors too
-                
+
                 // Show error details (persistent)
                 let errorText = response['error'] || defaultError;
                 let errorDiv = document.createElement('div');
@@ -365,7 +373,7 @@
             if (currentUploads === 0 && uploadQueue.length === 0) {
                 let successfulUploads = document.querySelectorAll('#upload-progress-list .bg-success').length;
                 let errorUploads = document.querySelectorAll('#upload-progress-list .bg-danger').length;
-                
+
                 setTimeout(() => {
                     // Only refresh if there were successful uploads
                     if (successfulUploads > 0) {
@@ -385,7 +393,7 @@
                                 }
                             });
                         }
-                        
+
                         // Refresh the file list
                         monsieurbizSyliusMediaManagerDisplayPathWithPreservedErrors(uploadItem.inputName, uploadItem.folder, uploadItem.path, uploadItem.mimeTypes, errorMessages);
                     } else if (errorUploads > 0) {
@@ -406,13 +414,13 @@
             badge.className = 'badge bg-danger';
             progressBar.className = 'progress-bar bg-danger';
             progressBar.style.width = '100%';
-            
+
             // Show error message (persistent)
             let errorDiv = document.createElement('div');
             errorDiv.className = 'small text-danger mt-1 upload-error-message';
             errorDiv.textContent = '{{ 'monsieurbiz_sylius_media_manager.ui.network_connection_error'|trans|e('js') }}';
             progressItem.appendChild(errorDiv);
-            
+
             updateOverallProgress();
             processUploadQueue();
         };
@@ -466,10 +474,10 @@
                     let tempDiv = document.createElement('div');
                     tempDiv.innerHTML = this.responseText;
                     let newModalContent = tempDiv.firstElementChild;
-                    
+
                     // Remplacer le contenu de la modal
                     existingModal.innerHTML = newModalContent.innerHTML;
-                    
+
                     // Restore error messages if any
                     if (errorMessages && errorMessages.length > 0) {
                         restoreErrorMessages(errorMessages);
@@ -654,7 +662,7 @@
                 bsModal.hide();
             }
         }
-        
+
         // Force cleanup immediately and with timeout
         const cleanup = () => {
             // Remove modal elements
@@ -672,7 +680,7 @@
             document.documentElement.style.overflow = '';
             document.documentElement.style.removeProperty('overflow');
         };
-        
+
         cleanup();
         setTimeout(cleanup, 100);
         setTimeout(cleanup, 300);
@@ -724,7 +732,7 @@
                     let tempDiv = document.createElement('div');
                     tempDiv.innerHTML = this.responseText;
                     let newModalContent = tempDiv.firstElementChild;
-                    
+
                     // Remplacer le contenu de la modal
                     existingModal.innerHTML = newModalContent.innerHTML;
                 }
