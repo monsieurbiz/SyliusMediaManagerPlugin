@@ -37,6 +37,7 @@ monsieurbiz_sylius_media_manager:
         no_files_uploaded: 'Aucun fichier uploadé - %count% erreur(s)'
         hide_errors: Masquer les erreurs
         network_connection_error: Erreur de connexion réseau
+        folder_name: Nom du dossier
     error:
         cannot_create_folder: Impossible de créer le dossier.
         cannot_delete_folder: Impossible de supprimer le dossier.
