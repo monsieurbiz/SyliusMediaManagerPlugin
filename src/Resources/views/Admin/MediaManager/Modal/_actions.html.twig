@@ -1,7 +1,7 @@
-<div class="d-flex align-items-center gap-2">
-    <label class="form-label mb-0">{{ 'monsieurbiz_sylius_media_manager.ui.upload_file_in_this_folder' | trans }}:</label>
-    <input type="file" name="file" class="form-control"{% if mimeTypes is defined %} accept="{{ mimeTypes }}" {% endif %}onchange="mediaUploadFile(this, '{{ inputName | escape('js') }}', '{{ folder | escape('js')}}', '{{ path | escape('js')}}', '{{ mimeTypes|escape('js') }}')" />
-</div>
-<div class="d-flex gap-2 mt-3">
-    <button type="button" class="btn btn-secondary" onclick="monsieurbizSyliusMediaManagerCloseModal();">{{ 'monsieurbiz_sylius_media_manager.ui.cancel' | trans }}</button>
+<div class="d-flex flex-column flex-md-row align-items-start align-items-md-center gap-2 mt-3">
+    <label class="form-label mb-0 text-nowrap">{{ 'monsieurbiz_sylius_media_manager.ui.upload_file_in_this_folder' | trans }}:</label>
+    <div class="d-flex gap-2 flex-grow-1">
+        <input type="file" name="file" class="form-control"{% if mimeTypes is defined %} accept="{{ mimeTypes }}" {% endif %}onchange="mediaUploadFile(this, '{{ inputName | escape('js') }}', '{{ folder | escape('js')}}', '{{ path | escape('js')}}', '{{ mimeTypes|escape('js') }}')" />
+        <button type="button" class="btn btn-secondary text-nowrap" onclick="monsieurbizSyliusMediaManagerCloseModal();">{{ 'monsieurbiz_sylius_media_manager.ui.cancel' | trans }}</button>
+    </div>
 </div>
