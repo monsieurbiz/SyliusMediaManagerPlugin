@@ -1,16 +1,24 @@
-<div class="ui modal monsieurbiz-sylius-file-manager__modal">
-    <div class="header">
-        {% include '@MonsieurBizSyliusMediaManagerPlugin/Admin/MediaManager/Modal/_header.html.twig' %}
-    </div>
+<div class="modal fade monsieurbiz-sylius-file-manager__modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                {% include '@MonsieurBizSyliusMediaManagerPlugin/Admin/MediaManager/Modal/_header.html.twig' %}
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
 
-    <div class="content">
-        {% include '@MonsieurBizSyliusMediaManagerPlugin/Admin/MediaManager/Modal/_content.html.twig' %}
-    </div>
+            <div class="modal-body">
+                {% include '@MonsieurBizSyliusMediaManagerPlugin/Admin/MediaManager/Modal/_content.html.twig' %}
+            </div>
 
-    <div class="actions">
-        {% include '@MonsieurBizSyliusMediaManagerPlugin/Admin/MediaManager/Modal/_actions.html.twig' %}
-    </div>
-    <div class="ui dimmer inverted monsieurbiz-sylius-file-manager__loader">
-        <div class="ui loader"></div>
+            <div class="modal-footer">
+                {% include '@MonsieurBizSyliusMediaManagerPlugin/Admin/MediaManager/Modal/_actions.html.twig' %}
+            </div>
+            
+            <div class="position-absolute top-0 start-0 w-100 h-100 d-none justify-content-center align-items-center monsieurbiz-sylius-file-manager__loader" style="background-color: rgba(0,0,0,0.5);">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
