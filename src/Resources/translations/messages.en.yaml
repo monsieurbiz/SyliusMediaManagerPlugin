@@ -26,6 +26,17 @@ monsieurbiz_sylius_media_manager:
         remove_confirmation: Are you sure you want to remove this value ? File will not be deleted from server.
         showing_items: 'Showing %start% to %end% of %total% items'
         items_per_page: Items per page
+        uploading_files: Uploading files
+        multiple_files_selected: '%count% files selected'
+        upload_pending: Pending
+        upload_in_progress: Uploading...
+        upload_success: Success
+        upload_error: Error
+        upload_network_error: Network error
+        upload_completed: 'Upload completed - %count% error(s)'
+        no_files_uploaded: 'No files uploaded - %count% error(s)'
+        hide_errors: Hide errors
+        network_connection_error: Network connection error
     error:
         cannot_create_folder: Cannot create the folder.
         cannot_delete_folder: Cannot delete the folder.

@@ -214,6 +214,326 @@
         monsieurbizSyliusMediaManagerAddLoaderModal();
     }
 
+    // Multiple file upload functionality
+    let uploadQueue = [];
+    let currentUploads = 0;
+    let maxConcurrentUploads = 3;
+    let totalFilesToUpload = 0;
+    let completedUploads = 0;
+
+    function mediaUploadMultipleFiles(fileInput, inputName, folder, path, mimeTypes)
+    {
+        if (fileInput.files.length === 0) return;
+
+        // Check input
+        let input = document.querySelector("input[name='" + inputName + "']");
+        if (!input) {
+            alert('{{ 'monsieurbiz_sylius_media_manager.error.cannot_find_input' | trans | escape('js') }}')
+            return;
+        }
+
+        // Check type of file given by the data attribute in form input
+        let type = input.getAttribute('data-file-type');
+        if (!type) {
+            alert('{{ 'monsieurbiz_sylius_media_manager.error.cannot_find_type' | trans | escape('js') }}')
+            return;
+        }
+
+        // Reset upload queue and UI
+        uploadQueue = [];
+        currentUploads = 0;
+        totalFilesToUpload = fileInput.files.length;
+        completedUploads = 0;
+        
+        let progressContainer = document.getElementById('upload-progress-container');
+        let progressList = document.getElementById('upload-progress-list');
+        let overallProgress = document.getElementById('overall-progress');
+        let uploadStatus = document.getElementById('upload-status');
+
+        progressContainer.style.display = 'block';
+        progressList.innerHTML = '';
+        overallProgress.style.width = '0%';
+        overallProgress.className = 'progress-bar'; // Reset to default color
+        uploadStatus.textContent = `0/${totalFilesToUpload} fichiers uploadés`;
+
+        // Add all files to upload queue
+        for (let i = 0; i < fileInput.files.length; i++) {
+            let file = fileInput.files[i];
+            let uploadItem = {
+                file: file,
+                inputName: inputName,
+                folder: folder,
+                path: path,
+                type: type,
+                mimeTypes: mimeTypes,
+                id: 'upload-' + Date.now() + '-' + i,
+                status: 'pending' // pending, uploading, success, error
+            };
+            uploadQueue.push(uploadItem);
+
+            // Create progress item in UI
+            let progressItem = document.createElement('div');
+            progressItem.id = uploadItem.id;
+            progressItem.className = 'mb-2';
+            progressItem.innerHTML = `
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                    <small class="text-truncate">${file.name}</small>
+                    <span class="badge bg-secondary">{{ 'monsieurbiz_sylius_media_manager.ui.upload_pending'|trans|e('js') }}</span>
+                </div>
+                <div class="progress progress-sm">
+                    <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                </div>
+            `;
+            progressList.appendChild(progressItem);
+        }
+
+        // Start uploading
+        processUploadQueue();
+    }
+
+    function processUploadQueue()
+    {
+        while (currentUploads < maxConcurrentUploads && uploadQueue.length > 0) {
+            let uploadItem = uploadQueue.shift();
+            uploadSingleFile(uploadItem);
+        }
+    }
+
+    function uploadSingleFile(uploadItem)
+    {
+        currentUploads++;
+        uploadItem.status = 'uploading';
+
+        let progressItem = document.getElementById(uploadItem.id);
+        let badge = progressItem.querySelector('.badge');
+        let progressBar = progressItem.querySelector('.progress-bar');
+
+        badge.textContent = '{{ 'monsieurbiz_sylius_media_manager.ui.upload_in_progress'|trans|e('js') }}';
+        badge.className = 'badge bg-primary';
+
+        let req = new XMLHttpRequest();
+        let data = new FormData();
+        let defaultError = "{{ 'monsieurbiz_sylius_media_manager.error.cannot_upload_file'|trans }}";
+
+        data.append('folder', uploadItem.folder);
+        data.append('path', uploadItem.path);
+        data.append('file', uploadItem.file);
+        data.append('type', uploadItem.type);
+
+        // Progress tracking
+        req.upload.addEventListener('progress', function(e) {
+            if (e.lengthComputable) {
+                let percentComplete = (e.loaded / e.total) * 100;
+                progressBar.style.width = percentComplete + '%';
+            }
+        });
+
+        req.onload = function() {
+            currentUploads--;
+            completedUploads++; // Increment completed counter
+            
+            let response = this.responseText;
+            try {
+                response = JSON.parse(response);
+            } catch (e) {}
+
+            if (this.status === 200) {
+                uploadItem.status = 'success';
+                badge.textContent = '{{ 'monsieurbiz_sylius_media_manager.ui.upload_success'|trans|e('js') }}';
+                badge.className = 'badge bg-success';
+                progressBar.style.width = '100%';
+                progressBar.className = 'progress-bar bg-success';
+            } else {
+                uploadItem.status = 'error';
+                badge.textContent = '{{ 'monsieurbiz_sylius_media_manager.ui.upload_error'|trans|e('js') }}';
+                badge.className = 'badge bg-danger';
+                progressBar.className = 'progress-bar bg-danger';
+                progressBar.style.width = '100%'; // Show full bar for errors too
+                
+                // Show error details (persistent)
+                let errorText = response['error'] || defaultError;
+                let errorDiv = document.createElement('div');
+                errorDiv.className = 'small text-danger mt-1 upload-error-message';
+                errorDiv.textContent = errorText;
+                progressItem.appendChild(errorDiv);
+            }
+
+            updateOverallProgress();
+            processUploadQueue();
+
+            // If all uploads are done, refresh the file list after a delay
+            if (currentUploads === 0 && uploadQueue.length === 0) {
+                let successfulUploads = document.querySelectorAll('#upload-progress-list .bg-success').length;
+                let errorUploads = document.querySelectorAll('#upload-progress-list .bg-danger').length;
+                
+                setTimeout(() => {
+                    // Only refresh if there were successful uploads
+                    if (successfulUploads > 0) {
+                        // Save error messages before refresh
+                        let errorMessages = [];
+                        if (errorUploads > 0) {
+                            let errorItems = document.querySelectorAll('#upload-progress-list > div');
+                            errorItems.forEach(item => {
+                                let badge = item.querySelector('.bg-danger');
+                                if (badge) {
+                                    let fileName = item.querySelector('.text-truncate').textContent;
+                                    let errorMsg = item.querySelector('.upload-error-message');
+                                    errorMessages.push({
+                                        fileName: fileName,
+                                        error: errorMsg ? errorMsg.textContent : 'Erreur inconnue'
+                                    });
+                                }
+                            });
+                        }
+                        
+                        // Refresh the file list
+                        monsieurbizSyliusMediaManagerDisplayPathWithPreservedErrors(uploadItem.inputName, uploadItem.folder, uploadItem.path, uploadItem.mimeTypes, errorMessages);
+                    } else if (errorUploads > 0) {
+                        // Only errors, don't refresh but keep container visible
+                        let uploadStatus = document.getElementById('upload-status');
+                        let noFilesMessage = '{{ 'monsieurbiz_sylius_media_manager.ui.no_files_uploaded'|trans|e('js') }}'.replace('%count%', errorUploads);
+                        uploadStatus.textContent = noFilesMessage;
+                    }
+                }, 1000);
+            }
+        };
+
+        req.onerror = function() {
+            currentUploads--;
+            completedUploads++; // Increment completed counter for network errors too
+            uploadItem.status = 'error';
+            badge.textContent = '{{ 'monsieurbiz_sylius_media_manager.ui.upload_network_error'|trans|e('js') }}';
+            badge.className = 'badge bg-danger';
+            progressBar.className = 'progress-bar bg-danger';
+            progressBar.style.width = '100%';
+            
+            // Show error message (persistent)
+            let errorDiv = document.createElement('div');
+            errorDiv.className = 'small text-danger mt-1 upload-error-message';
+            errorDiv.textContent = '{{ 'monsieurbiz_sylius_media_manager.ui.network_connection_error'|trans|e('js') }}';
+            progressItem.appendChild(errorDiv);
+            
+            updateOverallProgress();
+            processUploadQueue();
+        };
+
+        req.open("post", "{{ path('monsieurbiz_sylius_media_manager_admin_browser_upload') }}", true);
+        req.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+        req.send(data);
+    }
+
+    function updateOverallProgress()
+    {
+        let overallProgress = document.getElementById('overall-progress');
+        let uploadStatus = document.getElementById('upload-status');
+
+        if (totalFilesToUpload > 0) {
+            let percentage = (completedUploads / totalFilesToUpload) * 100;
+            overallProgress.style.width = percentage + '%';
+            uploadStatus.textContent = `${completedUploads}/${totalFilesToUpload} fichiers uploadés`;
+
+            // Update progress bar color based on results
+            if (completedUploads === totalFilesToUpload) {
+                let errorUploads = document.querySelectorAll('#upload-progress-list .bg-danger').length;
+                if (errorUploads === 0) {
+                    overallProgress.className = 'progress-bar bg-success';
+                } else if (errorUploads === totalFilesToUpload) {
+                    overallProgress.className = 'progress-bar bg-danger';
+                } else {
+                    overallProgress.className = 'progress-bar bg-warning';
+                }
+            }
+        }
+    }
+
+    // New function to preserve error messages after refresh
+    function monsieurbizSyliusMediaManagerDisplayPathWithPreservedErrors(inputName, folder, path, mimeTypes, errorMessages)
+    {
+        let req = new XMLHttpRequest();
+        const params = new URLSearchParams({
+            path: path,
+            inputName: inputName,
+            folder: folder,
+            mimeTypes: mimeTypes,
+            page: 1,
+            itemsPerPage: 20,
+        });
+        req.onload = function(progress) {
+            if (this.status === 200) {
+                // Remplacer le contenu de la modal existante
+                let existingModal = document.querySelector('.monsieurbiz-sylius-file-manager__modal');
+                if (existingModal) {
+                    let tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = this.responseText;
+                    let newModalContent = tempDiv.firstElementChild;
+                    
+                    // Remplacer le contenu de la modal
+                    existingModal.innerHTML = newModalContent.innerHTML;
+                    
+                    // Restore error messages if any
+                    if (errorMessages && errorMessages.length > 0) {
+                        restoreErrorMessages(errorMessages);
+                    }
+                }
+                monsieurbizSyliusMediaManagerRemoveLoaderModal();
+            } else {
+                alert(this.responseText);
+                monsieurbizSyliusMediaManagerRemoveLoaderModal();
+            }
+        };
+        req.open("get", "{{ path('monsieurbiz_sylius_media_manager_admin_browser_list') }}?" + params.toString(), true);
+        req.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+        req.send();
+        monsieurbizSyliusMediaManagerAddLoaderModal();
+    }
+
+    function restoreErrorMessages(errorMessages)
+    {
+        let progressContainer = document.getElementById('upload-progress-container');
+        let progressList = document.getElementById('upload-progress-list');
+        let overallProgress = document.getElementById('overall-progress');
+        let uploadStatus = document.getElementById('upload-status');
+
+        if (progressContainer && progressList) {
+            progressContainer.style.display = 'block';
+            progressList.innerHTML = '';
+
+            // Recreate error items
+            errorMessages.forEach((errorItem, index) => {
+                let progressItem = document.createElement('div');
+                progressItem.id = 'error-' + Date.now() + '-' + index;
+                progressItem.className = 'mb-2';
+                progressItem.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <small class="text-truncate">${errorItem.fileName}</small>
+                        <span class="badge bg-danger">{{ 'monsieurbiz_sylius_media_manager.ui.upload_error'|trans|e('js') }}</span>
+                    </div>
+                    <div class="progress progress-sm">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 100%"></div>
+                    </div>
+                    <div class="small text-danger mt-1 upload-error-message">${errorItem.error}</div>
+                `;
+                progressList.appendChild(progressItem);
+            });
+
+            // Update overall progress to show errors
+            overallProgress.style.width = '100%';
+            overallProgress.className = 'progress-bar bg-danger';
+            let completedMessage = '{{ 'monsieurbiz_sylius_media_manager.ui.upload_completed'|trans|e('js') }}'.replace('%count%', errorMessages.length);
+            uploadStatus.textContent = completedMessage;
+
+            // Add a close button for errors
+            let closeButton = document.createElement('button');
+            closeButton.type = 'button';
+            closeButton.className = 'btn btn-sm btn-outline-secondary mt-2';
+            closeButton.textContent = '{{ 'monsieurbiz_sylius_media_manager.ui.hide_errors'|trans|e('js') }}';
+            closeButton.onclick = function() {
+                progressContainer.style.display = 'none';
+            };
+            progressContainer.querySelector('.card-body').appendChild(closeButton);
+        }
+    }
+
     function monsieurbizSyliusMediaManagerCreateFolder(folderInput, inputName, folder, path, mimeTypes)
     {
         let req = new XMLHttpRequest();

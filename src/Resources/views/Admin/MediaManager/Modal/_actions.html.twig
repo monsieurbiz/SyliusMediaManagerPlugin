@@ -1,7 +1,25 @@
 <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center gap-2 mt-3">
     <label class="form-label mb-0 text-nowrap">{{ 'monsieurbiz_sylius_media_manager.ui.upload_file_in_this_folder' | trans }}:</label>
     <div class="d-flex gap-2 flex-grow-1">
-        <input type="file" name="file" class="form-control"{% if mimeTypes is defined %} accept="{{ mimeTypes }}" {% endif %}onchange="mediaUploadFile(this, '{{ inputName | escape('js') }}', '{{ folder | escape('js')}}', '{{ path | escape('js')}}', '{{ mimeTypes|escape('js') }}')" />
+        <input type="file" name="file" multiple class="form-control"{% if mimeTypes is defined %} accept="{{ mimeTypes }}" {% endif %}onchange="mediaUploadMultipleFiles(this, '{{ inputName | escape('js') }}', '{{ folder | escape('js')}}', '{{ path | escape('js')}}', '{{ mimeTypes|escape('js') }}')" />
         <button type="button" class="btn btn-secondary text-nowrap" onclick="monsieurbizSyliusMediaManagerCloseModal();">{{ 'monsieurbiz_sylius_media_manager.ui.cancel' | trans }}</button>
+    </div>
+    
+    <!-- Progress container for multiple uploads -->
+    <div id="upload-progress-container" class="w-100 mt-2" style="display: none;">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0">{{ 'monsieurbiz_sylius_media_manager.ui.uploading_files' | trans|default('Upload en cours') }}</h6>
+            </div>
+            <div class="card-body">
+                <div id="upload-progress-list"></div>
+                <div class="progress mt-2">
+                    <div id="overall-progress" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                </div>
+                <small class="text-muted mt-1 d-block">
+                    <span id="upload-status">0/0 fichiers uploadés</span>
+                </small>
+            </div>
+        </div>
     </div>
 </div>
