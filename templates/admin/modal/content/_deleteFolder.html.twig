@@ -1,0 +1,25 @@
+{% if path is not empty %}
+    {% if is_empty_files_list(files) %}
+        {# Delete empty folder #}
+        <div class="d-flex align-items-center gap-2 monsieurbiz-sylius-file-manager__item monsieurbiz-sylius-file-manager__item-delete-folder">
+            <button type="button"
+                class="btn btn-warning btn-sm monsieurbiz-sylius-file-manager__new-folder-label"
+                onclick="monsieurbizSyliusMediaManagerDeleteFolder('{{ inputName | escape('js') }}', '{{ folder | escape('js')}}', '{{ path | escape('js')}}', '{{ 'monsieurbiz_sylius_media_manager.ui.delete_folder_confirm' | trans({'%path%': path}) | escape('js')}}', '{{ mimeTypes|escape('js') }}')"
+            >
+                {{ ux_icon('tabler:trash') }}
+                {{ 'monsieurbiz_sylius_media_manager.ui.delete_folder' | trans }}
+            </button>
+        </div>
+    {% else %}
+        {# Delete non-empty folder with double confirmation #}
+        <div class="d-flex align-items-center gap-2 monsieurbiz-sylius-file-manager__item monsieurbiz-sylius-file-manager__item-delete-folder">
+            <button type="button"
+                class="btn btn-danger btn-sm monsieurbiz-sylius-file-manager__new-folder-label"
+                onclick="monsieurbizSyliusMediaManagerDeleteFolderForce('{{ inputName | escape('js') }}', '{{ folder | escape('js')}}', '{{ path | escape('js')}}', '{{ 'monsieurbiz_sylius_media_manager.ui.delete_folder_force_confirm_1' | trans({'%path%': path}) | escape('js')}}', '{{ 'monsieurbiz_sylius_media_manager.ui.delete_folder_force_confirm_2' | trans({'%path%': path}) | escape('js')}}', '{{ mimeTypes|escape('js') }}')"
+            >
+                {{ ux_icon('tabler:trash') }}
+                {{ 'monsieurbiz_sylius_media_manager.ui.delete_folder_force' | trans }}
+            </button>
+        </div>
+    {% endif %}
+{% endif %}

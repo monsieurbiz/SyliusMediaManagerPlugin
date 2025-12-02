@@ -5,18 +5,14 @@ monsieurbiz_sylius_media_manager:
         current_file: Current file
         current_image: Current image
         current_video: Current video
-        current_pdf: Current pdf
-        current_favicon: Current favicon
-        current_audio: Current audio file
-        current_folder: Current folder
         choose_file: Choose a file
         choose_image: Choose an image
         choose_video: Choose a video
-        choose_pdf: Choose a pdf
-        choose_favicon: Choose a favicon
-        choose_audio: Choose an audio file
         create_folder: New folder
         delete_folder: Delete this folder
+        delete_folder_force: ⚠️ Delete this folder
+        delete_folder_force_confirm_1: '⚠️ WARNING: The folder `%path%` contains files. Are you sure you want to delete it permanently?'
+        delete_folder_force_confirm_2: '⚠️⚠️ FINAL CONFIRMATION: All files in folder `%path%` will be permanently deleted. This action is IRREVERSIBLE. Do you confirm?'
         rename_folder: Rename this folder
         delete_file: Delete this file
         create: Create
@@ -27,25 +23,31 @@ monsieurbiz_sylius_media_manager:
         delete_file_confirm_bis: If it is used it will no longer be accessible, do you confirm this?
         rename_folder_confirm: Are you sure you want to rename the folder `%path%` ?
         rename_folder_confirm_bis: If files are in this folder or subfolders they will not be accessible anymore, do you confirm this ?
-        rename_folder_success: Folder renamed successfully.
-        create_folder_success: Folder created successfully.
         remove_file: Remove file
         remove_image: Remove image
         remove_video: Remove video
-        remove_audio: Remove audio file
-        remove_pdf: Remove pdf
-        remove_favicon: Remove favicon
         remove_confirmation: Are you sure you want to remove this value ? File will not be deleted from server.
-        empty_folder: This folder is empty. Upload file or create a new folder.
-        pagination_info: 'Page %current% of %total% (%items% items)'
-        items_per_page: 'Items per page'
+        showing_items: 'Showing %start% to %end% of %total% items'
+        items_per_page: Items per page
+        uploading_files: Uploading files
+        multiple_files_selected: '%count% files selected'
+        upload_pending: Pending
+        upload_in_progress: Uploading...
+        upload_success: Success
+        upload_error: Error
+        upload_network_error: Network error
+        upload_completed: 'Upload completed - %count% error(s)'
+        no_files_uploaded: 'No files uploaded - %count% error(s)'
+        hide_errors: Hide errors
+        network_connection_error: Network connection error
+        folder_name: Folder name
     error:
         cannot_create_folder: Cannot create the folder.
         cannot_delete_folder: Cannot delete the folder.
         cannot_delete_file: Cannot delete the file.
         cannot_find_input: Form input cannot be found.
         cannot_find_type: Cannot find type of file.
-        cannot_upload_file: 'Cannot upload the file: %message%.'
+        cannot_upload_file: Cannot upload the file.
         cannot_rename_folder: Cannot rename the folder.
         invalid_type_input: Invalid file type in input.
         file_not_found: File not found.
