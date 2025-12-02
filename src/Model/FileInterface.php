@@ -15,54 +15,17 @@ namespace MonsieurBiz\SyliusMediaManagerPlugin\Model;
 
 interface FileInterface
 {
-    public const TYPE_FOLDER = 'folder';
-
-    public const TYPE_IMAGE = 'image';
-
-    public const TYPE_VIDEO = 'video';
-
-    public const TYPE_PDF = 'pdf';
-
-    public const TYPE_FAVICON = 'favicon';
-
-    public const TYPE_AUDIO = 'audio';
-
-    public const TYPE_FILE = 'file';
-
-    public const FILE_TYPES = [
-        self::TYPE_IMAGE,
-        self::TYPE_VIDEO,
-        self::TYPE_PDF,
-        self::TYPE_FAVICON,
-        self::TYPE_AUDIO,
-        self::TYPE_FILE,
-    ];
-
     public function getName(): string;
 
-    public function setName(string $name): void;
+    public function getPath(): string;
 
-    public function getType(): string;
+    public function isCurrentDir(): bool;
 
-    public function setType(string $type): void;
+    public function isParentDir(): bool;
 
-    public function getMimeType(): ?string;
+    public function isDir(): bool;
 
-    public function setMimeType(?string $mimeType): void;
+    public function isFile(): bool;
 
-    public function getLink(): ?string;
-
-    public function setLink(?string $link): void;
-
-    public function getPath(): ?string;
-
-    public function setPath(?string $path): void;
-
-    public function isDeletable(): bool;
-
-    public function setDeletable(bool $deletable): void;
-
-    public function isSelectable(): bool;
-
-    public function setSelectable(bool $selectable): void;
+    public function getMimeType(): string;
 }

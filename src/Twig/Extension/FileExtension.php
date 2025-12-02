@@ -13,78 +13,37 @@ declare(strict_types=1);
 
 namespace MonsieurBiz\SyliusMediaManagerPlugin\Twig\Extension;
 
-use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileNotFoundException;
-use MonsieurBiz\SyliusMediaManagerPlugin\MonsieurBizSyliusMediaManagerPlugin;
-use MonsieurBiz\SyliusMediaManagerPlugin\Provider\MimeTypesProviderInterface;
-use MonsieurBiz\SyliusMediaManagerPlugin\Repository\FileRepositoryInterface;
-use MonsieurBiz\SyliusMediaManagerPlugin\Resolver\FilePathResolverInterface;
-use Symfony\Component\Filesystem\Path;
+use MonsieurBiz\SyliusMediaManagerPlugin\Helper\FileHelperInterface;
+use MonsieurBiz\SyliusMediaManagerPlugin\Model\FileInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 final class FileExtension extends AbstractExtension
 {
-    public function __construct(
-        private readonly FilePathResolverInterface $filePathResolver,
-        private readonly FileRepositoryInterface $fileRepository,
-    ) {
+    private FileHelperInterface $fileHelper;
+
+    public function __construct(FileHelperInterface $fileHelper)
+    {
+        $this->fileHelper = $fileHelper;
     }
 
     public function getFunctions(): array
     {
-        $richEditorTwigExtension = $this->richEditorExtensionExists() ? [] : [
-            new TwigFunction('monsieurbiz_richeditor_get_media_without_upload_dir', [$this, 'getMediaWithoutUploadDir'], ['is_safe' => ['html', 'js']]),
-        ];
-
-        return array_merge([
+        return [
             new TwigFunction('get_media_manager_file_path', [$this, 'getMediaManagerFilePath']),
-            new TwigFunction('get_mime_type', [$this, 'getMimeType']),
-            new TwigFunction('is_svg_image', [$this, 'isSvgImage']),
-        ], $richEditorTwigExtension);
-    }
-
-    public function richEditorExtensionExists(): bool
-    {
-        return MonsieurBizSyliusMediaManagerPlugin::richEditorExtensionExists();
+            new TwigFunction('is_empty_files_list', [$this, 'isEmptyFilesList']),
+        ];
     }
 
     public function getMediaManagerFilePath(string $path): string
     {
-        return '/' . $this->filePathResolver->getMediaManagerRelativeFilePath($path);
+        return $this->fileHelper->getMediaPath() . '/' . $this->fileHelper->cleanPath($path);
     }
 
-    public function getMimeType(string $relativeFilePath): ?string
+    public function isEmptyFilesList(array $files): bool
     {
-        $absoluteFilePath = $this->filePathResolver->getAbsoluteFilePath($relativeFilePath);
-
-        try {
-            $file = $this->fileRepository->findOneFromPath($absoluteFilePath);
-
-            return $file->getMimeType();
-        } catch (FileNotFoundException) {
-            // If the file is not found in the gallery, we try to get it from the image directory
-            $absoluteFilePath = $this->filePathResolver->getAbsoluteFilePath(
-                Path::join('image', $relativeFilePath)
-            );
-
-            try {
-                $file = $this->fileRepository->findOneFromPath($absoluteFilePath);
-
-                return $file->getMimeType();
-            } catch (FileNotFoundException) {
-                return null;
-            }
-        }
-    }
-
-    public function isSvgImage(string $relativeFilePath): bool
-    {
-        return \in_array($this->getMimeType($relativeFilePath), MimeTypesProviderInterface::SVG_TYPE_MIMES, true);
-    }
-
-    // Fallback for rich editor if not installed in project
-    public function getMediaWithoutUploadDir(string $path): string
-    {
-        return $path;
+        return !(bool) \count(array_filter($files, function (FileInterface $file) {
+            return !$file->isCurrentDir() && !$file->isParentDir();
+        }));
     }
 }

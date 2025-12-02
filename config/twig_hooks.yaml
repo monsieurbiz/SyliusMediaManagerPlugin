@@ -1,6 +1,0 @@
-sylius_twig_hooks:
-    hooks:
-        # There is no other global hook to use in the admin side
-        'sylius_admin.base#javascripts':
-            monsieurbiz_sylius_media_manager_component:
-                template: '@MonsieurBizSyliusMediaManagerPlugin/_modals.html.twig'

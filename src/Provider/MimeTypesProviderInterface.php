@@ -15,21 +15,13 @@ namespace MonsieurBiz\SyliusMediaManagerPlugin\Provider;
 
 interface MimeTypesProviderInterface
 {
-    public const SVG_TYPE_MIMES = [
-        'image/svg+xml',
-        'image/svg',
-        'image/svg-xml',
-        'image/svg+xml;charset=utf-8',
-        'image/svg+xml;charset=iso-8859-1',
-    ];
-
     public const IMAGE_TYPE_MIMES = [
         'image/gif',
         'image/jpeg',
         'image/png',
+        'image/svg+xml',
         'image/webp',
         'image/avif',
-        ...self::SVG_TYPE_MIMES,
     ];
 
     public const VIDEO_TYPE_MIMES = [
@@ -62,6 +54,4 @@ interface MimeTypesProviderInterface
     ];
 
     public function getMimeTypesByType(?string $type): array;
-
-    public function getTypeByMimeType(?string $mimeType): string;
 }

@@ -1,0 +1,30 @@
+<div class="d-flex align-items-center gap-2 monsieurbiz-sylius-file-manager__item monsieurbiz-sylius-file-manager__item-new-folder">
+    {# Button to create folder #}
+    <button type="button"
+        class="btn btn-outline-primary btn-sm monsieurbiz-sylius-file-manager__new-folder-label"
+        onclick="this.classList.add('d-none');this.parentNode.querySelector('.monsieurbiz-sylius-file-manager__new-folder').classList.remove('d-none');this.parentNode.querySelector('.monsieurbiz-sylius-file-manager__new-folder input').focus();"
+    >
+        {{ ux_icon('tabler:plus') }}
+        {{ 'monsieurbiz_sylius_media_manager.ui.create_folder' | trans }}
+    </button>
+
+    {# Form to create folder #}
+    <div class="d-none monsieurbiz-sylius-file-manager__new-folder">
+        <div class="input-group input-group-sm">
+            <input type="text" name="folder" class="form-control" style="min-height: inherit !important;" placeholder="{{ 'monsieurbiz_sylius_media_manager.ui.folder_name' | trans }}" />
+            <button type="button" class="btn btn-success btn-sm"
+                onclick="monsieurbizSyliusMediaManagerCreateFolder(this.parentNode.querySelector('input'), '{{ inputName | escape('js') }}', '{{ folder | escape('js')}}', '{{ path | escape('js')}}', '{{ mimeTypes|escape('js') }}')"
+            >
+                {{ ux_icon('tabler:plus') }}
+                {{ 'monsieurbiz_sylius_media_manager.ui.create' | trans }}
+            </button>
+            <button type="button" class="btn btn-outline-secondary btn-sm"
+                onclick="this.parentNode.parentNode.classList.add('d-none');this.parentNode.parentNode.previousElementSibling.classList.remove('d-none');"
+            >
+
+                {{ ux_icon('tabler:cancel') }}
+                {{ 'monsieurbiz_sylius_media_manager.ui.cancel' | trans }}
+            </button>
+        </div>
+    </div>
+</div>

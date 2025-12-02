@@ -1,7 +1,0 @@
-imports:
-    - { resource: 'images.yaml' }
-    - { resource: 'twig_hooks.yaml' }
-
-parameters:
-    env(MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_PAGINATION_ITEMS_PER_PAGE): 20
-    monsieurbiz_sylius_media_manager.pagination.items_per_page: '%env(int:MONSIEURBIZ_SYLIUS_MEDIA_MANAGER_PAGINATION_ITEMS_PER_PAGE)%'
