@@ -1,0 +1,35 @@
+<div {{ attributes }}>
+    {% set typeTemplate = this.fileType ~ '.html.twig' %}
+    {% set defaultTypeTemplate = constant('\\MonsieurBiz\\SyliusMediaManagerPlugin\\Model\\FileInterface::TYPE_FILE') ~ '.html.twig' %}
+    <div class="mb-3 field">
+        <input type="hidden" name="{{ this.inputName }}" value="{{ this.filePath }}"  />
+        <div class="field">
+            {% if this.filePath is not empty %}
+                {{ include([
+                    '@MonsieurBizSyliusMediaManagerPlugin/type/show/_' ~ typeTemplate,
+                    '@MonsieurBizSyliusMediaManagerPlugin/type/show/_' ~ defaultTypeTemplate,
+                ]) }}
+            {% endif %}
+            <button
+                type="button"
+                class="btn btn-secondary"
+                data-action="live#action"
+                data-live-action-param="fileSelection"
+                data-loading="addAttribute(disabled)"
+            >
+                {{( 'monsieurbiz_sylius_media_manager.ui.choose_' ~ this.fileType)|trans }}
+            </button>
+            {% if this.filePath is not empty %}
+                <button
+                    type="button"
+                    class="btn btn-danger"
+                    data-action="live#action"
+                    data-live-action-param="confirmRemoveFile"
+                    data-loading="addAttribute(disabled)"
+                >
+                    {{ ('monsieurbiz_sylius_media_manager.ui.remove_' ~ this.fileType)|trans }}
+                </button>
+            {% endif %}
+        </div>
+    </div>
+</div>

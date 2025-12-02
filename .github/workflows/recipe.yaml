@@ -2,7 +2,7 @@ name: Flex Recipe
 
 on:
   push:
-    branches: [ $default-branch ]
+    branches: [ master ]
   pull_request:
 
 jobs:
@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ['8.2', '8.3']
+        php: [ '8.2', '8.3' ]
         sylius: [ '~2.0.0', '~2.1.0' ]
 
     steps:

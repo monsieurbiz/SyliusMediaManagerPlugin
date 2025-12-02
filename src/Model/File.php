@@ -13,83 +13,89 @@ declare(strict_types=1);
 
 namespace MonsieurBiz\SyliusMediaManagerPlugin\Model;
 
-use MonsieurBiz\SyliusMediaManagerPlugin\Provider\MimeTypesProviderInterface;
-
-final class File implements FileInterface
+class File implements FileInterface
 {
-    private string $name;
+    private string $name = '';
 
-    private string $path;
+    private string $type;
 
-    private string $fullPath;
+    private ?string $mimeType = null;
 
-    private string $mimeType;
+    private ?string $link = null;
 
-    public function __construct(string $name, string $path, string $fullPath)
-    {
-        $this->name = $name;
-        $this->path = $path;
-        $this->fullPath = $fullPath;
-        $this->mimeType = (string) mime_content_type($fullPath);
-    }
+    private ?string $path = null;
+
+    private bool $deletable = false;
+
+    private bool $selectable = false;
 
     public function getName(): string
     {
         return $this->name;
     }
 
-    public function getPath(): string
+    public function setName(string $name): void
     {
-        return $this->path;
+        $this->name = $name;
     }
 
-    public function isCurrentDir(): bool
+    public function getType(): string
     {
-        return '.' === $this->name;
+        return $this->type;
     }
 
-    public function isParentDir(): bool
+    public function setType(string $type): void
     {
-        return '..' === $this->name;
+        $this->type = $type;
     }
 
-    public function isDir(): bool
-    {
-        return is_dir($this->fullPath);
-    }
-
-    public function isFile(): bool
-    {
-        return is_file($this->fullPath);
-    }
-
-    public function getMimeType(): string
+    public function getMimeType(): ?string
     {
         return $this->mimeType;
     }
 
-    public function isImage(): bool
+    public function setMimeType(?string $mimeType): void
     {
-        return \in_array($this->mimeType, MimeTypesProviderInterface::IMAGE_TYPE_MIMES, true);
+        $this->mimeType = $mimeType;
     }
 
-    public function isVideo(): bool
+    public function getLink(): ?string
     {
-        return \in_array($this->mimeType, MimeTypesProviderInterface::VIDEO_TYPE_MIMES, true);
+        return $this->link;
     }
 
-    public function isPdf(): bool
+    public function setLink(?string $link): void
     {
-        return \in_array($this->mimeType, MimeTypesProviderInterface::PDF_TYPE_MIMES, true);
+        $this->link = $link;
     }
 
-    public function isFavicon(): bool
+    public function getPath(): ?string
     {
-        return \in_array($this->mimeType, MimeTypesProviderInterface::FAVICON_TYPE_MIMES, true);
+        return $this->path;
     }
 
-    public function isAudio(): bool
+    public function setPath(?string $path): void
     {
-        return \in_array($this->mimeType, MimeTypesProviderInterface::AUDIO_TYPE_MIMES, true);
+        $this->path = $path;
+    }
+
+    public function isDeletable(): bool
+    {
+        return $this->deletable;
+    }
+
+    public function setDeletable(bool $deletable): void
+    {
+        $this->deletable = $deletable;
+    }
+
+    public function isSelectable(): bool
+    {
+        return $this->selectable;
+    }
+
+    public function setSelectable(bool $selectable): void
+    {
+        $this->selectable = $selectable;
     }
 }

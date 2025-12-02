@@ -9,15 +9,17 @@
 
 This plugin adds a media manager to your images, videos and other files type fields in Sylius.
 
-![Demo of the media manager](docs/images/demo.gif)
+![Example of field display](docs/images/media-manager-product-medias.png)
+![Example of image listing](docs/images/media-manager-images.png)
+![Example of PDF listing](docs/images/media-manager-pdfs.png)
 
 ## Compatibility
 
-| Sylius Version | PHP Version     |
-|----------------|-----------------|
-| 2.0, 2.1       | 8.2 - 8.3       |
+| Sylius Version | PHP Version |
+|----------------|-------------|
+| 2.0, 2,1       | 8.2 - 8.3   |
 
-ℹ️ For Sylius 1.x, see our [1.x branch](/tree/1.x) and all 1.x releases.
+ℹ️ For Sylius 1.x, see our [1.x branch](https://github.com/monsieurbiz/SyliusMediaManagerPlugin/tree/1.x) and all 1.x releases.
 
 ## Installation
 
@@ -48,7 +50,7 @@ return [
 ];
 ```
 
-Copy the plugin configuration files in your `config` folder: https://github.com/monsieurbiz/symfony-recipes/tree/master/monsieurbiz/sylius-media-manager-plugin/3.0/config
+Copy the plugin configuration files in your `config` folder: https://github.com/monsieurbiz/symfony-recipes/tree/master/monsieurbiz/sylius-media-manager-plugin/1.0/config
 
 Add these variables to your `.env` :
 
@@ -96,6 +98,10 @@ Use `MonsieurBiz\SyliusMediaManagerPlugin\Form\Type\FaviconType`
 ### Audio
 
 Use `MonsieurBiz\SyliusMediaManagerPlugin\Form\Type\AudioType`
+
+### All the previous file types
+
+Use `MonsieurBiz\SyliusMediaManagerPlugin\Form\Type\FileType`
 
 ## Configuration
 

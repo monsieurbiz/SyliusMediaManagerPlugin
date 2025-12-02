@@ -1,0 +1,34 @@
+{% block monsieurbiz_sylius_media_manager_file_row %}
+    {{ form_label(form) }}
+    <twig:MediaManager:FormField
+        :inputName="form.vars.full_name"
+        :fileType="fileType"
+        :filePath="form.vars.value"
+        :baseFolderPath="baseFolderPath"
+        :mimeTypes="mimeTypes"
+        :maxFileSize="maxFileSize"
+        :extraParams="extraParams"
+    />
+    {{ form_errors(form) }}
+    {{ form_help(form) }}
+{% endblock %}
+
+{% block monsieurbiz_sylius_media_manager_image_row %}
+    {{- block('monsieurbiz_sylius_media_manager_file_row') -}}
+{% endblock %}
+
+{% block monsieurbiz_sylius_media_manager_video_row %}
+    {{- block('monsieurbiz_sylius_media_manager_file_row') -}}
+{% endblock %}
+
+{% block monsieurbiz_sylius_media_manager_pdf_row %}
+    {{- block('monsieurbiz_sylius_media_manager_file_row') -}}
+{% endblock %}
+
+{% block monsieurbiz_sylius_media_manager_favicon_row %}
+    {{- block('monsieurbiz_sylius_media_manager_file_row') -}}
+{% endblock %}
+
+{% block monsieurbiz_sylius_media_manager_audio_row %}
+    {{- block('monsieurbiz_sylius_media_manager_file_row') -}}
+{% endblock %}

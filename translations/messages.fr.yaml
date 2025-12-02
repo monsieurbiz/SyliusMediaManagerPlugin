@@ -1,0 +1,60 @@
+monsieurbiz_sylius_media_manager:
+    ui:
+        cancel: Annuler
+        choose_this_file: Choisir ce fichier
+        current_file: Fichier actuel
+        current_image: Image actuelle
+        current_video: Vidéo actuelle
+        current_pdf: PDF actuel
+        current_favicon: Icône actuelle
+        current_audio: Fichier audio actuel
+        current_folder: Dossier courant
+        choose_file: Choisir un fichier
+        choose_image: Choisir une image
+        choose_video: Choisir une vidéo
+        choose_pdf: Choisir un PDF
+        choose_favicon: Choisir une icône
+        choose_audio:  Choisir un fichier audio
+        create_folder: Nouveau dossier
+        delete_folder: Supprimer ce dossier
+        rename_folder: Renommer le dossier
+        delete_file: Supprimer ce fichier
+        create: Créer
+        rename: Renommer
+        upload_file_in_this_folder: Nouveau fichier dans ce dossier
+        delete_folder_confirm: Êtes-vous sûr de vouloir supprimer le dossier `%path%` ?
+        delete_file_confirm: Êtes-vous sûr de vouloir supprimer le fichier `%path%` ?
+        delete_file_confirm_bis: S'il est utilisé il ne sera plus accessible, confirmez-vous cela ?
+        rename_folder_confirm: Êtes-vous sûr de vouloir renommer le dossier `%path%` ?
+        rename_folder_confirm_bis: Si des fichiers sont contenus dans ce dossier ou ses enfants, ils ne seront plus accessibles, confirmez-vous cela ?
+        rename_folder_success: Dossier renommé avec succès.
+        create_folder_success: Dossier créé avec succès.
+        remove_file: Retirer le fichier
+        remove_image: Retirer l'image
+        remove_video: Retirer la video
+        remove_audio: Retirer le fichier audio
+        remove_pdf: Retirer le PDF
+        remove_favicon: Retirer l'icône
+        remove_confirmation: Êtes-vous sûr de vouloir retirer cette valeur ? Le fichier ne sera pas supprimé du serveur.
+        empty_folder: Ce dossier est vide. Téléchargez un fichier ou créez un nouveau dossier.
+        pagination_info: 'Page %current% sur %total% (%items% éléments)'
+        items_per_page: 'Éléments par page'
+    error:
+        cannot_create_folder: Impossible de créer le dossier.
+        cannot_delete_folder: Impossible de supprimer le dossier.
+        cannot_delete_file: Impossible de supprimer le fichier.
+        cannot_find_input: Champ de formulaire introuvable.
+        cannot_find_type: Type de fichier introuvable.
+        cannot_upload_file: 'Impossible d''ajouter le fichier: %message%.'
+        cannot_rename_folder: Impossible de renommer le dossier.
+        invalid_type_input: Type de fichier invalide dans le champ.
+        file_not_found: Fichier introuvable.
+        folder_not_readable: Impossible de lire le dossier '%folder%'.
+        invalid_mime_type:
+            audio: Le fichier choisi n'est pas un audio.
+            image: Le fichier choisi n'est pas une image.
+            video: Le fichier choisi n'est pas une vidéo.
+            pdf: Le fichier choisi n'est pas un PDF.
+            favicon: Le fichier choisi n'est pas une icône.
+            file: Le fichier choisi n'est pas un fichier valide.
+        max_file_size: Le fichier dépasse la taille autorisée de %limit%.
