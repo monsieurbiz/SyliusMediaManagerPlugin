@@ -26,11 +26,11 @@ services:
             autowire: false
 
     MonsieurBiz\SyliusMediaManagerPlugin\:
-        resource: '../../*'
-        exclude: '../../{Entity,Migrations,Tests,Kernel.php}'
+        resource: '../src/*'
+        exclude: '../src/{Entity,Migrations,Tests,Kernel.php}'
 
     MonsieurBiz\SyliusMediaManagerPlugin\Controller\:
-        resource: '../../Controller'
+        resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
     # Form types

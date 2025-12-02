@@ -70,7 +70,7 @@ Copy the form extension if you want to use it on your product images.
 cp -R vendor/monsieurbiz/sylius-media-manager-plugin/dist/src/Form/Extension/ProductImageTypeExtension.php src/Form/Extension/ProductImageTypeExtension.php
 ```
 
-Else remove the file `templates/bundles/SyliusAdminBundle/Form/imagesTheme.html.twig`
+Else remove the file `templates/bundles/SyliusAdminBundle/product/form/sections/media/images.html.twig`
 
 ## Use form types
 

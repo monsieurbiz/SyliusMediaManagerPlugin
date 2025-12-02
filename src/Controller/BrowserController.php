@@ -60,7 +60,7 @@ final class BrowserController extends AbstractController
 
         $totalPages = (int) ceil($totalItems / $itemsPerPage);
 
-        return $this->render('@MonsieurBizSyliusMediaManagerPlugin/Admin/MediaManager/_modal.html.twig', [
+        return $this->render('@MonsieurBizSyliusMediaManagerPlugin/admin/_modal.html.twig', [
             'inputName' => $inputName,
             'folder' => $fileHelper->cleanPath($folder),
             'path' => $fileHelper->cleanPath($path),
