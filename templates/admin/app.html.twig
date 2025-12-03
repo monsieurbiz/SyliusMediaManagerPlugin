@@ -60,27 +60,40 @@
         });
         req.onload = function(progress) {
             if (this.status === 200) {
-                // Remove existing modals
-                document.querySelectorAll('.monsieurbiz-sylius-file-manager__modal').forEach(el => el.remove());
+                // Check if modal already exists and is visible
+                let existingModal = document.querySelector('.monsieurbiz-sylius-file-manager__modal');
+                let modalIsVisible = existingModal && existingModal.classList.contains('show');
+                
+                if (existingModal && modalIsVisible) {
+                    // Update existing modal content
+                    let tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = this.responseText;
+                    let newModalContent = tempDiv.firstElementChild;
+                    existingModal.innerHTML = newModalContent.innerHTML;
+                } else {
+                    // Clean up any old modals first
+                    document.querySelectorAll('.monsieurbiz-sylius-file-manager__modal').forEach(el => el.remove());
+                    document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+                    
+                    // Create new modal
+                    let tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = this.responseText;
+                    let modalElement = tempDiv.firstElementChild;
+                    modalElement.id = 'monsieurbiz-sylius-media-manager-modal-' + Date.now();
+                    document.body.appendChild(modalElement);
+
+                    // Create and show Bootstrap modal
+                    let bsModal = new window.bootstrap.Modal(modalElement, {
+                        backdrop: true,
+                        keyboard: true,
+                        focus: true
+                    });
+                    bsModal.show();
+
+                    // Store modal instance for later use
+                    modalElement.bsModalInstance = bsModal;
+                }
                 monsieurbizSyliusMediaManagerRemoveLoaderModal();
-
-                // Create modal element and append to body
-                let tempDiv = document.createElement('div');
-                tempDiv.innerHTML = this.responseText;
-                let modalElement = tempDiv.firstElementChild;
-                modalElement.id = 'monsieurbiz-sylius-media-manager-modal-' + Date.now();
-                document.body.appendChild(modalElement);
-
-                // Create and show Bootstrap modal
-                let bsModal = new window.bootstrap.Modal(modalElement, {
-                    backdrop: true,
-                    keyboard: true,
-                    focus: true
-                });
-                bsModal.show();
-
-                // Store modal instance for later use
-                modalElement.bsModalInstance = bsModal;
             } else {
                 alert(this.responseText);
                 monsieurbizSyliusMediaManagerRemoveLoaderModal();
