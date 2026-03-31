@@ -1,0 +1,60 @@
+monsieurbiz_sylius_media_manager:
+    ui:
+        cancel: Abbrechen
+        choose_this_file: Diese Datei auswählen
+        current_file: Aktuelle Datei
+        current_image: Aktuelles Bild
+        current_video: Aktuelles Video
+        current_pdf: Aktuelles PDF
+        current_favicon: Aktuelles Favicon
+        current_audio: Aktuelle Audiodatei
+        current_folder: Aktueller Ordner
+        choose_file: Datei auswählen
+        choose_image: Bild auswählen
+        choose_video: Video auswählen
+        choose_pdf: PDF auswählen
+        choose_favicon: Favicon auswählen
+        choose_audio: Audiodatei auswählen
+        create_folder: Neuer Ordner
+        delete_folder: Ordner löschen
+        rename_folder: Ordner umbenennen
+        delete_file: Datei löschen
+        create: Erstellen
+        rename: Umbenennen
+        upload_file_in_this_folder: Neue Datei in diesem Ordner
+        delete_folder_confirm: Sind Sie sicher, dass Sie den Ordner „%path%“ löschen möchten?
+        delete_file_confirm: Sind Sie sicher, dass Sie die Datei „%path%“ löschen möchten?
+        delete_file_confirm_bis: Wenn diese Datei verwendet wird, ist sie danach nicht mehr zugänglich. Möchten Sie fortfahren?
+        rename_folder_confirm: Sind Sie sicher, dass Sie den Ordner „%path%“ umbenennen möchten?
+        rename_folder_confirm_bis: Wenn sich Dateien in diesem Ordner oder in Unterordnern befinden, sind diese danach nicht mehr zugänglich. Möchten Sie fortfahren?
+        rename_folder_success: Ordner wurde erfolgreich umbenannt.
+        create_folder_success: Ordner wurde erfolgreich erstellt.
+        remove_file: Datei entfernen
+        remove_image: Bild entfernen
+        remove_video: Video entfernen
+        remove_audio: Audiodatei entfernen
+        remove_pdf: PDF entfernen
+        remove_favicon: Favicon entfernen
+        remove_confirmation: Sind Sie sicher, dass Sie diesen Wert entfernen möchten? Die Datei wird nicht vom Server gelöscht.
+        empty_folder: Dieser Ordner ist leer. Laden Sie eine Datei hoch oder erstellen Sie einen neuen Ordner.
+        pagination_info: 'Seite %current% von %total% (%items% Elemente)'
+        items_per_page: 'Elemente pro Seite'
+    error:
+        cannot_create_folder: Der Ordner kann nicht erstellt werden.
+        cannot_delete_folder: Der Ordner kann nicht gelöscht werden.
+        cannot_delete_file: Die Datei kann nicht gelöscht werden.
+        cannot_find_input: Formulareingabe konnte nicht gefunden werden.
+        cannot_find_type: Dateityp konnte nicht ermittelt werden.
+        cannot_upload_file: 'Datei konnte nicht hochgeladen werden: %message%.'
+        cannot_rename_folder: Der Ordner kann nicht umbenannt werden.
+        invalid_type_input: Ungültiger Dateityp in der Eingabe.
+        file_not_found: Datei wurde nicht gefunden.
+        folder_not_readable: Der Ordner „%folder%“ kann nicht gelesen werden.
+        invalid_mime_type:
+            audio: Die ausgewählte Datei ist keine Audiodatei.
+            image: Die ausgewählte Datei ist kein Bild.
+            video: Die ausgewählte Datei ist kein Video.
+            pdf: Die ausgewählte Datei ist kein PDF.
+            favicon: Die ausgewählte Datei ist kein Favicon.
+            file: Die ausgewählte Datei ist keine gültige Datei.
+        max_file_size: Die Datei überschreitet die maximal zulässige Größe von %limit%.
