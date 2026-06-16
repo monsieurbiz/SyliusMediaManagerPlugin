@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace MonsieurBiz\SyliusMediaManagerPlugin\Helper;
 
+use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\CannotReadCurrentFolderException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\CannotReadFolderException;
 use MonsieurBiz\SyliusMediaManagerPlugin\Exception\FileNotCreatedException;
@@ -46,6 +47,7 @@ final class FileHelper implements FileHelperInterface
         string $publicDirectory,
         string $mediaDirectory,
         private MimeTypesProviderInterface $mimeTypesProvider,
+        private CacheManager $cacheManager,
     ) {
         $this->slugger = $slugger;
         $this->publicDirectory = rtrim($publicDirectory, '/');
@@ -309,6 +311,8 @@ final class FileHelper implements FileHelperInterface
     private function deleteRecursive(string $dir): bool
     {
         if (!is_dir($dir)) {
+            $this->cleanLiipImagineCache($dir);
+
             return @unlink($dir);
         }
 
@@ -352,6 +356,8 @@ final class FileHelper implements FileHelperInterface
 
         $filePath = $this->getFullPath($path);
         $parentPath = \dirname($filePath);
+
+        $this->cleanLiipImagineCache($filePath);
 
         if (empty($path) || !file_exists($filePath) || !@unlink($filePath)) {
             throw new FileNotDeletedException($filePath);
@@ -427,5 +433,20 @@ final class FileHelper implements FileHelperInterface
         }
 
         return $this->cleanPath($parentPath);
+    }
+
+    /**
+     * Delete LiipImagine cache for a given file checking if it's an image and resolving the relative path.
+     */
+    private function cleanLiipImagineCache(string $absolutePath): void
+    {
+        // Only clean in case of image
+        if (file_exists($absolutePath) && \is_array(getimagesize($absolutePath))) {
+            $relativePath = ltrim(
+                str_replace($this->mediaDirectory, '', $absolutePath),
+                \DIRECTORY_SEPARATOR
+            );
+            $this->cacheManager->remove($relativePath);
+        }
     }
 }
