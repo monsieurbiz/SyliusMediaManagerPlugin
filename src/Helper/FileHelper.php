@@ -150,7 +150,7 @@ final class FileHelper implements FileHelperInterface
         }
 
         // Sort files: folders first, then by name (case insensitive)
-        usort($files, function (File $first, File $second) {
+        usort($files, static function (File $first, File $second) {
             if ($first->isDir() && !$second->isDir()) {
                 return -1;
             }
