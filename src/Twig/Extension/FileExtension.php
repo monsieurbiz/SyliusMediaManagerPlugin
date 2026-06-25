@@ -42,7 +42,7 @@ final class FileExtension extends AbstractExtension
 
     public function isEmptyFilesList(array $files): bool
     {
-        return !(bool) \count(array_filter($files, function (FileInterface $file) {
+        return !(bool) \count(array_filter($files, static function (FileInterface $file) {
             return !$file->isCurrentDir() && !$file->isParentDir();
         }));
     }
